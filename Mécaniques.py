@@ -73,18 +73,19 @@ class Attaque():
                 print("Coup critique")
                 CM = CM*1.5
             
-            Degats = ((40+2)*Atq1*Pui/(50*Def2) + 2)
+            print(Atq1, Def2)
+            Degats = (42*(Atq1/Def2)*Pui/50 + 2)
             
             return int(Degats*CM)
         
       
 if __name__ == "__main__":
-    Bulbizarre = Pokemon("Bulbizarre","Plante","Poison",[45,49,49,65,65,45], ["Tranch'Herbe", "Bomb'Beurk", "Charge"])
-    Carapuce = Pokemon("Carapuce","Eau", None, [44,48,65,50,64,43], ["Pistolet à Ô", "Charge"])
-    Fantominus = Pokemon("Fantominus","Spectre", "Poison", [44,48,65,50,64,43], ["Ball'Ombre", "Charge"])
+    Bulbizarre = Pokemon("Bulbizarre","Plante","Poison",[364,263,265,299,299,259], ["Tranch'Herbe", "Bomb'Beurk", "Charge"])
+    Carapuce = Pokemon("Carapuce","Eau", None, [292,175,229,218,227,185], ["Pistolet à Ô", "Charge"])
+    Fantominus = Pokemon("Fantominus","Spectre", "Poison", [282,190,224,194,222,180], ["Ball'Ombre", "Charge"])
     Table = Table_Type()
     
-    TH = Attaque("Tranch'Herbe", "Physique", 55, "Plante", 95)
+    TH = Attaque("Tranch'Herbe", "Physique", 80, "Plante", 100)
     Ch = Attaque("Charge", "Physique", 40, "Normal", 100)
     
-    print(TH.Degats(Bulbizarre,Carapuce,Table))
+    print(TH.Degats(Bulbizarre, Carapuce, Table))
