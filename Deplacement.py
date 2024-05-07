@@ -1,5 +1,6 @@
 from datetime import datetime
-from PyQt5.QtMultimedia import QSound
+from PyQt5.QtGui import QMovie
+from PyQt5 import QtCore, QtGui, QtWidgets
 import random as r
 from CombatUI import Combat
 from Mecaniques import ZoneRencontre
@@ -40,11 +41,17 @@ class Deplacement():
                 self.Sprite.Changement_Sprite(f"./Animation/Marche/{Direction}_repos.png")
                 self.Jukebox.ChangeDeMusique("./Son/Battle.wav")
                 self.MainWindow.battle = True
-                QtTest.QTest.qWait(2000)
-                self.Carte.hide()
-                self.Sprite.hide()              
+                Tr = Transition(self.MainWindow)
+                Tr.start()
+                Tr.show()
                 self.MainWindow.Combat = Combat(self.Equipe, PokeRencontre, self.UICombat)
+                QtTest.QTest.qWait(1900)
+                self.Carte.hide()
+                self.Sprite.hide()
                 Battle = self.MainWindow.Combat.Init_Combat()
+                QtTest.QTest.qWait(900)
+                Tr.hide()
+                Tr.stop()
                 
                 
                 """PokemonSauv = Pokemon.WildPoke(Zone_rencontre)
@@ -57,3 +64,25 @@ class Deplacement():
     def end_move(self,Direction):
         #On arrête l'animation et place le personnage dans la position de repos de sa direction.
         self.Sprite.Changement_Sprite(f"./Animation/Marche/{Direction}_repos.png")
+        
+class Transition():
+    def __init__(self, MainWindow):
+        self.battletr = QtWidgets.QLabel(MainWindow)
+        self.battletr.hide()
+        self.battletr.setGeometry(QtCore.QRect(0, 0, 500, 500))
+        self.battletr.setText("")
+        self.battletr.setScaledContents(True)
+        self.battletr.setObjectName("Transition")
+        
+        self.movie = QMovie("./Animation/Combat/BattleStart.gif")
+        self.battletr.setMovie(self.movie)
+
+    def show(self):
+        self.battletr.show()
+    def hide(self):
+        self.battletr.hide()
+    def start(self):
+        self.movie.start()
+    def stop(self):
+        self.movie.stop()
+        

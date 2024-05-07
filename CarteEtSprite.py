@@ -97,4 +97,3 @@ class Sprite:
         self.Label.setMovie(self.movie)
         self.movie.start()
         self.IsAnimated = True
-        
