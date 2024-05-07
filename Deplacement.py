@@ -43,8 +43,8 @@ class Deplacement():
                 QtTest.QTest.qWait(2000)
                 self.Carte.hide()
                 self.Sprite.hide()              
-                Combat_Aleatoire = Combat(self.Equipe, PokeRencontre, self.UICombat)
-                Battle = Combat_Aleatoire.Init_Combat()
+                self.MainWindow.Combat = Combat(self.Equipe, PokeRencontre, self.UICombat)
+                Battle = self.MainWindow.Combat.Init_Combat()
                 
                 
                 """PokemonSauv = Pokemon.WildPoke(Zone_rencontre)

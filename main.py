@@ -9,7 +9,7 @@ from datetime import timedelta
 from Deplacement import Deplacement
 from CarteEtSprite import Carte,Sprite
 from CombatUI import InterfaceCombat
-from Mecaniques import Pokemon, Attaque
+from Mecaniques import Pokemon
 from GestionCombat import Equipe
 from Gestion_Son import Jukebox
 
@@ -18,7 +18,7 @@ class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.KeyTime = datetime.now()
-        self.KeyTime_Delta = timedelta(seconds=0.075)
+        self.KeyTime_Delta = timedelta(seconds=0.1)
         
     def keyPressEvent(self, event):   
         #Lorsqu'une touche est pressée, on déclenche l'animation de marche et on déplace la carte.
@@ -85,13 +85,10 @@ class MainWindow(QWidget):
         
         
         #Création de l'équipe initiale du joueur
-        Attaque1 = Attaque("Jet de Pierre", "Physique", 80, "Roche", 100)
-        Attaque2 = Attaque("Plaie-Croix", "Physique", 80, "Insecte", 100)
-        Attaque3 = Attaque("Charge", "Physique", 80, "Normal", 100)
-        Pokemon1 = Pokemon(213,"Caratroc pas shiny","Roche","Insecte",[20,10,230,10,230,5], [Attaque1,Attaque2,Attaque3])
-        Pokemon2 = Pokemon(1, "Bulbizarre", "Plante", "Poison", [45,49,49,65,65,45], [Attaque1,Attaque2,Attaque3])
+        Pokemon1, Pokemon2, Pokemon3 = Pokemon(), Pokemon(), Pokemon()
+        Pokemon1.FromID(1), Pokemon2.FromID(4), Pokemon3.FromID(7)
         
-        self.Equipe = Equipe(Pokemon2, Pokemon1)
+        self.Equipe = Equipe(Pokemon2,Pokemon1,Pokemon3)
         
         self.battle = False
         self.UICombat = InterfaceCombat(self)

@@ -1,5 +1,6 @@
 import numpy as np
 import random as rd
+from PIL import Image
 
 Type = ["Normal", "Combat", "Vol", "Poison", "Sol", "Roche", "Insecte", "Spectre", "Acier", "Feu", "Eau", "Plante", "Électrik", "Psy","Glace", "Dragon", "Ténèbres", "Fée"]
 
@@ -28,12 +29,12 @@ class Pokemon():
         self.nom = info[1]
         self.Type1 = info[2]
         self.Type2 = info[3]
-        self.Stats[0]=[2*int(info[5])+31+252/4+5+100]   #PV
-        self.Stats[1]=[2*int(info[6])+31+252/4+5]       #Att
-        self.Stats[2]=[2*int(info[7])+31+252/4+5]       #Def
-        self.Stats[3]=[2*int(info[8])+31+252/4+5]       #Att Sp
-        self.Stats[4]=[2*int(info[9])+31+252/4+5]       #Def Sp
-        self.Stats[5]=[2*int(info[10])+31+252/4+5]      #Vitesse
+        self.Stats[0]=2*int(info[5])+31+252/4+5+100   #PV
+        self.Stats[1]=2*int(info[6])+31+252/4+5       #Att
+        self.Stats[2]=2*int(info[7])+31+252/4+5       #Def
+        self.Stats[3]=2*int(info[8])+31+252/4+5       #Att Sp
+        self.Stats[4]=2*int(info[9])+31+252/4+5       #Def Sp
+        self.Stats[5]=2*int(info[10])+31+252/4+5      #Vitesse
         self.Movepool = []
         self.Movepool.append(info[13])                  #Move type 1
         self.Movepool.append(info[14])                  #Move normal
@@ -41,6 +42,26 @@ class Pokemon():
             self.Movepool.append(info[15])              #Move type 2 (si existe)
         self.PV_actuel = self.Stats[0]
         self.allie = False
+        
+    def Sprite(self, Direction):
+        
+        im = Image.open("./data/Sprite_Opacity.png")
+        ID = self.ID-1
+        left = 1 + 161*(ID//3)
+        top = 1 + 65*(ID%3)
+        right = left + 160
+        bottom = top + 64
+        
+        
+        poke = im.crop((left, top, right, bottom))
+        
+        face = poke.crop((0, 0, 64, 64))
+        dos = poke.crop((64, 0, 128, 64))
+        
+        if Direction == "Face":
+            face.save('./Temp/face.png', 'png')
+        else:
+            dos.save('./Temp/dos.png', 'png')
         
         
 

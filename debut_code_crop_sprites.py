@@ -21,7 +21,7 @@ from PIL import Image
 ########
 
 # Opens a image in RGB mode
-im = Image.open(r"C:\projetPokemon\images\sprite_pokemons_fond_transparent.png")
+im = Image.open("./data/Sprite_Opacity.png")
 
 
 # for j in range(3):
@@ -40,22 +40,18 @@ im = Image.open(r"C:\projetPokemon\images\sprite_pokemons_fond_transparent.png")
 # im1 = list_pokemon[0]
 # im1.save('./Temp/face.png', 'png')
 
-id_ = 16
-top = 1 + 65*((id_)%3) + 131*((id_)//16)
+id_ = 1
 
 def decoupage(id_):
 
-    if 1 <= id_ <= 15:
-        left = 1 + 161*(id_//3)
-        top = 1 + 65*(id_%3-1)
-        right = left + 160
-        bottom = top + 64
+    ID = id_-1
+    left = 1 + 161*(ID//3)
+    top = 1 + 65*(ID%3)
+    right = left + 160
+    bottom = top + 64
+    
+    print(left,top,right,bottom)
         
-    elif 16 <= id_ <= 30:
-        left = 1 + 161*(id_//3)
-        top = 1 + 65*(id_%3-1) + 131*(id_%16-1)
-        right = left + 160
-        bottom = top + 64
         
     # elif 16 <= id_ <= 45:
         
@@ -75,3 +71,5 @@ def decoupage(id_):
     dos = poke.crop((64, 0, 128, 64))
     face.save('./Temp/face.png', 'png')
     dos.save('./Temp/dos.png', 'png')
+    
+decoupage(132)

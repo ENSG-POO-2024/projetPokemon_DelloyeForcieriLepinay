@@ -7,7 +7,7 @@ class Carte:
     def __init__(self,MainWindow,MapPath):
         #Initialisation de la carte d'un point de vue graphique
         self.carte = QtWidgets.QLabel(MainWindow)
-        self.carte.setGeometry(QtCore.QRect(-2398, -2390, 4800, 4800))
+        self.carte.setGeometry(QtCore.QRect(-2398, -2380, 4800, 4800))
         self.carte.setText("")
         self.carte.setScaledContents(True)
         self.carte.setObjectName("carte")

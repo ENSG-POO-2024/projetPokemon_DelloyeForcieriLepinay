@@ -280,6 +280,10 @@ class InterfaceCombat(object):
                 
                 self.MenuActuel = "Attaque"
                 
+        if self.MenuActuel == "Attaque":
+            pass
+            
+                
     def retour(self):
         if self.MenuActuel == "Attaque":
             self.Choix_1.setText("Attaque")
@@ -313,6 +317,13 @@ class Combat:
         
         self.UI.PVBarre_Allie.setProperty("value", (Pokemon1.PV_actuel/Pokemon1.Stats[0])*100)
         self.UI.PVBarre_Ennemi.setProperty("value", 100)
+        
+        
+        
+        Pokemon1.Sprite("Dos")
+        self.Pokemon_Adverse.Sprite("Face")
+        self.UI.Sprite_Dos.setPixmap(QtGui.QPixmap("Temp/dos.png"))
+        self.UI.Sprite_Face.setPixmap(QtGui.QPixmap("Temp/face.png"))
         
         return True
             
