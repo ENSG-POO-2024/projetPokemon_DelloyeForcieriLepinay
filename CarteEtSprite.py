@@ -7,7 +7,7 @@ class Carte:
     def __init__(self,MainWindow,MapPath):
         #Initialisation de la carte d'un point de vue graphique
         self.carte = QtWidgets.QLabel(MainWindow)
-        self.carte.setGeometry(QtCore.QRect(-798, -795, 1600, 1600))
+        self.carte.setGeometry(QtCore.QRect(-2398, -2390, 4800, 4800))
         self.carte.setText("")
         self.carte.setScaledContents(True)
         self.carte.setObjectName("carte")
@@ -29,25 +29,25 @@ class Carte:
         if Direction == "Derriere":
             if self.matrice_dalle[Sprite.y-1, Sprite.x] != 0:
                 Sprite.x, Sprite.y = Sprite.x, Sprite.y-1
-                rect.translate(0,16)
+                rect.translate(0,48)
             else:
                 self.BumpSound.play()
         elif Direction == "Devant":
             if self.matrice_dalle[Sprite.y+1, Sprite.x] != 0:
                 Sprite.x, Sprite.y = Sprite.x, Sprite.y+1
-                rect.translate(0,-16)
+                rect.translate(0,-48)
             else:
                 self.BumpSound.play()
         elif Direction == "Gauche":
             if self.matrice_dalle[Sprite.y, Sprite.x-1] != 0:
                 Sprite.x, Sprite.y = Sprite.x-1, Sprite.y
-                rect.translate(16,0)
+                rect.translate(48,0)
             else:
                 self.BumpSound.play()
         elif Direction == "Droite":
             if self.matrice_dalle[Sprite.y, Sprite.x+1] != 0:
                 Sprite.x, Sprite.y = Sprite.x+1, Sprite.y
-                rect.translate(-16,0)
+                rect.translate(-48,0)
             else:
                 self.BumpSound.play()
                 
@@ -66,13 +66,13 @@ class Sprite:
         #Définition de l'encart contenant le sprite
         self.Label = QtWidgets.QLabel(MainWindow)
         self.Label.setGeometry(QtCore.QRect(X, Y , larg, haut))
-        self.Label.setPixmap(QtGui.QPixmap(SpritePath))
         self.Label.setScaledContents(True)
+        self.Label.setPixmap(QtGui.QPixmap(SpritePath))
         self.Label.setObjectName(nom)
         
         #Définition des coordonnées initiales du sprite (Dans la matrice)
-        self.x = 65
-        self.y = 66
+        self.x = 55
+        self.y = 56
         
         #Définition de l'animation éventuelle.
         self.IsAnimated = False
