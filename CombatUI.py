@@ -8,8 +8,7 @@ class InterfaceCombat(object):
         
         #Définition de quelques booléens pour savoir dans quel menu on se situe
         self.position_fleche = "Haut","Gauche" 
-        self.MenuSwitch = False
-        self.MenuAttaque = False
+        self.MenuActuel = "Choix"
         
         #On récupère le nom 
         self.MainWindow = MainWindow
@@ -199,52 +198,96 @@ class InterfaceCombat(object):
         self.BoiteDialogue.hide()
         
     def deplacement_fleche_menu(self, Direction):
-        if self.position_fleche == ("Haut","Gauche"):
-            if Direction == "Droite":
-                self.Fleche_1.hide()
-                self.Fleche_2.show()
-                self.position_fleche = ("Haut","Droite")
-            elif Direction == "Bas":
-                self.Fleche_1.hide()
-                self.Fleche_3.show()
-                self.position_fleche = ("Bas","Gauche")
-                
-        elif self.position_fleche == ("Bas","Gauche"):
-            if Direction == "Droite":
-                self.Fleche_3.hide()
-                self.Fleche_4.show()
-                self.position_fleche = ("Bas","Droite")
-            elif Direction == "Haut":
-                self.Fleche_3.hide()
-                self.Fleche_1.show()
-                self.position_fleche = ("Haut","Gauche")
-                
-        if self.position_fleche == ("Haut","Droite"):
-            if Direction == "Gauche":
-                self.Fleche_2.hide()
-                self.Fleche_1.show()
-                self.position_fleche = ("Haut","Gauche")
-            elif Direction == "Bas":
-                self.Fleche_2.hide()
-                self.Fleche_4.show()
-                self.position_fleche = ("Bas","Droite")
+        if self.MenuActuel != "Switch":
+            if self.position_fleche == ("Haut","Gauche"):
+                if Direction == "Droite":
+                    self.Fleche_1.hide()
+                    self.Fleche_2.show()
+                    self.position_fleche = ("Haut","Droite")
+                elif Direction == "Bas":
+                    self.Fleche_1.hide()
+                    self.Fleche_3.show()
+                    self.position_fleche = ("Bas","Gauche")
                     
-        if self.position_fleche == ("Bas","Droite"):
-            if Direction == "Gauche":
-                self.Fleche_4.hide()
-                self.Fleche_3.show()
-                self.position_fleche = ("Bas","Gauche")
-            elif Direction == "Haut":
-                self.Fleche_4.hide()
-                self.Fleche_2.show()
-                self.position_fleche = ("Haut","Droite")
+            elif self.position_fleche == ("Bas","Gauche"):
+                if Direction == "Droite":
+                    self.Fleche_3.hide()
+                    self.Fleche_4.show()
+                    self.position_fleche = ("Bas","Droite")
+                elif Direction == "Haut":
+                    self.Fleche_3.hide()
+                    self.Fleche_1.show()
+                    self.position_fleche = ("Haut","Gauche")
+                    
+            if self.position_fleche == ("Haut","Droite"):
+                if Direction == "Gauche":
+                    self.Fleche_2.hide()
+                    self.Fleche_1.show()
+                    self.position_fleche = ("Haut","Gauche")
+                elif Direction == "Bas":
+                    self.Fleche_2.hide()
+                    self.Fleche_4.show()
+                    self.position_fleche = ("Bas","Droite")
+                        
+            if self.position_fleche == ("Bas","Droite"):
+                if Direction == "Gauche":
+                    self.Fleche_4.hide()
+                    self.Fleche_3.show()
+                    self.position_fleche = ("Bas","Gauche")
+                elif Direction == "Haut":
+                    self.Fleche_4.hide()
+                    self.Fleche_2.show()
+                    self.position_fleche = ("Haut","Droite")
         
     def deplacement_fleche_switch(self, Direction):
         pass
     
-    def valide(self):
-        pass
-
+    def valide(self,Equipe):
+        
+        if self.MenuActuel == "Choix":
+            if self.position_fleche == ("Bas", "Droite"):
+                
+                self.hide()
+                self.MainWindow.battle = False
+                self.MainWindow.Deplacement.battle = False
+                self.MainWindow.map.show()
+                self.MainWindow.SpritePerso.show()
+                self.MainWindow.Jukebox.ChangeDeMusique("./Son/Route1.wav")
+            
+            
+            if self.position_fleche == ("Haut","Gauche"):
+                self.Choix_1.setText("")
+                self.Choix_2.setText("")
+                self.Choix_3.setText("")
+                self.Choix_4.setText("")
+                
+                try:
+                    self.Choix_1.setText(Equipe.pokemons[0].Movepool[0].Nom)
+                except:
+                    pass
+                try:
+                    self.Choix_2.setText(Equipe.pokemons[0].Movepool[1].Nom)
+                except:
+                    pass
+                try:
+                    self.Choix_3.setText(Equipe.pokemons[0].Movepool[2].Nom)
+                except:
+                    pass
+                try: 
+                    self.Choix_4.setText(Equipe.pokemons[0].Movepool[3].Nom)
+                except:
+                    pass
+                
+                self.MenuActuel = "Attaque"
+                
+    def retour(self):
+        if self.MenuActuel == "Attaque":
+            self.Choix_1.setText("Attaque")
+            self.Choix_2.setText("Switch")
+            self.Choix_3.setText("Capture")
+            self.Choix_4.setText("Fuite")
+            self.MenuActuel = "Choix"
+            
 
 class Combat:
     def __init__(self,Equipe, Pokemon_Sauvage, CombatUI):
@@ -256,6 +299,13 @@ class Combat:
     def Init_Combat(self):
         self.UI.Sprite_Dos
         self.UI.show()
+        
+        self.UI.Fleche_1.show()
+        self.UI.Fleche_2.hide()
+        self.UI.Fleche_3.hide()
+        self.UI.Fleche_4.hide()
+        self.UI.position_fleche = "Haut","Gauche" 
+        
         
         Pokemon1 = self.Equipe.pokemons[0]
         self.UI.Nom_PokeAllie.setText(Pokemon1.nom)
@@ -275,5 +325,6 @@ class Combat:
         if Choix == "Fuite":
             self.UI.hide()
             self.UI.MainWindow.battle = False
+            
         
         

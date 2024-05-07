@@ -41,7 +41,7 @@ class MainWindow(QWidget):
                 self.map.show()
                 self.SpritePerso.show()
                 self.Jukebox.ChangeDeMusique("./Son/Route1.wav")
-            if not self.UICombat.MenuSwitch and not self.UICombat.MenuAttaque:
+            if self.UICombat.MenuActuel != "Switch":
                 if event.key() == Qt.Key_Up:
                     self.UICombat.deplacement_fleche_menu("Haut")
                 if event.key() == Qt.Key_Down:
@@ -51,7 +51,10 @@ class MainWindow(QWidget):
                 if event.key() == Qt.Key_Left:
                     self.UICombat.deplacement_fleche_menu("Gauche")
             if event.key() == Qt.Key_Space:
-                self.UICombat.valide()
+                self.UICombat.valide(self.Equipe)
+            
+            if event.key() == Qt.Key_X:
+                self.UICombat.retour()
                 
     
     #Lorsqu'on relâche une touche, il faut arrêter l'animation de marche.
@@ -86,11 +89,9 @@ class MainWindow(QWidget):
         Attaque2 = Attaque("Plaie-Croix", "Physique", 80, "Insecte", 100)
         Attaque3 = Attaque("Charge", "Physique", 80, "Normal", 100)
         Pokemon1 = Pokemon(213,"Caratroc pas shiny","Roche","Insecte",[20,10,230,10,230,5], [Attaque1,Attaque2,Attaque3])
-        Pokemon2 = Pokemon(1, "Bulbizarre", "Plante", "Poison", [45,49,49,65,65,45], [Attaque2,Attaque3])
-        Pokemon3 = Pokemon(213,"Caratroc shiny","Roche","Insecte",[20,10,230,10,230,5], [Attaque1,Attaque2,Attaque3])
+        Pokemon2 = Pokemon(1, "Bulbizarre", "Plante", "Poison", [45,49,49,65,65,45], [Attaque1,Attaque2,Attaque3])
         
         self.Equipe = Equipe(Pokemon2, Pokemon1)
-        self.WildPoke = Pokemon3
         
         self.battle = False
         self.UICombat = InterfaceCombat(self)
