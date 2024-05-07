@@ -6,6 +6,7 @@ Type = ["Normal", "Combat", "Vol", "Poison", "Sol", "Roche", "Insecte", "Spectre
 
 class Pokemon():
     def __init__(self,ID=0,Nom="MissingNo",Type1=None, Type2=None, Base_Stats=[33,136,0,1,1,29], Movepool=[]):
+        #Le Movepool est une liste d'objets de classe Attaque
         self.ID = ID
         self.nom = Nom
         self.Type1 = Type1
@@ -15,20 +16,68 @@ class Pokemon():
         self.PV_actuel = self.Stats[0]
         self.allie = False
     
-    def WildPoke(self,ID_zone,Pokedex):
-        #Génère un pokémon sauvage aléatoirement à partir de la zone de rencontre
-        pass
-    
     def IsKO(self):
         #Vérifie si ce pokémon est KO
         return self.PV_actuel<=0
+    
+    def FromID(self, new_ID):
+        #Règle toutes les informations d'un pokémon à partir de son ID
+        dex = Pokedex()
+        info = dex.pokedex[new_ID-1]
+        self.ID = int(info[0])
+        self.nom = info[1]
+        self.Type1 = info[2]
+        self.Type2 = info[3]
+        self.Stats[0]=[2*int(info[5])+31+252/4+5+100]   #PV
+        self.Stats[1]=[2*int(info[6])+31+252/4+5]       #Att
+        self.Stats[2]=[2*int(info[7])+31+252/4+5]       #Def
+        self.Stats[3]=[2*int(info[8])+31+252/4+5]       #Att Sp
+        self.Stats[4]=[2*int(info[9])+31+252/4+5]       #Def Sp
+        self.Stats[5]=[2*int(info[10])+31+252/4+5]      #Vitesse
+        self.Movepool = []
+        self.Movepool.append(info[13])                  #Move type 1
+        self.Movepool.append(info[14])                  #Move normal
+        if info[15] != "":
+            self.Movepool.append(info[15])              #Move type 2 (si existe)
+        self.PV_actuel = self.Stats[0]
+        self.allie = False
+        
+        
 
 
 class Pokedex():
     def __init__(self):
+        #Import du tableau
         self.pokedex = np.genfromtxt("./data/pokemon_1ere_gen.csv", delimiter=',', dtype=str, skip_header=1)
-        
+        #Initialisation de la future colonne movepool
+        lon = len(self.pokedex)
+        movepool=[[] for i in range(lon)]
+        #Remplissage de la future colonne movepool
+        for i in range(lon):
+            pokemon = self.pokedex[i]
+            #type 1
+            type1 = pokemon[2]
+            att = pokemon[6]
+            attsp = pokemon[8]
+            if att > attsp:
+                movepool[i].append(Attaque(f"{type1}_P", "Physique", 80, type1, 100))
+            elif att <= attsp:
+                movepool[i].append(Attaque(f"{type1}_S", "Speciale", 80, type1, 100))
+            #attaque normale
+            movepool[i].append(Attaque("Charge", "Physique", 40, "Normal", 100))
+            #type 2
+            if pokemon[3] != "":
+                type2 = pokemon[3]
+                if att > attsp:
+                    movepool[i].append(Attaque(f"{type2}_P", "Physique", 80, type2, 100))
+                elif att <= attsp:
+                    movepool[i].append(Attaque(f"{type2}_S", "Speciale", 80, type2, 100))
+            else:
+                movepool[i].append('')
+        Move_Col = np.array(movepool)
+        self.pokedex = np.append(self.pokedex, Move_Col, axis=1)
             
+
 
 
 class ZoneRencontre():
@@ -119,8 +168,10 @@ class ZoneRencontre():
             
         
     def Random_Poke(self):
-        #Retourne l'ID pour l'instant => coder pour que le pokémon soit retourné
-        return rd.choice(self.Liste_Poke)
+        #Retourne un objet de type pokémon aléatoirement
+        Wild_Poke = Pokemon()
+        Wild_Poke.FromID(rd.choice(self.Liste_Poke))
+        return Wild_Poke
             
 
 
@@ -207,4 +258,12 @@ if __name__ == "__main__":
     print(TH.Degats(Bulbizarre, Carapuce, Table)[0])
     
     R = ZoneRencontre(2)
-    print(R.Random_Poke())
+    P_rand=R.Random_Poke()
+    print(P_rand.nom)
+    print(P_rand.Movepool[0].Nom)
+    
+    
+    P1 = Pokemon()
+    P1.FromID(1)
+    print(P1.nom)
+    print(P1.Movepool[0].Nom)
