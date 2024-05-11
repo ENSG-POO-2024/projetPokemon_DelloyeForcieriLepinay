@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QMovie
 from PyQt5.QtMultimedia import QSound
@@ -7,14 +8,14 @@ class Carte:
     def __init__(self,MainWindow,MapPath):
         #Initialisation de la carte d'un point de vue graphique
         self.carte = QtWidgets.QLabel(MainWindow)
-        self.carte.setGeometry(QtCore.QRect(-2398, -2380, 4800, 4800))
+        self.carte.setGeometry(QtCore.QRect(-670, -226, 4800, 4800))
         self.carte.setText("")
         self.carte.setScaledContents(True)
         self.carte.setObjectName("carte")
         self.carte.setPixmap(QtGui.QPixmap(MapPath))
         
         #Initialisation de la carte d'un point de vue matriciel
-        self.matrice_dalle = np.genfromtxt("./Matrice.csv", delimiter=";")[1:,1:]
+        self.matrice_dalle = np.genfromtxt("./data/Matrice.csv", delimiter=";")
         
         #Jukebox
         self.Jukebox = MainWindow.Jukebox
@@ -71,8 +72,8 @@ class Sprite:
         self.Label.setObjectName(nom)
         
         #Définition des coordonnées initiales du sprite (Dans la matrice)
-        self.x = 55
-        self.y = 56
+        self.x = 19
+        self.y = 10
         
         #Définition de l'animation éventuelle.
         self.IsAnimated = False

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #Import externe
 from PyQt5.QtWidgets import QApplication, QWidget
 from PyQt5.Qt import Qt
@@ -18,7 +19,7 @@ class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.KeyTime = datetime.now()
-        self.KeyTime_Delta = timedelta(seconds=0.1)
+        self.KeyTime_Delta = timedelta(seconds=0.15)
         
     def keyPressEvent(self, event):   
         #Lorsqu'une touche est pressée, on déclenche l'animation de marche et on déplace la carte.
@@ -33,14 +34,7 @@ class MainWindow(QWidget):
             if event.key() == Qt.Key_Left and datetime.now() - self.KeyTime > self.KeyTime_Delta:
                 self.KeyTime, self.battle = self.Deplacement.move("Gauche")
                 
-        else:
-            if event.key() == Qt.Key_Escape:
-                self.UICombat.hide()
-                self.battle = False
-                self.Deplacement.battle = False
-                self.map.show()
-                self.SpritePerso.show()
-                self.Jukebox.ChangeDeMusique("./Son/Route1.wav")
+        else: 
             if self.UICombat.MenuActuel != "Switch":
                 if event.key() == Qt.Key_Up:
                     self.UICombat.deplacement_fleche_menu("Haut")
@@ -80,7 +74,7 @@ class MainWindow(QWidget):
         self.Jukebox = Jukebox("./Son/Route1.wav")
         
         #Création de la carte et du sprite du personnage principal
-        self.map = Carte(self,"./Carte.png")
+        self.map = Carte(self,"./Map/carte2.png")
         self.SpritePerso = Sprite(self,"./Animation/Marche/Devant_repos.png", 243, 240, 45, 57, "Perso_Principal")
         
         
@@ -91,7 +85,7 @@ class MainWindow(QWidget):
         self.Equipe = Equipe(Pokemon2,Pokemon1,Pokemon3)
         
         self.battle = False
-        self.UICombat = InterfaceCombat(self)
+        self.UICombat = InterfaceCombat(self,Pokemon())
         self.UICombat.hide()
         self.Deplacement = Deplacement(self)
         

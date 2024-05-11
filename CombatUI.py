@@ -1,10 +1,15 @@
+# -*- coding: utf-8 -*-
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5 import QtTest
+from Mecaniques import *
 
 
 #Définit tous les composants de l'interface de combat (Assez indigeste) ...
 class InterfaceCombat(object):
-    def __init__(self, MainWindow):
+    def __init__(self, MainWindow,Pokemon_Sauvage):
+        #On définit les informations relatives au combat
+        self.Equipe = MainWindow.Equipe
+        self.Pokemon_Adverse = Pokemon_Sauvage
         
         #Définition de quelques booléens pour savoir dans quel menu on se situe
         self.position_fleche = "Haut","Gauche" 
@@ -34,13 +39,13 @@ class InterfaceCombat(object):
         self.PV_Ennemi = QtWidgets.QLabel(self.Zone_Combat)
         self.PV_Ennemi.setGeometry(QtCore.QRect(10, 10, 300, 90))
         self.PV_Ennemi.setText("")
-        self.PV_Ennemi.setPixmap(QtGui.QPixmap("../Projet_Pokemon/BarreEnnemie.png"))
+        self.PV_Ennemi.setPixmap(QtGui.QPixmap("../UI/BarreEnnemie.png"))
         self.PV_Ennemi.setScaledContents(True)
         self.PV_Ennemi.setObjectName("PV_Ennemi")
         self.PV_Allie = QtWidgets.QLabel(self.Zone_Combat)
         self.PV_Allie.setGeometry(QtCore.QRect(160, 200, 315, 120))
         self.PV_Allie.setText("")
-        self.PV_Allie.setPixmap(QtGui.QPixmap("../Projet_Pokemon/BarreAlliee.png"))
+        self.PV_Allie.setPixmap(QtGui.QPixmap("../UI/BarreAlliee.png"))
         self.PV_Allie.setScaledContents(True)
         self.PV_Allie.setObjectName("PV_Allie")
         self.Nom_PokeAllie = QtWidgets.QLabel(self.Zone_Combat)
@@ -82,20 +87,20 @@ class InterfaceCombat(object):
         self.PV_Ennemi = QtWidgets.QLabel(self.Zone_Combat)
         self.PV_Ennemi.setGeometry(QtCore.QRect(10, 10, 300, 90))
         self.PV_Ennemi.setText("")
-        self.PV_Ennemi.setPixmap(QtGui.QPixmap("./BarreEnnemie.png"))
+        self.PV_Ennemi.setPixmap(QtGui.QPixmap("./UI/BarreEnnemie.png"))
         self.PV_Ennemi.setScaledContents(True)
         self.PV_Ennemi.setObjectName("PV_Ennemi")
         self.PV_Allie = QtWidgets.QLabel(self.Zone_Combat)
         self.PV_Allie.setGeometry(QtCore.QRect(160, 200, 315, 120))
         self.PV_Allie.setText("")
-        self.PV_Allie.setPixmap(QtGui.QPixmap("./BarreAlliee.png"))
+        self.PV_Allie.setPixmap(QtGui.QPixmap("./UI/BarreAlliee.png"))
         self.PV_Allie.setScaledContents(True)
         self.PV_Allie.setObjectName("PV_Allie")
         self.Nom_PokeAllie = QtWidgets.QLabel(self.Zone_Combat)
         self.Nom_PokeAllie.setGeometry(QtCore.QRect(205, 217, 181, 21))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(16)
+        font.setPointSize(10)
         font.setBold(False)
         font.setWeight(50)
         self.Nom_PokeAllie.setFont(font)
@@ -104,7 +109,7 @@ class InterfaceCombat(object):
         self.Nom_PokeEnnemi.setGeometry(QtCore.QRect(30, 23, 181, 21))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(16)
+        font.setPointSize(10)
         font.setBold(False)
         font.setWeight(50)
         self.Nom_PokeEnnemi.setFont(font)
@@ -243,10 +248,11 @@ class InterfaceCombat(object):
         pass
     
     def valide(self,Equipe):
-        
+        """Cette fonction se lance en combat lorsque la touche espace est utilisée"""
+        #Si on est dans le menu des choix (Attaque/Switch/Fuite)
         if self.MenuActuel == "Choix":
+            #Bas droite = Fuite -> On sort du combat (On estime que cette action est garantie.)
             if self.position_fleche == ("Bas", "Droite"):
-                
                 self.hide()
                 self.MainWindow.battle = False
                 self.MainWindow.Deplacement.battle = False
@@ -255,6 +261,7 @@ class InterfaceCombat(object):
                 self.MainWindow.Jukebox.ChangeDeMusique("./Son/Route1.wav")
             
             
+            #Haut-Gauche = Menu d'attaque -> On réinitialise chaque choix avec le nom des attaques, s'il existe (Sinon on laisse vide)
             if self.position_fleche == ("Haut","Gauche"):
                 self.Choix_1.setText("")
                 self.Choix_2.setText("")
@@ -279,63 +286,164 @@ class InterfaceCombat(object):
                     pass
                 
                 self.MenuActuel = "Attaque"
-                
+                return 0
+        
+        #Si on est dans le menu attauque, on lance un Tour de jeu avec comme argument le numéro de l'attaque choisie. 
         if self.MenuActuel == "Attaque":
-            pass
-            
+            if self.position_fleche == ("Haut","Gauche"):
+                self.Tour_de_jeu(0)
+            if self.position_fleche == ("Haut","Droite"):
+                self.Tour_de_jeu(1)
+            if self.position_fleche == ("Bas", "Gauche"):
+                self.Tour_de_jeu(2)
+            elif self.position_fleche == ("Bas","Droite"):
+                self.Tour_de_jeu(3)
                 
     def retour(self):
+        """Cette fonction se lance lorsque qu'on appuie sur "X", elle sert essentiellement à revenir au menu précédent en cas de missclick.
+        Elle sert également en fin de tour, pour revenir à l'écran de choix"""
+        
+        #Si on est dans le menu attaque, on revient au menu choix. 
         if self.MenuActuel == "Attaque":
             self.Choix_1.setText("Attaque")
             self.Choix_2.setText("Switch")
             self.Choix_3.setText("Capture")
             self.Choix_4.setText("Fuite")
             self.MenuActuel = "Choix"
-            
 
-class Combat:
-    def __init__(self,Equipe, Pokemon_Sauvage, CombatUI):
+    def Init_Combat(self,Equipe,PokeRencontre):
+        
+        """Cette méthode sert à initialiser un combat. On récupère l'interface et on initialise le combat avec les deux équipes qui se font face.
+        L'équipe du joueur contre le Pokémon rencontré.
+        
+        Elle charge l'UI, les sprites des deux pokémons qui se font fassent initialement ainsi que leur PV"""
+        
         self.Equipe = Equipe
-        self.Pokemon_Adverse = Pokemon_Sauvage
-        self.UI = CombatUI
-    
-    
-    def Init_Combat(self):
-        self.UI.Sprite_Dos
-        self.UI.show()
+        self.Pokemon_Adverse = PokeRencontre
+        self.show()  
+        self.Fleche_1.show()
+        self.Fleche_2.hide()
+        self.Fleche_3.hide()
+        self.Fleche_4.hide()
+        self.position_fleche = "Haut","Gauche" 
         
-        self.UI.Fleche_1.show()
-        self.UI.Fleche_2.hide()
-        self.UI.Fleche_3.hide()
-        self.UI.Fleche_4.hide()
-        self.UI.position_fleche = "Haut","Gauche" 
+        Pokemon1 = self.Equipe[0]
         
+        self.PVBarre_Allie.setProperty("value", (Pokemon1.PV_actuel/Pokemon1.Stats[0])*100)
+        self.PVBarre_Ennemi.setProperty("value", 100)
         
-        Pokemon1 = self.Equipe.pokemons[0]
-        self.UI.Nom_PokeAllie.setText(Pokemon1.nom)
-        self.UI.Nom_PokeEnnemi.setText(self.Pokemon_Adverse.nom)
-        
-        self.UI.PVBarre_Allie.setProperty("value", (Pokemon1.PV_actuel/Pokemon1.Stats[0])*100)
-        self.UI.PVBarre_Ennemi.setProperty("value", 100)
-        
-        
+        self.Nom_PokeAllie.setText(Pokemon1.nom)
+        self.Nom_PokeEnnemi.setText(self.Pokemon_Adverse.nom)
         
         Pokemon1.Sprite("Dos")
         self.Pokemon_Adverse.Sprite("Face")
-        self.UI.Sprite_Dos.setPixmap(QtGui.QPixmap("Temp/dos.png"))
-        self.UI.Sprite_Face.setPixmap(QtGui.QPixmap("Temp/face.png"))
+        self.Sprite_Dos.setPixmap(QtGui.QPixmap("Temp/dos.png"))
+        self.Sprite_Face.setPixmap(QtGui.QPixmap("Temp/face.png"))
         
         return True
             
-    def actualisation_PV(self):
-        self.UI.PVBarre_Allie = self.Equipe[0].PV_actuel
-        self.UI.PVBarre_Allie = self.Pokemon_Adverse.PV_actuel
+    def actualisation_PV(self, AllieOuEnnemi):
+        """Sert juste à actualiser les PVs du pokémon allié ou du pokémon ennemi et à actualiser la barre de PV en conséquence"""
+        if AllieOuEnnemi == "Allie":
+            self.PVBarre_Allie.setProperty("value", (self.Equipe[0].PV_actuel/self.Equipe[0].Stats[0])*100)
+        else:
+            self.PVBarre_Ennemi.setProperty("value", (self.Pokemon_Adverse.PV_actuel/self.Pokemon_Adverse.Stats[0])*100)
         
     
-    def Tour_de_jeu(self, Choix):
-        if Choix == "Fuite":
-            self.UI.hide()
-            self.UI.MainWindow.battle = False
+    def Tour_de_jeu(self, Num_Attaque):
+        """Cette méthode sert à enclencher un tour de jeu.
+        
+        Elle marche comme ceci :
+            - Si le Num_Attaque est strictement inférieur à 0 -> C'est un changement de pokémon. La phase se produit alors ainsi :
+                - Le pokémon allié est échangé avec le pokémon (-1)*Num_Attaque.
+                - Le pokémon ennemi attaque
+                - On contrôle que le pokémon allié envoyé au combat n'a pas été KO à l'issue de ce changement.
+                - On demande à l'utilisateur de renvoyer un autre pokémon si c'est le cas, sinon le combat suit son cours.
             
+            - Si le Num_Attaque est supérieur à 0, c'est que l'utilisateur a utilisé l'attaque numéro Num_Attaque. La phase se produit alors ainsi :
+                - Le pokémon le plus rapide attaque (On contrôle si KO)
+                - Le pokémon le moins rapide attaque (On contrôle si KO)
+                - En cas d'égalité de vitesse, le plus rapide est tiré aléatoirement"""
+        
+        #Si l'utilisateur a décidé d'attaquer
+        if Num_Attaque >= 0:
+            Pokemon_Allie = self.Equipe[0]
+            #On compare les vitesses des deux pokémons.
+            Vitesse_Allie, Vitesse_Ennemi = Pokemon_Allie.Stats[5], self.Pokemon_Adverse.Stats[5]
+            
+            if Vitesse_Allie > Vitesse_Ennemi:
+                #Le if est là pour ne pas réaliser l'attaque ennemie si le pokémon a été mis KO
+                if self.Attaque_Allie(Num_Attaque):
+                    self.Attaque_Ennemie()
+                
+            elif Vitesse_Ennemi > Vitesse_Allie:
+                #Le if est là pour ne pas réaliser l'attaque alliée si le pokémon a été mis KO
+                if self.Attaque_Ennemie():
+                    self.Attaque_Allie(Num_Attaque)
+            
+        
+        
+        
+    def Attaque_Allie(self,Num_Attaque):
+        """Réalise l'attaque d'un allié sur un ennemi.
+        Return True si le combat continue, False sinon (Pour ne pas continuer inutilement le tour de jeu)"""
+        
+        #On calcule les dégats de l'attaque du pokemon allié sur l'adversaire
+        Pokemon_Allie = self.Equipe[0]
+        Attaque = Pokemon_Allie.Movepool[Num_Attaque]
+        Degats, Efficacite = Attaque.Degats(Pokemon_Allie,self.Pokemon_Adverse)
+        print(f"{Pokemon_Allie.nom} utilise {Attaque.Nom}")
+        print(Degats, Efficacite)
+        
+        #On actualise les PVs de l'adversaire 
+        self.Pokemon_Adverse.PV_actuel = self.Pokemon_Adverse.PV_actuel - Degats
+        
+        #Si il est mort, on le capture et le combat se termine
+        if self.Pokemon_Adverse.PV_actuel < 0:
+            self.Pokemon_Adverse.PV_actuel = 0
+            self.actualisation_PV("Ennemi")
+            
+            #Capture à implémenter
+            
+            
+            
+            #Fin du combat
+            self.hide()
+            self.MainWindow.battle = False
+            self.MainWindow.Deplacement.battle = False
+            self.MainWindow.map.show()
+            self.MainWindow.SpritePerso.show()
+            self.MainWindow.Jukebox.ChangeDeMusique("./Son/Route1.wav")
+            
+            return False
+        
+        else:
+            self.actualisation_PV("Ennemi")
+            return True
+        
+    def Attaque_Ennemie(self):
+        Pokemon_Allie = self.Equipe[0]
+        
+        #Le pokémon adverse choisit intelligemment son attaque :
+        Attaques_Ennemies = self.Pokemon_Adverse.Movepool
+        #On calcule quelle attaque ferait le plus de dégâts
+        Liste_Dgt = [Attaques_Ennemies[i].Degats(self.Pokemon_Adverse, Pokemon_Allie) for i in range(len(Attaques_Ennemies))]
+        Attq_Select = Liste_Dgt.index(max(Liste_Dgt))
+        
+        #On calcule les dégats de l'attaque du pokemon ennemi sur le pokemon allié
+        Attaque = Attaques_Ennemies[Attq_Select]
+        Degats, Efficacite = Attaque.Degats(self.Pokemon_Adverse,Pokemon_Allie)
+        print(f"{self.Pokemon_Adverse.nom} utilise {Attaques_Ennemies[Attq_Select].Nom}")
+        print(Degats, Efficacite)
+        
+        #On actualise les PVs de l'adversaire 
+        Pokemon_Allie.PV_actuel = Pokemon_Allie.PV_actuel - Degats
+        if Pokemon_Allie.PV_actuel < 0:
+            Pokemon_Allie.PV_actuel = 0
+            self.actualisation_PV("Allie")
+        else:
+            self.actualisation_PV("Allie")
+        
+        return True
         
         

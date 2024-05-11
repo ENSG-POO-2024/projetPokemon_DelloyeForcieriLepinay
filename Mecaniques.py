@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import numpy as np
 import random as rd
 from PIL import Image
@@ -6,7 +7,7 @@ Type = ["Normal", "Combat", "Vol", "Poison", "Sol", "Roche", "Insecte", "Spectre
 
 
 class Pokemon():
-    def __init__(self,ID=0,Nom="MissingNo",Type1=None, Type2=None, Base_Stats=[33,136,0,1,1,29], Movepool=[]):
+    def __init__(self,ID=0,Nom="MissingNo",Type1="", Type2="", Base_Stats=[33,136,0,1,1,29], Movepool=[]):
         #Le Movepool est une liste d'objets de classe Attaque
         self.ID = ID
         self.nom = Nom
@@ -51,13 +52,9 @@ class Pokemon():
         top = 1 + 65*(ID%3)
         right = left + 160
         bottom = top + 64
-        
-        
         poke = im.crop((left, top, right, bottom))
-        
         face = poke.crop((0, 0, 64, 64))
         dos = poke.crop((64, 0, 128, 64))
-        
         if Direction == "Face":
             face.save('./Temp/face.png', 'png')
         else:
@@ -69,7 +66,7 @@ class Pokemon():
 class Pokedex():
     def __init__(self):
         #Import du tableau
-        self.pokedex = np.genfromtxt("./data/pokemon_1ere_gen.csv", delimiter=',', dtype=str, skip_header=1)
+        self.pokedex = np.genfromtxt("./data/pokemon_1ere_gen.csv", delimiter=',', dtype=str, skip_header=1, encoding='bytes')
         #Initialisation de la future colonne movepool
         lon = len(self.pokedex)
         movepool=[[] for i in range(lon)]
@@ -78,14 +75,14 @@ class Pokedex():
             pokemon = self.pokedex[i]
             #type 1
             type1 = pokemon[2]
-            att = pokemon[6]
-            attsp = pokemon[8]
+            att = int(pokemon[6])
+            attsp = int(pokemon[8])
             if att > attsp:
                 movepool[i].append(Attaque(f"{type1}_P", "Physique", 80, type1, 100))
             elif att <= attsp:
                 movepool[i].append(Attaque(f"{type1}_S", "Speciale", 80, type1, 100))
             #attaque normale
-            movepool[i].append(Attaque("Charge", "Physique", 40, "Normal", 100))
+            movepool[i].append(Attaque("Charge", "Physique", 80, "Normal", 100))
             #type 2
             if pokemon[3] != "":
                 type2 = pokemon[3]
@@ -199,13 +196,13 @@ class ZoneRencontre():
 
 class Table_Type():
     def __init__(self):
-        self.Table = np.genfromtxt("TableType.csv", delimiter=";")
+        self.Table = np.genfromtxt("./data/TableType.csv", delimiter=";")
     def Resistance(self,Pokemon):
         Type1, Type2 = Pokemon.Type1, Pokemon.Type2
         Index_Type1 = Type.index(Type1)
         Resistance = self.Table[:,Index_Type1]
         
-        if Type2 != None:
+        if Type2 != "":
             Index_Type2 = Type.index(Type2)
             Resistance2 = self.Table[:,Index_Type2]
             Resistance = Resistance * Resistance2
@@ -219,8 +216,9 @@ class Attaque():
         self.Puissance = Puissance
         self.Type = Type
         self.Precision = Precision
+        self.Table = Table_Type()
     
-    def Degats(self,Pokemon1, Pokemon2, Table):
+    def Degats(self,Pokemon1, Pokemon2):
         Pui = self.Puissance
         if rd.randint(0,100) > self.Precision:
             print("L'attaque a échoué.")
@@ -242,7 +240,7 @@ class Attaque():
                 
             #Gestion des faiblesses
             Index_Type_Attaque = Type.index(self.Type)
-            Multiplicateur = Table.Resistance(Pokemon2)[Index_Type_Attaque]
+            Multiplicateur = self.Table.Resistance(Pokemon2)[Index_Type_Attaque]
             Efficace = None
             
             if Multiplicateur == 0:
@@ -261,7 +259,6 @@ class Attaque():
                 print("Coup critique")
                 CM = CM*1.5
             
-            print(Atq1, Def2)
             Degats = (42*(Atq1/Def2)*Pui/50 + 2)
             
             return int(Degats*CM), Efficace
@@ -269,14 +266,14 @@ class Attaque():
       
 if __name__ == "__main__":
     Bulbizarre = Pokemon(1,"Bulbizarre","Plante","Poison",[364,263,265,299,299,259], ["Tranch'Herbe", "Bomb'Beurk", "Charge"])
-    Carapuce = Pokemon(4,"Carapuce","Eau", None, [292,175,229,218,227,185], ["Pistolet à Ô", "Charge"])
+    Carapuce = Pokemon(4,"Carapuce","Eau", "", [292,175,229,218,227,185], ["Pistolet à Ô", "Charge"])
     Fantominus = Pokemon(12,"Fantominus","Spectre", "Poison", [282,190,224,194,222,180], ["Ball'Ombre", "Charge"])
     Table = Table_Type()
     
     TH = Attaque("Tranch'Herbe", "Physique", 80, "Plante", 100)
     Ch = Attaque("Charge", "Physique", 40, "Normal", 100)
     
-    print(TH.Degats(Bulbizarre, Carapuce, Table)[0])
+    print(TH.Degats(Bulbizarre, Carapuce)[0])
     
     R = ZoneRencontre(2)
     P_rand=R.Random_Poke()
@@ -288,3 +285,5 @@ if __name__ == "__main__":
     P1.FromID(1)
     print(P1.nom)
     print(P1.Movepool[0].Nom)
+    Pokedex_A = Pokedex()
+    print(Pokedex_A.pokedex[120][13].Nom)

@@ -15,6 +15,8 @@ class Equipe:
         if Pokemon_6 != None:
             self.pokemons.append(Pokemon_6)
             
+        self.Pokemon_Lead = self.pokemons[0]
+            
     def permutation(self,Pokemon1,Pokemon2):
         i = self.pokemons.index(Pokemon1)
         j = self.pokemons.index(Pokemon2)
@@ -36,4 +38,13 @@ class Equipe:
             if not Bool:
                 break
         return Bool
-        
+    
+    def __getitem__(self, items):
+        return self.pokemons[items]
+    
+    def __iter__(self):
+        return iter(self.pokemons)
+    
+if __name__ == '__main__':
+    E = Equipe(Pokemon())
+    print(E[0])

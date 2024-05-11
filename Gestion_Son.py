@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from PyQt5.QtMultimedia import QSound
 
 class Jukebox():

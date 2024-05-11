@@ -1,8 +1,8 @@
+# -*- coding: utf-8 -*-
 from datetime import datetime
 from PyQt5.QtGui import QMovie
 from PyQt5 import QtCore, QtGui, QtWidgets
 import random as r
-from CombatUI import Combat
 from Mecaniques import ZoneRencontre
 from PyQt5 import QtTest
 
@@ -39,23 +39,20 @@ class Deplacement():
                 
                 
                 self.Sprite.Changement_Sprite(f"./Animation/Marche/{Direction}_repos.png")
-                self.Jukebox.ChangeDeMusique("./Son/Battle.wav")
                 self.MainWindow.battle = True
                 Tr = Transition(self.MainWindow)
+                self.Jukebox.ChangeDeMusique("./Son/Battle.wav")
                 Tr.start()
                 Tr.show()
-                self.MainWindow.Combat = Combat(self.Equipe, PokeRencontre, self.UICombat)
+                #self.MainWindow.Combat = Combat(self.Equipe, PokeRencontre, self.UICombat)
                 QtTest.QTest.qWait(1900)
                 self.Carte.hide()
                 self.Sprite.hide()
-                Battle = self.MainWindow.Combat.Init_Combat()
+                Battle = self.UICombat.Init_Combat(self.Equipe,PokeRencontre)
                 QtTest.QTest.qWait(900)
                 Tr.hide()
                 Tr.stop()
                 
-                
-                """PokemonSauv = Pokemon.WildPoke(Zone_rencontre)
-                Combat(Equipe,PokemonSauv)"""
         
         #On récupère le temps de fin, pour pas avoir une commande qui s'execute pendant l'animation en cours.
         KeyTime = datetime.now()
