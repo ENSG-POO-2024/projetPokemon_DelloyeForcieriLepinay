@@ -11,7 +11,7 @@ from Deplacement import Deplacement
 from CarteEtSprite import Carte,Sprite
 from CombatUI import InterfaceCombat
 from Mecaniques import Pokemon
-from GestionCombat import Equipe
+from GestionCombat import Equipe, PC
 from Gestion_Son import Jukebox
 
 
@@ -24,15 +24,19 @@ class MainWindow(QWidget):
     def keyPressEvent(self, event):   
         #Lorsqu'une touche est pressée, on déclenche l'animation de marche et on déplace la carte.
         #Note : C'est la carte qui bouge et non le joueur (Effet tapis roulant)
-        if not self.battle:
+        if self.Menu == "Carte":
             if event.key() == Qt.Key_Up and datetime.now() - self.KeyTime > self.KeyTime_Delta:
-                self.KeyTime, self.battle = self.Deplacement.move("Derriere")
+                self.KeyTime, self.Menu = self.Deplacement.move("Derriere")
             if event.key() == Qt.Key_Down and datetime.now() - self.KeyTime > self.KeyTime_Delta:
-                self.KeyTime, self.battle = self.Deplacement.move("Devant")
+                self.KeyTime, self.Menu = self.Deplacement.move("Devant")
             if event.key() == Qt.Key_Right and datetime.now() - self.KeyTime > self.KeyTime_Delta:
-                self.KeyTime, self.battle = self.Deplacement.move("Droite")
+                self.KeyTime, self.Menu = self.Deplacement.move("Droite")
             if event.key() == Qt.Key_Left and datetime.now() - self.KeyTime > self.KeyTime_Delta:
-                self.KeyTime, self.battle = self.Deplacement.move("Gauche")
+                self.KeyTime, self.Menu = self.Deplacement.move("Gauche")
+            if event.key() == Qt.Key_Enter:
+                self.Menu = "Menu_Chgmt_Pokémon"
+                #Entrer dans le menu pour switcher de pokemon
+                pass
                 
         else: 
             if self.UICombat.MenuActuel != "Switch":
@@ -53,7 +57,7 @@ class MainWindow(QWidget):
     
     #Lorsqu'on relâche une touche, il faut arrêter l'animation de marche.
     def keyReleaseEvent(self, event):
-        if not self.battle:
+        if self.Menu == "Carte":
             if event.key() == Qt.Key_Left and not event.isAutoRepeat():
                 self.Deplacement.end_move("Gauche")
             if event.key() == Qt.Key_Right and not event.isAutoRepeat():
@@ -78,13 +82,14 @@ class MainWindow(QWidget):
         self.SpritePerso = Sprite(self,"./Animation/Marche/Devant_repos.png", 243, 240, 45, 57, "Perso_Principal")
         
         
-        #Création de l'équipe initiale du joueur
+        #Création de l'équipe initiale du joueur ainsi que son PC
         Pokemon1, Pokemon2, Pokemon3 = Pokemon(), Pokemon(), Pokemon()
-        Pokemon1.FromID(1), Pokemon2.FromID(4), Pokemon3.FromID(7)
+        Pokemon1.FromID(1), Pokemon2.FromID(150), Pokemon3.FromID(7)
         
         self.Equipe = Equipe(Pokemon2,Pokemon1,Pokemon3)
+        self.PC = PC()
         
-        self.battle = False
+        self.Menu = "Carte"
         self.UICombat = InterfaceCombat(self,Pokemon())
         self.UICombat.hide()
         self.Deplacement = Deplacement(self)

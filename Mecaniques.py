@@ -55,13 +55,18 @@ class Pokemon():
         poke = im.crop((left, top, right, bottom))
         face = poke.crop((0, 0, 64, 64))
         dos = poke.crop((64, 0, 128, 64))
+        mini = poke.crop((128,0,160,32))
         if Direction == "Face":
             face.save('./Temp/face.png', 'png')
-        else:
+        elif Direction == "Dos":
             dos.save('./Temp/dos.png', 'png')
-        
-        
-
+        else:
+            Path = f'./Temp/mini{self.ID}.png'
+            mini.save(f'./Temp/mini{self.ID}.png', "png")
+            return Path
+            
+    def Soin(self):
+        self.PV_actuel = self.Stats[0]
 
 class Pokedex():
     def __init__(self):
@@ -287,3 +292,5 @@ if __name__ == "__main__":
     print(P1.Movepool[0].Nom)
     Pokedex_A = Pokedex()
     print(Pokedex_A.pokedex[120][13].Nom)
+    
+    Carapuce.Sprite("mini")

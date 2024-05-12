@@ -2,6 +2,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5 import QtTest
 from Mecaniques import *
+import copy
 
 
 #Définit tous les composants de l'interface de combat (Assez indigeste) ...
@@ -9,6 +10,7 @@ class InterfaceCombat(object):
     def __init__(self, MainWindow,Pokemon_Sauvage):
         #On définit les informations relatives au combat
         self.Equipe = MainWindow.Equipe
+        self.PC = MainWindow.PC
         self.Pokemon_Adverse = Pokemon_Sauvage
         
         #Définition de quelques booléens pour savoir dans quel menu on se situe
@@ -254,8 +256,7 @@ class InterfaceCombat(object):
             #Bas droite = Fuite -> On sort du combat (On estime que cette action est garantie.)
             if self.position_fleche == ("Bas", "Droite"):
                 self.hide()
-                self.MainWindow.battle = False
-                self.MainWindow.Deplacement.battle = False
+                self.MainWindow.Menu = "Carte"
                 self.MainWindow.map.show()
                 self.MainWindow.SpritePerso.show()
                 self.MainWindow.Jukebox.ChangeDeMusique("./Son/Route1.wav")
@@ -340,7 +341,7 @@ class InterfaceCombat(object):
         self.Sprite_Dos.setPixmap(QtGui.QPixmap("Temp/dos.png"))
         self.Sprite_Face.setPixmap(QtGui.QPixmap("Temp/face.png"))
         
-        return True
+        return "Combat"
             
     def actualisation_PV(self, AllieOuEnnemi):
         """Sert juste à actualiser les PVs du pokémon allié ou du pokémon ennemi et à actualiser la barre de PV en conséquence"""
@@ -403,14 +404,23 @@ class InterfaceCombat(object):
             self.Pokemon_Adverse.PV_actuel = 0
             self.actualisation_PV("Ennemi")
             
-            #Capture à implémenter
+            #On le capture s'il y a de la place dans l'équipe, on le rajoute
+            if len(self.Equipe)<6:
+                self.Equipe.append(copy.copy(self.Pokemon_Adverse))
+            #S'il n'y en a pas, on le stocke dans le PC.
+            else:
+                #On soigne tout pokémon envoyé au PC
+                self.Pokemon_Adverse.Soin
+                #Puis on l'envoie au PC
+                self.PC.append(copy.copy(self.Pokemon_Adverse))
             
-            
+            #Print pour tester si la capture marche bien
+            print([self.Equipe.pokemons[i].nom for i in range(len(self.Equipe))])
+            print(self.PC.Boite)
             
             #Fin du combat
             self.hide()
-            self.MainWindow.battle = False
-            self.MainWindow.Deplacement.battle = False
+            self.MainWindow.Menu = "Carte"
             self.MainWindow.map.show()
             self.MainWindow.SpritePerso.show()
             self.MainWindow.Jukebox.ChangeDeMusique("./Son/Route1.wav")
@@ -441,6 +451,15 @@ class InterfaceCombat(object):
         if Pokemon_Allie.PV_actuel < 0:
             Pokemon_Allie.PV_actuel = 0
             self.actualisation_PV("Allie")
+            
+            #Le pokemon est KO, on doit tester s'il existe encore un membre de l'équipe encore vivant :
+            if self.Equipe.All_KO():
+                #GameOver
+                pass
+            else:
+                #Proposition de Switch
+                pass
+            
         else:
             self.actualisation_PV("Allie")
         

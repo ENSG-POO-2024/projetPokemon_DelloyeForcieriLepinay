@@ -30,20 +30,46 @@ class Equipe:
     def echange_pokemon(self,Pokemon1,Pokemon2):
         i = self.pokemons.index(Pokemon1)
         self.pokemons[i] = Pokemon2
+    
+    def append(self,Pokemon):
+        self.pokemons.append(Pokemon)
         
     def All_KO(self):
         Bool = True
         for Pokemon in self.pokemons:
-            Bool = not Pokemon.IsKO()
+            Bool = Pokemon.IsKO()
             if not Bool:
                 break
         return Bool
     
+    def Soin_All(self):
+        for Pokemon in self:
+            Pokemon.Soin()
+    
     def __getitem__(self, items):
         return self.pokemons[items]
     
+    def __setitem__(self, index, valeur):
+        self.pokemons[index] = valeur
+    
     def __iter__(self):
         return iter(self.pokemons)
+    
+    def __len__(self):
+        return len(self.pokemons)
+    
+class PC:
+    def __init__(self,Liste_Pokemon_PC=[]):
+        self.Boite = Liste_Pokemon_PC
+        
+    def append(self,Pokemon):
+        self.Boite.append(Pokemon)
+        
+    def __getitem__(self, item):
+        return self.Boite[item]
+    
+    def __setitem__(self, index, valeur):
+        self.Boite[index] = valeur
     
 if __name__ == '__main__':
     E = Equipe(Pokemon())

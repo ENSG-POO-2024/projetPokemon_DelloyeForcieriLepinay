@@ -20,7 +20,7 @@ class Deplacement():
     
     def move(self,Direction):
         
-        Battle = False
+        Menu = "Carte"
         #On regarde si une animation n'est pas déjà en cours s'il n'y en a pas. On remplace le jpg par un gif.
         if not self.Sprite.IsAnimated:
             self.Sprite.Animation(f"./Animation/Marche/{Direction}.gif")
@@ -39,7 +39,7 @@ class Deplacement():
                 
                 
                 self.Sprite.Changement_Sprite(f"./Animation/Marche/{Direction}_repos.png")
-                self.MainWindow.battle = True
+                self.MainWindow.Menu = "Combat"
                 Tr = Transition(self.MainWindow)
                 self.Jukebox.ChangeDeMusique("./Son/Battle.wav")
                 Tr.start()
@@ -48,7 +48,7 @@ class Deplacement():
                 QtTest.QTest.qWait(1900)
                 self.Carte.hide()
                 self.Sprite.hide()
-                Battle = self.UICombat.Init_Combat(self.Equipe,PokeRencontre)
+                Menu = self.UICombat.Init_Combat(self.Equipe,PokeRencontre)
                 QtTest.QTest.qWait(900)
                 Tr.hide()
                 Tr.stop()
@@ -56,7 +56,7 @@ class Deplacement():
         
         #On récupère le temps de fin, pour pas avoir une commande qui s'execute pendant l'animation en cours.
         KeyTime = datetime.now()
-        return KeyTime, Battle
+        return KeyTime, Menu
         
     def end_move(self,Direction):
         #On arrête l'animation et place le personnage dans la position de repos de sa direction.
