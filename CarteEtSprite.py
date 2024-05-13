@@ -55,7 +55,18 @@ class Carte:
         self.anim.setEndValue(rect)
         self.anim.start()
         
+    def Warp(self, deltaY, deltaX):
+        self.anim = QtCore.QPropertyAnimation(self.carte, b'geometry')
+        self.anim.setDuration(1)
+        rect = self.carte.geometry()
+        self.anim.setStartValue(rect)
+        print(rect)
+        rect.translate(-deltaX*48, -deltaY*48)
+        print(rect)
+        self.anim.setEndValue(rect)
+        self.anim.start()
         
+    
     def hide(self):
         self.carte.hide()
         

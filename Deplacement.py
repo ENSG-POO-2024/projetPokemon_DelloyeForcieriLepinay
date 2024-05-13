@@ -28,7 +28,7 @@ class Deplacement():
         
         #Rencontre_Aleatoire
         Case_Actuelle = self.Carte.matrice_dalle[self.Sprite.y, self.Sprite.x]
-        if Case_Actuelle >= 2:
+        if Case_Actuelle >= 2 and Case_Actuelle < 10:
             rencontre = r.randint(1,10)
             if rencontre == 1:
                 
@@ -52,11 +52,28 @@ class Deplacement():
                 QtTest.QTest.qWait(900)
                 Tr.hide()
                 Tr.stop()
-                
+        
+        #Déplacements avec les portes
+        if Case_Actuelle == 100:
+            QtTest.QTest.qWait(1000)
+            self.Porte(self.Sprite.y, self.Sprite.x)
+        
         
         #On récupère le temps de fin, pour pas avoir une commande qui s'execute pendant l'animation en cours.
         KeyTime = datetime.now()
         return KeyTime, Menu
+    
+    def Porte(self, y, x):
+        #Dictionnaire qui asssocie à une entrée (une porte) sa sortie
+        Dico_portes = {(4,7):(89,9),(90,9):(5,7),(94,45):(72,85),(71,85):(93,45),(62,50):(13,69),(14,69):(63,50),(9,19):(94,87),(95,87):(10,19)}    
+        (Y_sortie,X_sortie) = Dico_portes[(y,x)]
+        deltaY = Y_sortie - y
+        deltaX = X_sortie - x
+        self.Sprite.y += deltaY
+        self.Sprite.x += deltaX
+        print(deltaX, deltaY)
+        self.Carte.Warp(deltaY, deltaX)
+    
         
     def end_move(self,Direction):
         #On arrête l'animation et place le personnage dans la position de repos de sa direction.
