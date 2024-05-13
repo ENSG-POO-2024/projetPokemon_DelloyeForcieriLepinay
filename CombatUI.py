@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5 import QtTest
 from Mecaniques import *
@@ -288,7 +287,13 @@ class InterfaceCombat(object):
                 
                 self.MenuActuel = "Attaque"
                 return 0
-        
+            
+            #Si on sélectionne l'option Switch, on affiche le menu de gestion d'équipe
+            if self.position_fleche == ("Haut","Droite"):
+                self.MainWindow.Menu_Gestion.Menu_Init(self, "Combat", self.Equipe)
+                
+                
+                
         #Si on est dans le menu attauque, on lance un Tour de jeu avec comme argument le numéro de l'attaque choisie. 
         if self.MenuActuel == "Attaque":
             if self.position_fleche == ("Haut","Gauche"):
@@ -327,11 +332,15 @@ class InterfaceCombat(object):
         self.Fleche_3.hide()
         self.Fleche_4.hide()
         self.position_fleche = "Haut","Gauche" 
+        self.Choix_1.setText("Attaque")
+        self.Choix_2.setText("Switch")
+        self.Choix_3.setText("Capture")
+        self.Choix_4.setText("Fuite")
         
         Pokemon1 = self.Equipe[0]
         
         self.PVBarre_Allie.setProperty("value", (Pokemon1.PV_actuel/Pokemon1.Stats[0])*100)
-        self.PVBarre_Ennemi.setProperty("value", 100)
+        self.PVBarre_Ennemi.setProperty("value", (PokeRencontre.PV_actuel/PokeRencontre.Stats[0])*100)
         
         self.Nom_PokeAllie.setText(Pokemon1.nom)
         self.Nom_PokeEnnemi.setText(self.Pokemon_Adverse.nom)
@@ -381,6 +390,9 @@ class InterfaceCombat(object):
                 #Le if est là pour ne pas réaliser l'attaque alliée si le pokémon a été mis KO
                 if self.Attaque_Ennemie():
                     self.Attaque_Allie(Num_Attaque)
+        
+        if Num_Attaque < 0 :
+            self.Attaque_Ennemie()
             
         
         
@@ -392,7 +404,7 @@ class InterfaceCombat(object):
         #On calcule les dégats de l'attaque du pokemon allié sur l'adversaire
         Pokemon_Allie = self.Equipe[0]
         Attaque = Pokemon_Allie.Movepool[Num_Attaque]
-        Degats, Efficacite = Attaque.Degats(Pokemon_Allie,self.Pokemon_Adverse)
+        Degats, Efficacite, Critique = Attaque.Degats(Pokemon_Allie,self.Pokemon_Adverse)
         print(f"{Pokemon_Allie.nom} utilise {Attaque.Nom}")
         print(Degats, Efficacite)
         
@@ -442,12 +454,13 @@ class InterfaceCombat(object):
         
         #On calcule les dégats de l'attaque du pokemon ennemi sur le pokemon allié
         Attaque = Attaques_Ennemies[Attq_Select]
-        Degats, Efficacite = Attaque.Degats(self.Pokemon_Adverse,Pokemon_Allie)
+        Degats, Efficacite, Critique = Attaque.Degats(self.Pokemon_Adverse,Pokemon_Allie)
         print(f"{self.Pokemon_Adverse.nom} utilise {Attaques_Ennemies[Attq_Select].Nom}")
         print(Degats, Efficacite)
         
         #On actualise les PVs de l'adversaire 
         Pokemon_Allie.PV_actuel = Pokemon_Allie.PV_actuel - Degats
+        #S'il est KO on propose le menu de sélection des Pokémons, s'ils sont tous KO -> Fin du combat
         if Pokemon_Allie.PV_actuel < 0:
             Pokemon_Allie.PV_actuel = 0
             self.actualisation_PV("Allie")
@@ -458,11 +471,10 @@ class InterfaceCombat(object):
                 pass
             else:
                 #Proposition de Switch
-                pass
+                self.MainWindow.Menu_Gestion.Menu_Init(self, "KO_Switch", self.Equipe)
+                self.MenuActuel = "Choix"
             
         else:
             self.actualisation_PV("Allie")
         
         return True
-        
-        

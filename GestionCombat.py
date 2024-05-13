@@ -16,7 +16,7 @@ class Equipe:
             self.pokemons.append(Pokemon_6)
             
         self.Pokemon_Lead = self.pokemons[0]
-            
+              
     def permutation(self,Pokemon1,Pokemon2):
         i = self.pokemons.index(Pokemon1)
         j = self.pokemons.index(Pokemon2)
