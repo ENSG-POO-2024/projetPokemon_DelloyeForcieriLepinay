@@ -2,6 +2,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QMovie
 from PyQt5.QtMultimedia import QSound
+from PyQt5 import QtTest
 import numpy as np
 
 class Carte:
@@ -56,6 +57,7 @@ class Carte:
         self.anim.start()
         
     def Warp(self, deltaY, deltaX):
+        #Translate la carte d'un point de départ à un point d'arrivée
         self.anim = QtCore.QPropertyAnimation(self.carte, b'geometry')
         self.anim.setDuration(1)
         rect = self.carte.geometry()
@@ -65,7 +67,20 @@ class Carte:
         print(rect)
         self.anim.setEndValue(rect)
         self.anim.start()
-        
+    
+    def Interaction(self, Sprite, Equipe):
+        #Vérifie si le joueur est à côté d'une case avec laquelle il peut interagir
+        y = Sprite.y
+        x = Sprite.x
+        if (y-1,x) == (89,87) and Sprite.Orientation == "Haut": #Soin dans le Pokémon Center
+            self.Jukebox.JoueBruitage("./Son/Healing.mp3")
+            """
+            * * *                           * * * 
+            * * * LE SON NE MARCHE PAS ICI * * *
+            * * *                           * * *
+            """
+            QtTest.QTest.qWait(400)
+            Equipe.Soin_All()
     
     def hide(self):
         self.carte.hide()
@@ -89,6 +104,9 @@ class Sprite:
         #Définition de l'animation éventuelle.
         self.IsAnimated = False
         self.movie = None
+        
+        #Définition de l'orientation du personnage
+        self.Orientation = "Face"
         
     def hide(self):
         self.Label.hide()

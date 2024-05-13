@@ -29,16 +29,22 @@ class MainWindow(QWidget):
         if self.Menu == "Carte":
             if event.key() == Qt.Key_Up and datetime.now() - self.KeyTime > self.KeyTime_Delta:
                 self.KeyTime, self.Menu = self.Deplacement.move("Derriere")
+                self.SpritePerso.Orientation = "Haut"
             if event.key() == Qt.Key_Down and datetime.now() - self.KeyTime > self.KeyTime_Delta:
                 self.KeyTime, self.Menu = self.Deplacement.move("Devant")
+                self.SpritePerso.Orientation = "Bas"
             if event.key() == Qt.Key_Right and datetime.now() - self.KeyTime > self.KeyTime_Delta:
                 self.KeyTime, self.Menu = self.Deplacement.move("Droite")
+                self.SpritePerso.Orientation = "Droite"
             if event.key() == Qt.Key_Left and datetime.now() - self.KeyTime > self.KeyTime_Delta:
                 self.KeyTime, self.Menu = self.Deplacement.move("Gauche")
+                self.SpritePerso.Orientation = "Gauche"
             if event.key() == Qt.Key_Enter:
                 self.Menu = "Menu_Chgmt_Pokémon"
                 self.Menu_Gestion.Menu_Init(self.map, "Carte", self.Equipe)
                 #Entrer dans le menu pour switcher de pokemon
+            if event.key() == Qt.Key_Space:
+                self.map.Interaction(self.SpritePerso, self.Equipe)
                 
         elif self.Menu == "Combat": 
             if self.UICombat.MenuActuel != "Switch":
