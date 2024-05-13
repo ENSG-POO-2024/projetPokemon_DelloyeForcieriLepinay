@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import numpy as np
 import random as rd
 from PIL import Image
@@ -71,7 +70,7 @@ class Pokemon():
 class Pokedex():
     def __init__(self):
         #Import du tableau
-        self.pokedex = np.genfromtxt("./data/pokemon_1ere_gen.csv", delimiter=',', dtype=str, skip_header=1, encoding='bytes')
+        self.pokedex = np.genfromtxt("./data/pokemon_1ere_gen.csv", delimiter=',', dtype=str, skip_header=1, encoding='latin1')
         #Initialisation de la future colonne movepool
         lon = len(self.pokedex)
         movepool=[[] for i in range(lon)]
@@ -259,14 +258,16 @@ class Attaque():
                 
             CM = CM*Multiplicateur
             
+            Critique = ""
             #Gestion des coups critiques
             if rd.randint(1,16) == 16:
-                print("Coup critique")
+                Critique = "Coup critique"
                 CM = CM*1.5
+                
             
             Degats = (42*(Atq1/Def2)*Pui/50 + 2)
             
-            return int(Degats*CM), Efficace
+            return int(Degats*CM), Efficace, Critique
         
       
 if __name__ == "__main__":
