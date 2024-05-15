@@ -435,7 +435,7 @@ class InterfaceCombat(Interface):
             #S'il n'y en a pas, on le stocke dans le PC.
             else:
                 #On soigne tout pokémon envoyé au PC
-                self.Pokemon_Adverse.Soin
+                self.Pokemon_Adverse.Soin()
                 #Puis on l'envoie au PC
                 self.PC.append(copy.copy(self.Pokemon_Adverse))
                 self.BoiteDialogue.setPlainText(f"Bravo ! Vous avez capturé un {self.Pokemon_Adverse.nom} sauvage ! Il a été envoyé dans votre PC.")
