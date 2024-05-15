@@ -41,6 +41,7 @@ class Menu_Gestion(object):
         self.pushButton.clicked.connect(self.retour)
         self.MenuPrecedent = MainWindow
         self.Intitule_Menu_Precedent = ""
+        self.AChangerDePoke = False
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -65,6 +66,7 @@ class Menu_Gestion(object):
     def Menu_Init(self,Menu_Precedent,Intitule_Menu_Precedent,Equipe):
         self.Menu_Precedent = Menu_Precedent
         self.Intitule_Menu_Precedent = Intitule_Menu_Precedent
+        self.listWidget.clear()
         Menu_Precedent.hide()
         for Pokemon in Equipe:
             item = QtWidgets.QListWidgetItem()
@@ -88,6 +90,7 @@ class Menu_Gestion(object):
             self.Equipe.permutation(self.Equipe[0], self.Equipe[Index])
             self.listWidget.clear()
             self.Menu_Init(self.MainWindow.map, self.Intitule_Menu_Precedent, self.Equipe)
+            self.AChangerDePoke = True
             if self.Intitule_Menu_Precedent == "KO_Switch":
                 self.pushButton.show()
                 
@@ -101,12 +104,13 @@ class Menu_Gestion(object):
             self.__init__(self.MainWindow)
         elif self.Intitule_Menu_Precedent == "Combat":
             self.MainWindow.Menu = "Combat"
-            Combat = self.MainWindow.UICombat 
+            Combat = self.MainWindow.UICombat
             Combat.Init_Combat(self.Equipe, Combat.Pokemon_Adverse)
             Combat.show()
             self.hide()
-            self.__init__(self.MainWindow)
-            Combat.Tour_de_jeu(-1)
+            if self.AChangerDePoke == True:
+                Combat.Tour_de_jeu(-1)
+                self.AChangerDePoke = False
         elif self.Intitule_Menu_Precedent == "KO_Switch":
             self.MainWindow.Menu = "Combat"
             Combat = self.MainWindow.UICombat 

@@ -7,6 +7,7 @@ import numpy as np
 
 class Carte:
     def __init__(self,MainWindow,MapPath):
+        self.MainWindow = MainWindow
         #Initialisation de la carte d'un point de vue graphique
         self.carte = QtWidgets.QLabel(MainWindow)
         self.carte.setGeometry(QtCore.QRect(-670, -226, 4800, 4800))
@@ -21,6 +22,7 @@ class Carte:
         #Jukebox
         self.Jukebox = MainWindow.Jukebox
         self.BumpSound = QSound("./Son/Bump.wav")
+        self.Healing = QSound("./Son/Healing.wav")
         
     def Glissement(self,Direction,Sprite):
         self.anim = QtCore.QPropertyAnimation(self.carte, b'geometry')
@@ -29,25 +31,25 @@ class Carte:
         self.anim.setStartValue(rect)
         
         if Direction == "Derriere":
-            if self.matrice_dalle[Sprite.y-1, Sprite.x] != 0:
+            if self.matrice_dalle[Sprite.y-1, Sprite.x] != 0 and self.matrice_dalle[Sprite.y-1, Sprite.x] not in [51,52,101,102]:
                 Sprite.x, Sprite.y = Sprite.x, Sprite.y-1
                 rect.translate(0,48)
             else:
                 self.BumpSound.play()
         elif Direction == "Devant":
-            if self.matrice_dalle[Sprite.y+1, Sprite.x] != 0:
+            if self.matrice_dalle[Sprite.y+1, Sprite.x] != 0 and self.matrice_dalle[Sprite.y+1, Sprite.x] not in [51,52,101,102]:
                 Sprite.x, Sprite.y = Sprite.x, Sprite.y+1
                 rect.translate(0,-48)
             else:
                 self.BumpSound.play()
         elif Direction == "Gauche":
-            if self.matrice_dalle[Sprite.y, Sprite.x-1] != 0:
+            if self.matrice_dalle[Sprite.y, Sprite.x-1] != 0 and self.matrice_dalle[Sprite.y, Sprite.x-1] not in [51,52,101,102]:
                 Sprite.x, Sprite.y = Sprite.x-1, Sprite.y
                 rect.translate(48,0)
             else:
                 self.BumpSound.play()
         elif Direction == "Droite":
-            if self.matrice_dalle[Sprite.y, Sprite.x+1] != 0:
+            if self.matrice_dalle[Sprite.y, Sprite.x+1] != 0 and self.matrice_dalle[Sprite.y, Sprite.x+1] not in [51,52,101,102]:
                 Sprite.x, Sprite.y = Sprite.x+1, Sprite.y
                 rect.translate(-48,0)
             else:
@@ -73,13 +75,10 @@ class Carte:
         y = Sprite.y
         x = Sprite.x
         if (y-1,x) == (89,87) and Sprite.Orientation == "Haut": #Soin dans le Pokémon Center
-            self.Jukebox.JoueBruitage("./Son/Healing.mp3")
-            """
-            * * *                           * * * 
-            * * * LE SON NE MARCHE PAS ICI * * *
-            * * *                           * * *
-            """
-            QtTest.QTest.qWait(400)
+            self.Healing.play()
+            self.MainWindow.Menu = "Healing"
+            QtTest.QTest.qWait(4000)
+            self.MainWindow.Menu = "Carte"
             Equipe.Soin_All()
     
     def hide(self):

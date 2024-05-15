@@ -152,8 +152,8 @@ class InterfaceCombat(object):
         self.Fleche_4.setObjectName("Fleche_4")
         
         #Puis une boîte de dialogue qui servira à donner des informations au joueur (Efficacité de l'attaque...etc)
-        self.BoiteDialogue = QtWidgets.QTextBrowser(MainWindow)
-        self.BoiteDialogue.setGeometry(QtCore.QRect(10, 340, 481, 41))
+        self.BoiteDialogue = QtWidgets.QTextEdit(MainWindow)
+        self.BoiteDialogue.setGeometry(QtCore.QRect(0, 340, 481, 41))
         self.BoiteDialogue.setObjectName("BoiteDialogue")
         
         self.retranslateUi(MainWindow)
@@ -294,7 +294,7 @@ class InterfaceCombat(object):
                 
                 
                 
-        #Si on est dans le menu attauque, on lance un Tour de jeu avec comme argument le numéro de l'attaque choisie. 
+        #Si on est dans le menu attaque, on lance un Tour de jeu avec comme argument le numéro de l'attaque choisie. 
         if self.MenuActuel == "Attaque":
             if self.position_fleche == ("Haut","Gauche"):
                 self.Tour_de_jeu(0)
@@ -405,6 +405,8 @@ class InterfaceCombat(object):
         Pokemon_Allie = self.Equipe[0]
         Attaque = Pokemon_Allie.Movepool[Num_Attaque]
         Degats, Efficacite, Critique = Attaque.Degats(Pokemon_Allie,self.Pokemon_Adverse)
+        self.BoiteDialogue.setPlainText(f"{Pokemon_Allie.nom} utilise {Attaque.Nom}.\n"+ Efficacite + " " + Critique)
+        QtTest.QTest.qWait(2000)
         print(f"{Pokemon_Allie.nom} utilise {Attaque.Nom}")
         print(Degats, Efficacite)
         
@@ -415,22 +417,19 @@ class InterfaceCombat(object):
         if self.Pokemon_Adverse.PV_actuel < 0:
             self.Pokemon_Adverse.PV_actuel = 0
             self.actualisation_PV("Ennemi")
-            
             #On le capture s'il y a de la place dans l'équipe, on le rajoute
             if len(self.Equipe)<6:
                 self.Equipe.append(copy.copy(self.Pokemon_Adverse))
+                self.BoiteDialogue.setPlainText(f"Bravo ! Vous avez capturé un {self.Pokemon_Adverse.nom} sauvage ! Il a été envoyé dans votre équipe.")
             #S'il n'y en a pas, on le stocke dans le PC.
             else:
                 #On soigne tout pokémon envoyé au PC
                 self.Pokemon_Adverse.Soin
                 #Puis on l'envoie au PC
                 self.PC.append(copy.copy(self.Pokemon_Adverse))
-            
-            #Print pour tester si la capture marche bien
-            print([self.Equipe.pokemons[i].nom for i in range(len(self.Equipe))])
-            print(self.PC.Boite)
-            
+                self.BoiteDialogue.setPlainText(f"Bravo ! Vous avez capturé un {self.Pokemon_Adverse.nom} sauvage ! Il a été envoyé dans votre PC.")
             #Fin du combat
+            QtTest.QTest.qWait(2000)
             self.hide()
             self.MainWindow.Menu = "Carte"
             self.MainWindow.map.show()
@@ -455,6 +454,8 @@ class InterfaceCombat(object):
         #On calcule les dégats de l'attaque du pokemon ennemi sur le pokemon allié
         Attaque = Attaques_Ennemies[Attq_Select]
         Degats, Efficacite, Critique = Attaque.Degats(self.Pokemon_Adverse,Pokemon_Allie)
+        self.BoiteDialogue.setPlainText(f"{self.Pokemon_Adverse.nom} utilise {Attaques_Ennemies[Attq_Select].Nom}\n"+ Efficacite + " " + Critique)
+        QtTest.QTest.qWait(2000)
         print(f"{self.Pokemon_Adverse.nom} utilise {Attaques_Ennemies[Attq_Select].Nom}")
         print(Degats, Efficacite)
         
@@ -468,13 +469,16 @@ class InterfaceCombat(object):
             #Le pokemon est KO, on doit tester s'il existe encore un membre de l'équipe encore vivant :
             if self.Equipe.All_KO():
                 #GameOver
-                pass
+                self.BoiteDialogue.setPlainText("Tous vos pokémons sont hors d'état de combattre ! Vous fuyez vers le centre Pokémon le plus proche")
+                QtTest.QTest.qWait(2000)
+                self.Equipe.Soin_All()
             else:
                 #Proposition de Switch
                 self.MainWindow.Menu_Gestion.Menu_Init(self, "KO_Switch", self.Equipe)
                 self.MenuActuel = "Choix"
+                
+            return False
             
         else:
             self.actualisation_PV("Allie")
-        
-        return True
+            return True

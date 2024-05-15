@@ -55,7 +55,7 @@ class Deplacement():
         
         #Déplacements avec les portes
         if Case_Actuelle == 100:
-            QtTest.QTest.qWait(1000)
+            QtTest.QTest.qWait(500)
             self.Porte(self.Sprite.y, self.Sprite.x)
         
         
