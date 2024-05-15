@@ -38,6 +38,9 @@ class Menu_PC(Interface):
         self.Ajouter.setText(_translate("Form", "<- Ajouter"))
         self.Deposer.setText(_translate("Form", "Déposer ->"))
         
+    def Init_PC(self):
+        
+        
     def Ajout(self):
         pass
     

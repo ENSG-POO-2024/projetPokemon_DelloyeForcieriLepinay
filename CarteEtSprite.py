@@ -24,6 +24,7 @@ class Carte(Interface):
         #Son
         self.BumpSound = QSound("./Son/Bump.wav")
         self.Healing = QSound("./Son/Healing.wav")
+        self.PCSound = QSound("./Son/PC.wav")
         
     def Glissement(self,Direction,Sprite):
         self.anim = QtCore.QPropertyAnimation(self.carte, b'geometry')
@@ -78,12 +79,23 @@ class Carte(Interface):
             QtTest.QTest.qWait(4000)
             self.MainWindow.Menu = "Carte"
             Equipe.Soin_All()
-    
+            
+        if (y-1,x) == (87,91) and Sprite.Orientation == "Haut": #On parle au PC
+            self.MainWindow.Menu = "PC"
+            self.PCSound.play()
+            QtTest.QTest.qWait(1000)
+            self.hide()
+            
+            self.MainWindow.Menu_PC.show()
+            
+            
     def hide(self):
         self.carte.hide()
+        self.Sprite.hide()
         
     def show(self):
         self.carte.show()
+        
         
 class Sprite:
     def __init__(self,MainWindow,SpritePath, X, Y, larg, haut, nom):
