@@ -152,7 +152,7 @@ class InterfaceCombat(Interface):
         
         #Puis une boîte de dialogue qui servira à donner des informations au joueur (Efficacité de l'attaque...etc)
         self.BoiteDialogue = QtWidgets.QTextEdit(MainWindow)
-        self.BoiteDialogue.setGeometry(QtCore.QRect(0, 340, 481, 41))
+        self.BoiteDialogue.setGeometry(QtCore.QRect(10, 340, 481, 41))
         self.BoiteDialogue.setObjectName("BoiteDialogue")
         
         self.retranslateUi(MainWindow)
@@ -162,8 +162,8 @@ class InterfaceCombat(Interface):
         self.Nom_PokeAllie.setText(_translate("UICombat", "Caratroc"))
         self.Nom_PokeEnnemi.setText(_translate("UICombat", "Caratroc"))
         self.Choix_1.setText(_translate("UICombat", "Attaque"))
-        self.Choix_2.setText(_translate("UICombat", "Switch"))
-        self.Choix_3.setText(_translate("UICombat", "Capture"))
+        self.Choix_2.setText(_translate("UICombat", "Changement"))
+        self.Choix_3.setText(_translate("UICombat", "Potion"))
         self.Choix_4.setText(_translate("UICombat", "Fuite"))
         self.Fleche_1.setText(_translate("UICombat", "▶"))
         self.Fleche_2.setText(_translate("UICombat", "▶"))
@@ -287,9 +287,19 @@ class InterfaceCombat(Interface):
                 self.MenuActuel = "Attaque"
                 return 0
             
-            #Si on sélectionne l'option Switch, on affiche le menu de gestion d'équipe
+            #Si on sélectionne l'option Changement, on affiche le menu de gestion d'équipe
             if self.position_fleche == ("Haut","Droite"):
                 self.MainWindow.Menu_Gestion.Menu_Init(self, "Combat", self.Equipe)
+                
+            #Si on sélectionne l'option Potion, soigne 150PV au pokémon actif mais le pokémon adverse joue
+            if self.position_fleche == ("Bas", "Gauche"):
+                self.Equipe[0].PV_actuel += 150
+                if self.Equipe[0].PV_actuel > self.Equipe[0].Stats[0]:
+                    self.Equipe[0].PV_actuel = self.Equipe[0].Stats[0]
+                self.actualisation_PV("Allie")
+                self.BoiteDialogue.setPlainText("Le dresseur utilise une hyper potion.")
+                QtTest.QTest.qWait(2000)
+                self.Tour_de_jeu(-1)
                 
                 
                 
@@ -312,7 +322,7 @@ class InterfaceCombat(Interface):
         if self.MenuActuel == "Attaque":
             self.Choix_1.setText("Attaque")
             self.Choix_2.setText("Switch")
-            self.Choix_3.setText("Capture")
+            self.Choix_3.setText("Potion")
             self.Choix_4.setText("Fuite")
             self.MenuActuel = "Choix"
 
@@ -332,8 +342,8 @@ class InterfaceCombat(Interface):
         self.Fleche_4.hide()
         self.position_fleche = "Haut","Gauche" 
         self.Choix_1.setText("Attaque")
-        self.Choix_2.setText("Switch")
-        self.Choix_3.setText("Capture")
+        self.Choix_2.setText("Changement")
+        self.Choix_3.setText("Potion")
         self.Choix_4.setText("Fuite")
         self.BoiteDialogue.setPlainText("")
         self.MenuActuel = "Choix"

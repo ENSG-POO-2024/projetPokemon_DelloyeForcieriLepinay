@@ -77,9 +77,10 @@ class Menu_PC(Interface):
             self.Init_PC()
     
     def Depot(self):
-        #S'il n'y a qu'un pokemon sélectioné dans le PC et que l'équipe n'est pas pleine. On l'ajoute à notre équipe.
+        #Si on a plus d'un pokémon, on peut le dépose, il est alors ajouté au PC, et soigné au passage.
         if len(self.MenuEquipe.selectedItems()) and len(self.Equipe)>1:
             Index = self.MenuEquipe.currentRow()
+            self.Equipe[Index].Soin()
             self.PC.append(self.Equipe[Index])
             self.Equipe.remove(self.Equipe[Index])
             self.Init_PC()
