@@ -41,6 +41,7 @@ class Pokemon():
         if info[15] != "":
             self.Movepool.append(info[15])              #Move type 2 (si existe)
         self.PV_actuel = self.Stats[0]
+        self.legendaire = (info[12] == "True")
         
     def Sprite(self, Direction):
         
@@ -288,6 +289,7 @@ if __name__ == "__main__":
     P1.FromID(1)
     print(P1.nom)
     print(P1.Movepool[0].Nom)
+    print(P1.legendaire)
     Pokedex_A = Pokedex()
     print(Pokedex_A.pokedex[120][13].Nom)
     
