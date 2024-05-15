@@ -17,7 +17,7 @@ class Menu_PC(Interface):
         self.MenuEquipe = QtWidgets.QListWidget(MainWindow)
         self.MenuEquipe.setGeometry(QtCore.QRect(10, 10, 181, 471))
         self.MenuEquipe.setObjectName("MenuEquipe")
-        self.MenuPC = QtWidgets.QListView(MainWindow)
+        self.MenuPC = QtWidgets.QListWidget(MainWindow)
         self.MenuPC.setGeometry(QtCore.QRect(320, 10, 171, 471))
         self.MenuPC.setObjectName("MenuPC")
         self.Ajouter = QtWidgets.QPushButton(MainWindow)
@@ -35,17 +35,54 @@ class Menu_PC(Interface):
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        self.Ajouter.setText(_translate("Form", "<- Ajouter"))
-        self.Deposer.setText(_translate("Form", "Déposer ->"))
+        self.Ajouter.setText(_translate("PyQTmon", "<- Ajouter"))
+        self.Deposer.setText(_translate("PyQTmon", "Déposer ->"))
         
     def Init_PC(self):
-        
+        self.MenuEquipe.clear()
+        self.MenuPC.clear()
+        for Pokemon in self.Equipe:
+            item = QtWidgets.QListWidgetItem()
+            font = QtGui.QFont()
+            font.setPointSize(14)
+            item.setFont(font)
+            icon = QtGui.QIcon()
+            Path_Mini = Pokemon.Sprite("mini")
+            icon.addPixmap(QtGui.QPixmap(Path_Mini), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            item.setIcon(icon)
+            _translate = QtCore.QCoreApplication.translate
+            item.setText(_translate("PyQTmon", f"{Pokemon.nom}"))
+            self.MenuEquipe.addItem(item)
+        for Pokemon in self.PC:
+            item = QtWidgets.QListWidgetItem()
+            font = QtGui.QFont()
+            font.setPointSize(14)
+            item.setFont(font)
+            icon = QtGui.QIcon()
+            Path_Mini = Pokemon.Sprite("mini")
+            icon.addPixmap(QtGui.QPixmap(Path_Mini), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            item.setIcon(icon)
+            _translate = QtCore.QCoreApplication.translate
+            item.setText(_translate("PyQTmon", f"{Pokemon.nom}"))
+            self.MenuPC.addItem(item)
+            
+        self.show()
         
     def Ajout(self):
-        pass
+        #S'il n'y a qu'un pokemon sélectioné dans le PC et que l'équipe n'est pas pleine. On l'ajoute à notre équipe.
+        if len(self.MenuPC.selectedItems()) == 1 and len(self.Equipe)<6:
+            Index = self.MenuPC.currentRow()
+            self.Equipe.append(self.PC[Index])
+            self.PC.remove(self.PC[Index])
+            self.Init_PC()
     
     def Depot(self):
-        pass
+        #S'il n'y a qu'un pokemon sélectioné dans le PC et que l'équipe n'est pas pleine. On l'ajoute à notre équipe.
+        if len(self.MenuEquipe.selectedItems()) and len(self.Equipe)>1:
+            Index = self.MenuEquipe.currentRow()
+            self.PC.append(self.Equipe[Index])
+            self.Equipe.remove(self.Equipe[Index])
+            self.Init_PC()
 
     def hide(self):
         self.MenuEquipe.hide()

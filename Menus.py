@@ -44,13 +44,13 @@ class Menu_Gestion(Interface):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("Form", "Form"))
+        MainWindow.setWindowTitle(_translate("PyQTmon", "PyQTmon"))
         __sortingEnabled = self.listWidget.isSortingEnabled()
         self.listWidget.setSortingEnabled(False)
 
         self.listWidget.setSortingEnabled(__sortingEnabled)
-        self.label.setText(_translate("Form", "Gestion d'équipe"))
-        self.pushButton.setText(_translate("Form", "Retour"))
+        self.label.setText(_translate("PyQTmon", "Gestion d'équipe"))
+        self.pushButton.setText(_translate("PyQTmon", "Retour"))
         
     def show(self):
         self.listWidget.show()
@@ -77,7 +77,7 @@ class Menu_Gestion(Interface):
             icon.addPixmap(QtGui.QPixmap(Path_Mini), QtGui.QIcon.Normal, QtGui.QIcon.Off)
             item.setIcon(icon)
             _translate = QtCore.QCoreApplication.translate
-            item.setText(_translate("Form", f"{Pokemon.nom} ({int(Pokemon.PV_actuel)}/{int(Pokemon.Stats[0])}) PV"))
+            item.setText(_translate("PyQTmon", f"{Pokemon.nom} ({int(Pokemon.PV_actuel)}/{int(Pokemon.Stats[0])}) PV"))
             self.listWidget.addItem(item)
         self.show()
         if self.Intitule_Menu_Precedent == "KO_Switch":
@@ -99,6 +99,7 @@ class Menu_Gestion(Interface):
             self.MainWindow.Menu = "Carte"
             Carte = self.MainWindow.map
             Carte.show()
+            self.Sprite.show()
             self.hide()
             self.__init__(self.MainWindow)
         elif self.Intitule_Menu_Precedent == "Combat":

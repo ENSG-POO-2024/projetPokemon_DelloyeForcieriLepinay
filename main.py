@@ -63,6 +63,13 @@ class MainWindow(QWidget):
             
             if event.key() == Qt.Key_X:
                 self.UICombat.retour()
+                
+        elif self.Menu == "PC":
+            if event.key() == Qt.Key_X:
+                print(self.Menu)
+                self.Menu_PC.hide()
+                self.map.show()
+                self.Menu = "Carte"
     
     #Lorsqu'on relâche une touche, il faut arrêter l'animation de marche.
     def keyReleaseEvent(self, event):

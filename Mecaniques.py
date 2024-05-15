@@ -15,7 +15,7 @@ class Pokemon():
         self.Stats = [2*Base_Stats[0]+31+252/4+5+100] + [2*Base_Stats[i]+31+252/4+5 for i in range(1,6,1)]
         self.Movepool = Movepool
         self.PV_actuel = self.Stats[0]
-        self.allie = False
+        self.legendaire = False
     
     def IsKO(self):
         #Vérifie si ce pokémon est KO
@@ -41,7 +41,6 @@ class Pokemon():
         if info[15] != "":
             self.Movepool.append(info[15])              #Move type 2 (si existe)
         self.PV_actuel = self.Stats[0]
-        self.allie = False
         
     def Sprite(self, Direction):
         
@@ -82,18 +81,18 @@ class Pokedex():
             att = int(pokemon[6])
             attsp = int(pokemon[8])
             if att > attsp:
-                movepool[i].append(Attaque(f"{type1}_P", "Physique", 80, type1, 100))
+                movepool[i].append(Attaque(f"{type1} Physique", "Physique", 80, type1, 100))
             elif att <= attsp:
-                movepool[i].append(Attaque(f"{type1}_S", "Speciale", 80, type1, 100))
+                movepool[i].append(Attaque(f"{type1} Spécial", "Speciale", 80, type1, 100))
             #attaque normale
             movepool[i].append(Attaque("Charge", "Physique", 80, "Normal", 100))
             #type 2
             if pokemon[3] != "":
                 type2 = pokemon[3]
                 if att > attsp:
-                    movepool[i].append(Attaque(f"{type2}_P", "Physique", 80, type2, 100))
+                    movepool[i].append(Attaque(f"{type2} Physique", "Physique", 80, type2, 100))
                 elif att <= attsp:
-                    movepool[i].append(Attaque(f"{type2}_S", "Speciale", 80, type2, 100))
+                    movepool[i].append(Attaque(f"{type2} Spécial", "Speciale", 80, type2, 100))
             else:
                 movepool[i].append('')
         Move_Col = np.array(movepool)
@@ -195,8 +194,6 @@ class ZoneRencontre():
         Wild_Poke.FromID(rd.choice(self.Liste_Poke))
         return Wild_Poke
             
-
-
 
 class Table_Type():
     def __init__(self):

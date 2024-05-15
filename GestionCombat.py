@@ -57,6 +57,9 @@ class Equipe:
     
     def __len__(self):
         return len(self.pokemons)
+
+    def remove(self,value):
+        self.pokemons.remove(value)
     
 class PC:
     def __init__(self,Liste_Pokemon_PC=[]):
@@ -70,6 +73,9 @@ class PC:
     
     def __setitem__(self, index, valeur):
         self.Boite[index] = valeur
+        
+    def remove(self,value):
+        self.Boite.remove(value)
     
 if __name__ == '__main__':
     E = Equipe(Pokemon())

@@ -2,6 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5 import QtTest
 from Mecaniques import *
 from Interface import Interface
+from PyQt5.QtMultimedia import QSound
 import copy
 
 
@@ -256,7 +257,7 @@ class InterfaceCombat(Interface):
                 self.MainWindow.Menu = "Carte"
                 self.MainWindow.map.show()
                 self.Sprite.show()
-                self.Jukebox.ChangeDeMusique("./Son/Route1.wav")
+                self.Jukebox.ChangeDeMusique(self.Jukebox.MusiqueDeZone)
             
             
             #Haut-Gauche = Menu d'attaque -> On réinitialise chaque choix avec le nom des attaques, s'il existe (Sinon on laisse vide)
@@ -434,7 +435,7 @@ class InterfaceCombat(Interface):
             self.MainWindow.Menu = "Carte"
             self.MainWindow.map.show()
             self.Sprite.show()
-            self.Jukebox.ChangeDeMusique("./Son/Route1.wav")
+            self.Jukebox.ChangeDeMusique(self.Jukebox.MusiqueDeZone)
             
             return False
         
@@ -471,7 +472,21 @@ class InterfaceCombat(Interface):
                 #GameOver
                 self.BoiteDialogue.setPlainText("Tous vos pokémons sont hors d'état de combattre ! Vous fuyez vers le centre Pokémon le plus proche")
                 QtTest.QTest.qWait(2000)
+                
+                #On cherche le delta avec le centre pokémon, on téléporte là-bas, et on soigne l'équipe
+                X_PC, Y_PC = (87,90)
+                delta_x, delta_y = X_PC - self.Sprite.x, Y_PC - self.Sprite.y
+                self.MainWindow.map.Warp(delta_y, delta_x)
+                self.MainWindow.Menu = "Dummy"
+                self.hide()
+                self.MainWindow.map.show()
                 self.Equipe.Soin_All()
+                self.Jukebox.ChangeDeMusique(self.Jukebox.MusiqueDeZone)
+                self.MainWindow.map.Healing.play()
+                self.Sprite.Changement_Sprite("./Animation/Marche/Derriere_repos.png")
+                QtTest.QTest.qWait(4000)
+                self.MainWindow.Menu = "Carte"
+                
             else:
                 #Proposition de Switch
                 self.MainWindow.Menu_Gestion.Menu_Init(self, "KO_Switch", self.Equipe)

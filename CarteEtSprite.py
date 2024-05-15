@@ -63,13 +63,15 @@ class Carte(Interface):
         self.anim.start()
         
     def Warp(self, deltaY, deltaX):
-        self.Menu = "Dummy"
+        self.MainWindow.Menu = "Dummy"
         #Translate la carte d'un point de départ à un point d'arrivée
         rect = self.carte.geometry()
         rect.translate(-deltaX*48, -deltaY*48)
+        self.Sprite.y += deltaY
+        self.Sprite.x += deltaX
         self.carte.setGeometry(rect)
-        QtTest.QTest.qWait(1000)
-        self.Menu = "Carte"
+        QtTest.QTest.qWait(200)
+        self.MainWindow.Menu = "Carte"
     
     def Interaction(self, Sprite, Equipe):
         #Vérifie si le joueur est à côté d'une case avec laquelle il peut interagir
@@ -82,67 +84,35 @@ class Carte(Interface):
             self.MainWindow.Menu = "Carte"
             Equipe.Soin_All()
             
-        elif (y-1,x) == (87,91) and Sprite.Orientation == "Devant": #On parle au PC
+        if (y-1,x) == (87,91) and Sprite.Orientation == "Derriere": #On parle au PC
             self.MainWindow.Menu = "PC"
             self.PCSound.play()
             QtTest.QTest.qWait(1000)
             self.hide()
-            
-            self.MainWindow.Menu_PC.show()
+            self.MainWindow.Menu_PC.Init_PC()
         
         #Pêche
-        elif (self.matrice_dalle[Sprite.y, Sprite.x-1] == 52 or self.matrice_dalle[Sprite.y, Sprite.x-1] ==51) and Sprite.Orientation == "Gauche":
+        Peche = False
+        if (self.matrice_dalle[Sprite.y, Sprite.x-1] == 52 or self.matrice_dalle[Sprite.y, Sprite.x-1] ==51) and Sprite.Orientation == "Gauche":
             PokeRencontre = ZoneRencontre(self.matrice_dalle[Sprite.y, Sprite.x-1]).Random_Poke()
             Direction = Sprite.Orientation
-            self.Sprite.Changement_Sprite(f"./Animation/Marche/{Direction}_repos.png")
-            self.MainWindow.Menu = "Combat"
-            Tr = Transition(self.MainWindow)
-            self.Jukebox.ChangeDeMusique("./Son/Battle.wav")
-            Tr.start()
-            Tr.show()
-            QtTest.QTest.qWait(1900)
-            self.carte.hide()
-            self.Sprite.hide()
-            self.MainWindow.Menu = self.MainWindow.UICombat.Init_Combat(self.Equipe,PokeRencontre)
-            QtTest.QTest.qWait(900)
-            Tr.hide()
-            Tr.stop()
-        elif (self.matrice_dalle[Sprite.y+1, Sprite.x] == 52 or self.matrice_dalle[Sprite.y+1, Sprite.x] == 51) and Sprite.Orientation == "Devant":
+            Peche = True
+        if (self.matrice_dalle[Sprite.y+1, Sprite.x] == 52 or self.matrice_dalle[Sprite.y+1, Sprite.x] == 51) and Sprite.Orientation == "Devant":
             PokeRencontre = ZoneRencontre(self.matrice_dalle[Sprite.y+1, Sprite.x]).Random_Poke()
             Direction = Sprite.Orientation
-            self.Sprite.Changement_Sprite(f"./Animation/Marche/{Direction}_repos.png")
-            self.MainWindow.Menu = "Combat"
-            Tr = Transition(self.MainWindow)
-            self.Jukebox.ChangeDeMusique("./Son/Battle.wav")
-            Tr.start()
-            Tr.show()
-            QtTest.QTest.qWait(1900)
-            self.carte.hide()
-            self.Sprite.hide()
-            self.MainWindow.Menu = self.MainWindow.UICombat.Init_Combat(self.Equipe,PokeRencontre)
-            QtTest.QTest.qWait(900)
-            Tr.hide()
-            Tr.stop()
-        elif (self.matrice_dalle[Sprite.y, Sprite.x+1] == 52 or self.matrice_dalle[Sprite.y, Sprite.x+1] == 51) and Sprite.Orientation == "Droite":
+            Peche = True
+        if (self.matrice_dalle[Sprite.y, Sprite.x+1] == 52 or self.matrice_dalle[Sprite.y, Sprite.x+1] == 51) and Sprite.Orientation == "Droite":
             PokeRencontre = ZoneRencontre(self.matrice_dalle[Sprite.y, Sprite.x+1]).Random_Poke()
             Direction = Sprite.Orientation
-            self.Sprite.Changement_Sprite(f"./Animation/Marche/{Direction}_repos.png")
-            self.MainWindow.Menu = "Combat"
-            Tr = Transition(self.MainWindow)
-            self.Jukebox.ChangeDeMusique("./Son/Battle.wav")
-            Tr.start()
-            Tr.show()
-            QtTest.QTest.qWait(1900)
-            self.carte.hide()
-            self.Sprite.hide()
-            self.MainWindow.Menu = self.MainWindow.UICombat.Init_Combat(self.Equipe,PokeRencontre)
-            QtTest.QTest.qWait(900)
-            Tr.hide()
-            Tr.stop()
-        elif (self.matrice_dalle[Sprite.y-1, Sprite.x] == 52 or self.matrice_dalle[Sprite.y-1, Sprite.x] == 51) and Sprite.Orientation == "Derriere":
+            Peche = True
+        if (self.matrice_dalle[Sprite.y-1, Sprite.x] == 52 or self.matrice_dalle[Sprite.y-1, Sprite.x] == 51) and Sprite.Orientation == "Derriere":
             PokeRencontre = ZoneRencontre(self.matrice_dalle[Sprite.y-1, Sprite.x]).Random_Poke()
             Direction = Sprite.Orientation
-            self.Sprite.Changement_Sprite(f"./Animation/Marche/{Direction}_repos.png")
+            Peche = True    
+        if Peche:
+            self.Sprite.Animation_Peche(Direction)
+            self.MainWindow.Menu = "Dummy"
+            QtTest.QTest.qWait(1000)
             self.MainWindow.Menu = "Combat"
             Tr = Transition(self.MainWindow)
             self.Jukebox.ChangeDeMusique("./Son/Battle.wav")
@@ -153,9 +123,9 @@ class Carte(Interface):
             self.Sprite.hide()
             self.MainWindow.Menu = self.MainWindow.UICombat.Init_Combat(self.Equipe,PokeRencontre)
             QtTest.QTest.qWait(900)
+            self.Sprite.Fin_Animation_Peche(Direction)
             Tr.hide()
             Tr.stop()
-            
             
     def hide(self):
         self.carte.hide()
@@ -163,6 +133,7 @@ class Carte(Interface):
         
     def show(self):
         self.carte.show()
+        self.Sprite.show()
         
         
 class Sprite:
@@ -198,6 +169,33 @@ class Sprite:
         self.Label.setMovie(self.movie)
         self.movie.start()
         self.IsAnimated = True
+        
+    def Animation_Peche(self,Direction):
+        self.movie = QMovie(f"./Animation/Peche/{Direction}.gif")
+        rect = self.Label.geometry()
+        rect.setHeight(96)
+        rect.setWidth(96)
+        if Direction == "Devant" or Direction == "Derriere":
+            rect.translate(-25,-20)
+        if Direction == "Droite" or Direction == "Gauche":
+            rect.translate(-25,-40)
+        self.Label.setGeometry(rect)
+        self.Label.setMovie(self.movie)
+        self.movie.start()
+        self.IsAnimated = True
+        
+    def Fin_Animation_Peche(self,Direction):
+        self.movie.stop()
+        rect = self.Label.geometry()
+        rect.setHeight(57)
+        rect.setWidth(45)
+        self.Changement_Sprite(f"./Animation/Marche/{Direction}_repos.png")
+        if Direction == "Devant" or Direction == "Derriere":
+            rect.translate(25,20)
+        if Direction == "Droite" or Direction == "Gauche":
+            rect.translate(25,40)
+        self.Label.setGeometry(rect)
+        self.IsAnimated = False
         
     def hide(self):
         self.Label.hide()

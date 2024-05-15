@@ -35,9 +35,6 @@ class Deplacement():
                 
                 PokeRencontre = ZoneRencontre(Case_Actuelle).Random_Poke()
                 #Poke_Rencontre = Zone.Random_Poke()
-                
-                
-                
                 self.Sprite.Changement_Sprite(f"./Animation/Marche/{Direction}_repos.png")
                 self.MainWindow.Menu = "Combat"
                 Tr = Transition(self.MainWindow)
@@ -69,9 +66,6 @@ class Deplacement():
         (Y_sortie,X_sortie) = Dico_portes[(y,x)]
         deltaY = Y_sortie - y
         deltaX = X_sortie - x
-        self.Sprite.y += deltaY
-        self.Sprite.x += deltaX
-        print(deltaX, deltaY)
         self.Carte.Warp(deltaY, deltaX)
     
         
