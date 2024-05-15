@@ -31,10 +31,10 @@ class MainWindow(QWidget):
         if self.Menu == "Carte":
             if event.key() == Qt.Key_Up and datetime.now() - self.KeyTime > self.KeyTime_Delta:
                 self.KeyTime, self.Menu = self.Deplacement.move("Derriere")
-                self.SpritePerso.Orientation = "Haut"
+                self.SpritePerso.Orientation = "Derriere"
             if event.key() == Qt.Key_Down and datetime.now() - self.KeyTime > self.KeyTime_Delta:
                 self.KeyTime, self.Menu = self.Deplacement.move("Devant")
-                self.SpritePerso.Orientation = "Bas"
+                self.SpritePerso.Orientation = "Devant"
             if event.key() == Qt.Key_Right and datetime.now() - self.KeyTime > self.KeyTime_Delta:
                 self.KeyTime, self.Menu = self.Deplacement.move("Droite")
                 self.SpritePerso.Orientation = "Droite"

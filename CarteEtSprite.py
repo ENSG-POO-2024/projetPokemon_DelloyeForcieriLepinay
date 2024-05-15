@@ -4,6 +4,8 @@ from PyQt5.QtGui import QMovie
 from PyQt5.QtMultimedia import QSound
 from PyQt5 import QtTest
 from Interface import Interface
+from Mecaniques import ZoneRencontre
+from Deplacement import Transition
 import numpy as np
 
 class Carte(Interface):
@@ -73,20 +75,86 @@ class Carte(Interface):
         #Vérifie si le joueur est à côté d'une case avec laquelle il peut interagir
         y = Sprite.y
         x = Sprite.x
-        if (y-1,x) == (89,87) and Sprite.Orientation == "Haut": #Soin dans le Pokémon Center
+        if (y-1,x) == (89,87) and Sprite.Orientation == "Derriere": #Soin dans le Pokémon Center
             self.Healing.play()
             self.MainWindow.Menu = "Healing"
             QtTest.QTest.qWait(4000)
             self.MainWindow.Menu = "Carte"
             Equipe.Soin_All()
             
-        if (y-1,x) == (87,91) and Sprite.Orientation == "Haut": #On parle au PC
+        elif (y-1,x) == (87,91) and Sprite.Orientation == "Devant": #On parle au PC
             self.MainWindow.Menu = "PC"
             self.PCSound.play()
             QtTest.QTest.qWait(1000)
             self.hide()
             
             self.MainWindow.Menu_PC.show()
+        
+        #Pêche
+        elif (self.matrice_dalle[Sprite.y, Sprite.x-1] == 52 or self.matrice_dalle[Sprite.y, Sprite.x-1] ==51) and Sprite.Orientation == "Gauche":
+            PokeRencontre = ZoneRencontre(self.matrice_dalle[Sprite.y, Sprite.x-1]).Random_Poke()
+            Direction = Sprite.Orientation
+            self.Sprite.Changement_Sprite(f"./Animation/Marche/{Direction}_repos.png")
+            self.MainWindow.Menu = "Combat"
+            Tr = Transition(self.MainWindow)
+            self.Jukebox.ChangeDeMusique("./Son/Battle.wav")
+            Tr.start()
+            Tr.show()
+            QtTest.QTest.qWait(1900)
+            self.carte.hide()
+            self.Sprite.hide()
+            self.MainWindow.Menu = self.MainWindow.UICombat.Init_Combat(self.Equipe,PokeRencontre)
+            QtTest.QTest.qWait(900)
+            Tr.hide()
+            Tr.stop()
+        elif (self.matrice_dalle[Sprite.y+1, Sprite.x] == 52 or self.matrice_dalle[Sprite.y+1, Sprite.x] == 51) and Sprite.Orientation == "Devant":
+            PokeRencontre = ZoneRencontre(self.matrice_dalle[Sprite.y+1, Sprite.x]).Random_Poke()
+            Direction = Sprite.Orientation
+            self.Sprite.Changement_Sprite(f"./Animation/Marche/{Direction}_repos.png")
+            self.MainWindow.Menu = "Combat"
+            Tr = Transition(self.MainWindow)
+            self.Jukebox.ChangeDeMusique("./Son/Battle.wav")
+            Tr.start()
+            Tr.show()
+            QtTest.QTest.qWait(1900)
+            self.carte.hide()
+            self.Sprite.hide()
+            self.MainWindow.Menu = self.MainWindow.UICombat.Init_Combat(self.Equipe,PokeRencontre)
+            QtTest.QTest.qWait(900)
+            Tr.hide()
+            Tr.stop()
+        elif (self.matrice_dalle[Sprite.y, Sprite.x+1] == 52 or self.matrice_dalle[Sprite.y, Sprite.x+1] == 51) and Sprite.Orientation == "Droite":
+            PokeRencontre = ZoneRencontre(self.matrice_dalle[Sprite.y, Sprite.x+1]).Random_Poke()
+            Direction = Sprite.Orientation
+            self.Sprite.Changement_Sprite(f"./Animation/Marche/{Direction}_repos.png")
+            self.MainWindow.Menu = "Combat"
+            Tr = Transition(self.MainWindow)
+            self.Jukebox.ChangeDeMusique("./Son/Battle.wav")
+            Tr.start()
+            Tr.show()
+            QtTest.QTest.qWait(1900)
+            self.carte.hide()
+            self.Sprite.hide()
+            self.MainWindow.Menu = self.MainWindow.UICombat.Init_Combat(self.Equipe,PokeRencontre)
+            QtTest.QTest.qWait(900)
+            Tr.hide()
+            Tr.stop()
+        elif (self.matrice_dalle[Sprite.y-1, Sprite.x] == 52 or self.matrice_dalle[Sprite.y-1, Sprite.x] == 51) and Sprite.Orientation == "Derriere":
+            PokeRencontre = ZoneRencontre(self.matrice_dalle[Sprite.y-1, Sprite.x]).Random_Poke()
+            Direction = Sprite.Orientation
+            self.Sprite.Changement_Sprite(f"./Animation/Marche/{Direction}_repos.png")
+            self.MainWindow.Menu = "Combat"
+            Tr = Transition(self.MainWindow)
+            self.Jukebox.ChangeDeMusique("./Son/Battle.wav")
+            Tr.start()
+            Tr.show()
+            QtTest.QTest.qWait(1900)
+            self.carte.hide()
+            self.Sprite.hide()
+            self.MainWindow.Menu = self.MainWindow.UICombat.Init_Combat(self.Equipe,PokeRencontre)
+            QtTest.QTest.qWait(900)
+            Tr.hide()
+            Tr.stop()
             
             
     def hide(self):
@@ -115,7 +183,7 @@ class Sprite:
         self.movie = None
         
         #Définition de l'orientation du personnage
-        self.Orientation = "Face"
+        self.Orientation = "Devant"
         
     def Changement_Sprite(self,Sprite):
         if self.IsAnimated:
