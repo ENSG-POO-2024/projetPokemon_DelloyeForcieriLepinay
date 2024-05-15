@@ -3,13 +3,15 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QMovie
 from PyQt5.QtMultimedia import QSound
 from PyQt5 import QtTest
+from Interface import Interface
 import numpy as np
 
-class Carte:
+class Carte(Interface):
     def __init__(self,MainWindow,MapPath):
-        self.MainWindow = MainWindow
+        super().__init__(MainWindow)
+        
         #Initialisation de la carte d'un point de vue graphique
-        self.carte = QtWidgets.QLabel(MainWindow)
+        self.carte = QtWidgets.QLabel(self.MainWindow)
         self.carte.setGeometry(QtCore.QRect(-670, -226, 4800, 4800))
         self.carte.setText("")
         self.carte.setScaledContents(True)
@@ -19,8 +21,7 @@ class Carte:
         #Initialisation de la carte d'un point de vue matriciel
         self.matrice_dalle = np.genfromtxt("./data/Matrice.csv", delimiter=";")
         
-        #Jukebox
-        self.Jukebox = MainWindow.Jukebox
+        #Son
         self.BumpSound = QSound("./Son/Bump.wav")
         self.Healing = QSound("./Son/Healing.wav")
         
@@ -59,16 +60,13 @@ class Carte:
         self.anim.start()
         
     def Warp(self, deltaY, deltaX):
+        self.Menu = "Dummy"
         #Translate la carte d'un point de départ à un point d'arrivée
-        self.anim = QtCore.QPropertyAnimation(self.carte, b'geometry')
-        self.anim.setDuration(1)
         rect = self.carte.geometry()
-        self.anim.setStartValue(rect)
-        print(rect)
         rect.translate(-deltaX*48, -deltaY*48)
-        print(rect)
-        self.anim.setEndValue(rect)
-        self.anim.start()
+        self.carte.setGeometry(rect)
+        QtTest.QTest.qWait(1000)
+        self.Menu = "Carte"
     
     def Interaction(self, Sprite, Equipe):
         #Vérifie si le joueur est à côté d'une case avec laquelle il peut interagir
@@ -107,12 +105,6 @@ class Sprite:
         #Définition de l'orientation du personnage
         self.Orientation = "Face"
         
-    def hide(self):
-        self.Label.hide()
-        
-    def show(self):
-        self.Label.show()
-        
     def Changement_Sprite(self,Sprite):
         if self.IsAnimated:
             self.movie.stop()
@@ -126,3 +118,9 @@ class Sprite:
         self.Label.setMovie(self.movie)
         self.movie.start()
         self.IsAnimated = True
+        
+    def hide(self):
+        self.Label.hide()
+            
+    def show(self):
+        self.Label.show()

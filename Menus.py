@@ -10,13 +10,12 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QSize
+from Interface import Interface
 
 
-class Menu_Gestion(object):
+class Menu_Gestion(Interface):
     def __init__(self, MainWindow):
-        self.MainWindow = MainWindow
-        self.Equipe = MainWindow.Equipe
-        
+        super().__init__(MainWindow)
         self.listWidget = QtWidgets.QListWidget(MainWindow)
         self.listWidget.setGeometry(QtCore.QRect(30, 50, 441, 431))
         self.listWidget.setObjectName("listWidget")

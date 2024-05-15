@@ -1,23 +1,21 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5 import QtTest
 from Mecaniques import *
+from Interface import Interface
 import copy
 
 
 #Définit tous les composants de l'interface de combat (Assez indigeste) ...
-class InterfaceCombat(object):
+class InterfaceCombat(Interface):
     def __init__(self, MainWindow,Pokemon_Sauvage):
+        super().__init__(MainWindow)
+        
         #On définit les informations relatives au combat
-        self.Equipe = MainWindow.Equipe
-        self.PC = MainWindow.PC
         self.Pokemon_Adverse = Pokemon_Sauvage
         
         #Définition de quelques booléens pour savoir dans quel menu on se situe
         self.position_fleche = "Haut","Gauche" 
         self.MenuActuel = "Choix"
-        
-        #On récupère le nom 
-        self.MainWindow = MainWindow
         
         #On crée une zone de combat (Sprite des pokémons + Barre de PVs + Nom des pokémons)
         self.Zone_Combat = QtWidgets.QFrame(MainWindow)
@@ -257,8 +255,8 @@ class InterfaceCombat(object):
                 self.hide()
                 self.MainWindow.Menu = "Carte"
                 self.MainWindow.map.show()
-                self.MainWindow.SpritePerso.show()
-                self.MainWindow.Jukebox.ChangeDeMusique("./Son/Route1.wav")
+                self.Sprite.show()
+                self.Jukebox.ChangeDeMusique("./Son/Route1.wav")
             
             
             #Haut-Gauche = Menu d'attaque -> On réinitialise chaque choix avec le nom des attaques, s'il existe (Sinon on laisse vide)
@@ -336,6 +334,8 @@ class InterfaceCombat(object):
         self.Choix_2.setText("Switch")
         self.Choix_3.setText("Capture")
         self.Choix_4.setText("Fuite")
+        self.BoiteDialogue.setPlainText("")
+        self.MenuActuel = "Choix"
         
         Pokemon1 = self.Equipe[0]
         
@@ -433,8 +433,8 @@ class InterfaceCombat(object):
             self.hide()
             self.MainWindow.Menu = "Carte"
             self.MainWindow.map.show()
-            self.MainWindow.SpritePerso.show()
-            self.MainWindow.Jukebox.ChangeDeMusique("./Son/Route1.wav")
+            self.Sprite.show()
+            self.Jukebox.ChangeDeMusique("./Son/Route1.wav")
             
             return False
         

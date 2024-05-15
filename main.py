@@ -13,6 +13,8 @@ from Mecaniques import Pokemon
 from GestionCombat import Equipe, PC
 from Gestion_Son import Jukebox
 from Menus import Menu_Gestion
+from PC import Menu_PC
+
 
 
 class MainWindow(QWidget):
@@ -84,25 +86,30 @@ class MainWindow(QWidget):
         #Définition du Jukebox
         self.Jukebox = Jukebox("./Son/Route1.wav")
         
-        #Création de la carte et du sprite du personnage principal
-        self.map = Carte(self,"./Map/carte2.png")
-        self.SpritePerso = Sprite(self,"./Animation/Marche/Devant_repos.png", 243, 240, 45, 57, "Perso_Principal")
-        
-        
         #Création de l'équipe initiale du joueur ainsi que son PC
         Pokemon1, Pokemon2, Pokemon3 = Pokemon(), Pokemon(), Pokemon()
         Pokemon1.FromID(1), Pokemon2.FromID(4), Pokemon3.FromID(7)
-        
         self.Equipe = Equipe(Pokemon2,Pokemon1,Pokemon3)
         self.PC = PC()
         
+        #Variable utile de Gestion des menus 
         self.Menu = "Carte"
+        
+        #Création de la carte et du sprite du personnage principal
+        self.SpritePerso = Sprite(self,"./Animation/Marche/Devant_repos.png", 243, 240, 45, 57, "Perso_Principal")
+        self.map = Carte(self,"./Map/carte2.png")
+        
+        #On met le sprite devant la carte
+        self.SpritePerso.Label.raise_()
+        
+        
         self.UICombat = InterfaceCombat(self,Pokemon())
         self.UICombat.hide()
         self.Deplacement = Deplacement(self)
         self.Menu_Gestion = Menu_Gestion(self)
         self.Menu_Gestion.hide()
-        
+        self.Menu_PC = Menu_PC(self)
+        self.Menu_PC.hide()
         
         
 if __name__ == '__main__':
