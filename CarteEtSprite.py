@@ -4,7 +4,7 @@ from PyQt5.QtGui import QMovie
 from PyQt5.QtMultimedia import QSound
 from PyQt5 import QtTest
 from Interface import Interface
-from Mecaniques import ZoneRencontre
+from Mecaniques import ZoneRencontre, Pokemon
 from Deplacement import Transition
 import numpy as np
 
@@ -21,14 +21,17 @@ class Carte(Interface):
         self.carte.setPixmap(QtGui.QPixmap(MapPath))
         
         #Initialisation de la carte d'un point de vue matriciel
-        self.matrice_dalle = np.genfromtxt("./data/Matrice.csv", delimiter=";")
+        self.matrice_dalle = np.genfromtxt("./data/Matrice2.csv", delimiter=";")
         
         #Son
         self.BumpSound = QSound("./Son/Bump.wav")
         self.Healing = QSound("./Son/Healing.wav")
         self.PCSound = QSound("./Son/PC.wav")
         
-    def Glissement(self,Direction,Sprite):
+        
+        
+        
+    def Glissement(self,Direction,Sprite,Legendaire):
         self.anim = QtCore.QPropertyAnimation(self.carte, b'geometry')
         self.anim.setDuration(50)
         rect = self.carte.geometry()
@@ -40,27 +43,78 @@ class Carte(Interface):
                 rect.translate(0,48)
             else:
                 self.BumpSound.play()
+            if abs(Sprite.y-24) <= 6 and abs(Sprite.x-33) <= 6:
+                Legendaire.show(24-Sprite.y, 33-Sprite.x, 151)
+            elif abs(Sprite.y-8) <= 6 and abs(Sprite.x-70) <= 6:
+                Legendaire.show(8-Sprite.y, 70-Sprite.x, 150)
+            elif abs(Sprite.y-57) <= 6 and abs(Sprite.x-86) <= 6:
+                Legendaire.show(57-Sprite.y, 86-Sprite.x, 146)
+            elif abs(Sprite.y-12) <= 6 and abs(Sprite.x-89) <= 6:
+                Legendaire.show(12-Sprite.y, 89-Sprite.x, 145)
+            elif abs(Sprite.y-64) <= 6 and abs(Sprite.x-12) <= 6:
+                Legendaire.show(64-Sprite.y, 12-Sprite.x, 144)
+            
+            
         elif Direction == "Devant":
             if self.matrice_dalle[Sprite.y+1, Sprite.x] != 0 and self.matrice_dalle[Sprite.y+1, Sprite.x] not in [51,52,101,102]:
                 Sprite.x, Sprite.y = Sprite.x, Sprite.y+1
                 rect.translate(0,-48)
             else:
                 self.BumpSound.play()
+            if abs(Sprite.y-24) <= 6 and abs(Sprite.x-33) <= 6:
+                Legendaire.show(24-Sprite.y, 33-Sprite.x, 151)
+            elif abs(Sprite.y-8) <= 6 and abs(Sprite.x-70) <= 6:
+                Legendaire.show(8-Sprite.y, 70-Sprite.x, 150)
+            elif abs(Sprite.y-57) <= 6 and abs(Sprite.x-86) <= 6:
+                Legendaire.show(57-Sprite.y, 86-Sprite.x, 146)
+            elif abs(Sprite.y-12) <= 6 and abs(Sprite.x-89) <= 6:
+                Legendaire.show(12-Sprite.y, 89-Sprite.x, 145)
+            elif abs(Sprite.y-64) <= 6 and abs(Sprite.x-12) <= 6:
+                Legendaire.show(64-Sprite.y, 12-Sprite.x, 144)
+            
+            
+            
         elif Direction == "Gauche":
             if self.matrice_dalle[Sprite.y, Sprite.x-1] != 0 and self.matrice_dalle[Sprite.y, Sprite.x-1] not in [51,52,101,102]:
                 Sprite.x, Sprite.y = Sprite.x-1, Sprite.y
                 rect.translate(48,0)
             else:
                 self.BumpSound.play()
+            if abs(Sprite.y-24) <= 6 and abs(Sprite.x-33) <= 6:
+                Legendaire.show(24-Sprite.y, 33-Sprite.x, 151)
+            elif abs(Sprite.y-8) <= 6 and abs(Sprite.x-70) <= 6:
+                Legendaire.show(8-Sprite.y, 70-Sprite.x, 150)
+            elif abs(Sprite.y-57) <= 6 and abs(Sprite.x-86) <= 6:
+                Legendaire.show(57-Sprite.y, 86-Sprite.x, 146)
+            elif abs(Sprite.y-12) <= 6 and abs(Sprite.x-89) <= 6:
+                Legendaire.show(12-Sprite.y, 89-Sprite.x, 145)
+            elif abs(Sprite.y-64) <= 6 and abs(Sprite.x-12) <= 6:
+                Legendaire.show(64-Sprite.y, 12-Sprite.x, 144)
+            
+            
+                
         elif Direction == "Droite":
             if self.matrice_dalle[Sprite.y, Sprite.x+1] != 0 and self.matrice_dalle[Sprite.y, Sprite.x+1] not in [51,52,101,102]:
                 Sprite.x, Sprite.y = Sprite.x+1, Sprite.y
                 rect.translate(-48,0)
             else:
                 self.BumpSound.play()
+            if abs(Sprite.y-24) <= 6 and abs(Sprite.x-33) <= 6:
+                Legendaire.show(24-Sprite.y, 33-Sprite.x, 151)
+            elif abs(Sprite.y-8) <= 6 and abs(Sprite.x-70) <= 6:
+                Legendaire.show(8-Sprite.y, 70-Sprite.x, 150)
+            elif abs(Sprite.y-57) <= 6 and abs(Sprite.x-86) <= 6:
+                Legendaire.show(57-Sprite.y, 86-Sprite.x, 146)
+            elif abs(Sprite.y-12) <= 6 and abs(Sprite.x-89) <= 6:
+                Legendaire.show(12-Sprite.y, 89-Sprite.x, 145)
+            elif abs(Sprite.y-64) <= 6 and abs(Sprite.x-12) <= 6:
+                Legendaire.show(64-Sprite.y, 12-Sprite.x, 144)
+            
+            
                 
         self.anim.setEndValue(rect)
         self.anim.start()
+    
         
     def Warp(self, deltaY, deltaX):
         self.MainWindow.Menu = "Dummy"
@@ -201,4 +255,52 @@ class Sprite:
         self.Label.hide()
             
     def show(self):
+        self.Label.show()
+
+
+class Legendaire(Pokemon):
+    def __init__(self,MainWindow, ID, X, Y, larg=48, haut=48):
+        super().__init__()
+        self.FromID(ID)
+        
+        #Définition de l'encart contenant le sprite
+        self.Label = QtWidgets.QLabel(MainWindow)
+        self.Label.setGeometry(QtCore.QRect(X, Y , larg, haut))
+        self.Label.setScaledContents(True)
+        self.Label.setPixmap(QtGui.QPixmap(self.Sprite("mini")))
+        self.Label.setObjectName(self.nom)
+        
+        #Définition des coordonnées du sprite (Dans la matrice)
+        if ID == 144:
+            self.y = 64
+            self.x = 12
+        elif ID == 145:
+            self.y = 12
+            self.x = 89
+        elif ID == 146:
+            self.y = 57
+            self.x = 86
+        elif ID == 150:
+            self.y = 8
+            self.x = 70
+        elif ID == 151:
+            self.y = 24
+            self.x = 33
+        
+        #Définition de l'animation éventuelle.
+        self.IsAnimated = False
+        self.movie = None
+    
+    #def move(self, dY, dX):
+        #self.Label.setGeometry(QtCore.QRect(243+dX*16, 240+dY*16, 32, 32))
+        
+    def hide(self):
+        self.Label.hide()
+            
+    def show(self, dY, dX, ID):
+        self.FromID(ID)
+        self.Label.setPixmap(QtGui.QPixmap(self.Sprite("mini")))
+        self.Label.setObjectName(self.nom)
+        self.Label.setGeometry(QtCore.QRect(243+dX*48, 240+dY*48, 48, 48))
+        self.Label.setScaledContents(True)
         self.Label.show()

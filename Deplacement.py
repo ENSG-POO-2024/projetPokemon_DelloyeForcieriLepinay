@@ -11,6 +11,7 @@ class Deplacement():
         self.MainWindow = MainWindow
         self.Sprite = MainWindow.SpritePerso
         self.Carte = MainWindow.map
+        self.Legend = MainWindow.SpriteLegend
         self.Jukebox = MainWindow.Jukebox
         self.UICombat = MainWindow.UICombat
         
@@ -24,7 +25,7 @@ class Deplacement():
         #On regarde si une animation n'est pas déjà en cours s'il n'y en a pas. On remplace le jpg par un gif.
         if not self.Sprite.IsAnimated:
             self.Sprite.Animation(f"./Animation/Marche/{Direction}.gif")
-        self.Carte.Glissement(Direction,self.Sprite)
+        self.Carte.Glissement(Direction,self.Sprite,self.Legend)
         
         #Rencontre_Aleatoire
         Case_Actuelle = self.Carte.matrice_dalle[self.Sprite.y, self.Sprite.x]
@@ -45,6 +46,7 @@ class Deplacement():
                 QtTest.QTest.qWait(1900)
                 self.Carte.hide()
                 self.Sprite.hide()
+                self.Legend.hide()
                 Menu = self.UICombat.Init_Combat(self.Equipe,PokeRencontre)
                 QtTest.QTest.qWait(900)
                 Tr.hide()

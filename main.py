@@ -7,7 +7,7 @@ from datetime import timedelta
 
 #Import Interne
 from Deplacement import Deplacement
-from CarteEtSprite import Carte,Sprite
+from CarteEtSprite import Carte,Sprite,Legendaire
 from CombatUI import InterfaceCombat
 from Mecaniques import Pokemon
 from GestionCombat import Equipe, PC
@@ -102,12 +102,15 @@ class MainWindow(QWidget):
         #Variable utile de Gestion des menus 
         self.Menu = "Carte"
         
-        #Création de la carte et du sprite du personnage principal
+        #Création de la carte, du sprite du personnage principal et du sprite qui représentera tous les légendaires
         self.SpritePerso = Sprite(self,"./Animation/Marche/Devant_repos.png", 243, 240, 45, 57, "Perso_Principal")
         self.map = Carte(self,"./Map/carte2.png")
+        self.SpriteLegend = Legendaire(self, 151, 243, 240)
         
-        #On met le sprite devant la carte
+        #On met les sprites devant la carte
         self.SpritePerso.Label.raise_()
+        self.SpriteLegend.hide()
+        self.SpriteLegend.Label.raise_()
         
         
         self.UICombat = InterfaceCombat(self,Pokemon())
