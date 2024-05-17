@@ -9,6 +9,7 @@ class Interface(metaclass=ABCMeta):
         self.Equipe = MainWindow.Equipe
         self.PC = MainWindow.PC
         self.Sprite = MainWindow.SpritePerso
+        self.SpriteLegendaire = MainWindow.SpriteLegend
         
     @abstractmethod
     def show():
