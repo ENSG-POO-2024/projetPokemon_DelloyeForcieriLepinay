@@ -111,35 +111,31 @@ class MainWindow(QWidget):
         self.resize(500, 500)
         self.setWindowTitle("PyQTmon")
         
-        #Définition du Jukebox
+        #Définition du Jukebox qui permet de changer de musique
         self.Jukebox = Jukebox("./Son/Route1.wav")
         
         
         #Création de l'équipe initiale du joueur ainsi que son PC
         Pokemon1, Pokemon2, Pokemon3 = Pokemon(), Pokemon(), Pokemon()
         Pokemon1.FromID(1), Pokemon2.FromID(4), Pokemon3.FromID(7)
-        self.Equipe = Equipe(Pokemon2,Pokemon1,Pokemon3)
+        self.Equipe = Equipe(Pokemon1,Pokemon2,Pokemon3)
         self.PC = PC()
         
-        #Variable utile de Gestion des menus 
+        #Variable utile de Gestion des menus. (Sert notamment, à définir ce que font les inputs à tel ou tel moment.)
         self.Menu = "Intro"
         
-        #Création de la carte, du sprite du personnage principal et du sprite qui représentera tous les légendaires
+        #Création de la carte, du sprite du personnage principal et d'un sprite qui représentera tous les légendaires quand ils seront proches.
         self.SpritePerso = Sprite(self,"./Animation/Marche/Devant_repos.png", 243, 240, 45, 57, "Perso_Principal")
         self.SpriteLegend = Legendaire(self)
         self.map = Carte(self,"./Map/carte2.png")
         self.map.hide()
         
-        #Définition de l'intro
-        self.intro = Intro(self)
-        self.intro.show()
-        
-        #On met les sprites devant la carte
+        #On met certains sprites devant la carte
         self.SpritePerso.Label.raise_()
         self.SpriteLegend.hide()
         self.SpriteLegend.Label.raise_()
         
-        
+        #On définit l'interface de combat, les différents Menus (PC et Equipe) ainsi qu'un objet déplacement qui permet de gérer les déplacements sur la carte.
         self.UICombat = InterfaceCombat(self,Pokemon())
         self.UICombat.hide()
         self.Deplacement = Deplacement(self)
@@ -148,8 +144,13 @@ class MainWindow(QWidget):
         self.Menu_PC = Menu_PC(self)
         self.Menu_PC.hide()
         
+        #Création et affichage de l'intro
+        self.intro = Intro(self)
+        self.intro.show()
+        
         
 if __name__ == '__main__':
+    #Ouverture de la fenêtre principale
     app = QApplication(sys.argv)
     ui = MainWindow()
     ui.setupUi()
