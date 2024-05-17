@@ -1,6 +1,8 @@
 #Import externe
 from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.Qt import Qt
+from PyQt5 import QtTest
 import sys
 from datetime import datetime
 from datetime import timedelta
@@ -14,6 +16,7 @@ from GestionCombat import Equipe, PC
 from Gestion_Son import Jukebox
 from Menus import Menu_Gestion
 from PC import Menu_PC
+from intro import Intro
 
 
 
@@ -96,6 +99,7 @@ class MainWindow(QWidget):
         #Définition du Jukebox
         self.Jukebox = Jukebox("./Son/Route1.wav")
         
+        
         #Création de l'équipe initiale du joueur ainsi que son PC
         Pokemon1, Pokemon2, Pokemon3 = Pokemon(), Pokemon(), Pokemon()
         Pokemon1.FromID(1), Pokemon2.FromID(4), Pokemon3.FromID(7)
@@ -103,12 +107,21 @@ class MainWindow(QWidget):
         self.PC = PC()
         
         #Variable utile de Gestion des menus 
-        self.Menu = "Carte"
+        self.Menu = "Intro"
         
         #Création de la carte, du sprite du personnage principal et du sprite qui représentera tous les légendaires
         self.SpritePerso = Sprite(self,"./Animation/Marche/Devant_repos.png", 243, 240, 45, 57, "Perso_Principal")
         self.SpriteLegend = Legendaire(self)
         self.map = Carte(self,"./Map/carte2.png")
+        self.map.hide()
+        
+        #Définition de l'intro
+        self.intro = Intro(self)
+        self.intro.show()
+        QtTest.QTest.qWait(2000)
+        self.intro.hide()
+        self.Menu = "Carte"
+        self.map.show()
         
         #On met les sprites devant la carte
         self.SpritePerso.Label.raise_()
