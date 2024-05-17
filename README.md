@@ -37,14 +37,16 @@ Le joueur peut :
 Le joueur peut :
 - Naviguer dans les menus avec les fléches directionnelles.
 - Choisir son action, avec Espace
-  Dans le menu choix :
+Dans le menu choix :
     * Attaquer (Ouvre le menu combat)
     * Changement (Ouvre le menu de gestion d'équipe)
     * Potion (Soigne le pokémon de 150PVs mais le pokémon adverse attaque)
     * Fuite (Finit le combat sans capturer de Pokémon.
-  Dans le menu Attaque :
+
+Dans le menu Attaque :
     - Choisir son attaque (Le tour se résout -> Le pokémon le plus rapide attaque)
-  Dans le menu Gestion Equipe :
+  
+Dans le menu Gestion Equipe :
     - Cliquer sur le Pokémon à passer en première position (Change le pokémon que le pokémon adverse attaque)
 
 ##### Dans le PC : 
