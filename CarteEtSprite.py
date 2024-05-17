@@ -218,45 +218,53 @@ class Sprite:
 
 class Legendaire():
     """Définit l'apparition des sprites des légendaires et leur ID associé pour les rencontrer"""
-    def __init__(self,MainWindow, ID, X, Y, larg=48, haut=48):
+    def __init__(self,MainWindow, larg=48, haut=48):
         #Définition de l'encart contenant le sprite
         self.Label = QtWidgets.QLabel(MainWindow)
-        self.Label.setGeometry(QtCore.QRect(X, Y , larg, haut))
+        self.Label.setGeometry(QtCore.QRect(4800, 4800 , larg, haut))
         self.Label.setScaledContents(False)
         
-        self.dico_rencontre = {151:False, 150:False, 146:False, 145:False, 144:False}
+        self.dico_rencontre = {151:True, 150:False, 146:False, 145:False, 144:False}
         
     def hide(self):
         self.Label.setPixmap(QtGui.QPixmap("Dummy.JPG"))
             
     def show(self, Sprite):
+        self.anim = QtCore.QPropertyAnimation(self.Label, b'geometry')
+        self.anim.setDuration(50)
+        rect = self.Label.geometry()
+        self.anim.setStartValue(rect)
+        
         #Mew
         if abs(Sprite.y-24) <= 6 and abs(Sprite.x-33) <= 6 and not self.dico_rencontre[151]:
             self.ID = 151
             dX, dY = 33-Sprite.x, 24-Sprite.y
             self.Label.setPixmap(QtGui.QPixmap("./Legendaire/Mew.png"))
-            self.Label.setGeometry(QtCore.QRect(243+dX*48, 240+dY*48, 48, 48))
+            rect.setRect(243+dX*48, 240+dY*48, 48, 48)
         #Mewtwo
         elif abs(Sprite.y-8) <= 6 and abs(Sprite.x-70) <= 6 and not self.dico_rencontre[150]:
             self.ID = 150
             dX, dY = 70-Sprite.x, 8-Sprite.y
             self.Label.setPixmap(QtGui.QPixmap("./Legendaire/Mewtwo.png"))
-            self.Label.setGeometry(QtCore.QRect(243+dX*48, 240+dY*48, 48, 48))
+            rect.setRect(243+dX*48, 240+dY*48, 48, 48)
         #Sulfura
         elif abs(Sprite.y-57) <= 6 and abs(Sprite.x-86) <= 6 and not self.dico_rencontre[146]:
             self.ID = 146
             dX, dY = 86-Sprite.x, 57-Sprite.y
             self.Label.setPixmap(QtGui.QPixmap("./Legendaire/Sulfura.png"))
-            self.Label.setGeometry(QtCore.QRect(243+dX*48, 240+dY*48, 48, 48))
+            rect.setRect(243+dX*48, 240+dY*48, 48, 48)
         #Electhor
         elif abs(Sprite.y-12) <= 6 and abs(Sprite.x-89) <= 6 and not self.dico_rencontre[145]:
             self.ID = 145
             dX, dY = 89-Sprite.x, 12-Sprite.y
             self.Label.setPixmap(QtGui.QPixmap("./Legendaire/Electhor.png"))
-            self.Label.setGeometry(QtCore.QRect(243+dX*48, 240+dY*48, 48, 48))
+            rect.setRect(243+dX*48, 240+dY*48, 48, 48)
         #Artikodin
         elif abs(Sprite.y-64) <= 6 and abs(Sprite.x-12) <= 6 and not self.dico_rencontre[144]:
             self.ID = 144
             dX, dY = 12-Sprite.x, 64-Sprite.y
             self.Label.setPixmap(QtGui.QPixmap("./Legendaire/Artikodin.png"))
-            self.Label.setGeometry(QtCore.QRect(243+dX*48, 240+dY*48, 48, 48))
+            rect.setRect(243+dX*48, 240+dY*48, 48, 48)
+            
+        self.anim.setEndValue(rect)
+        self.anim.start()
