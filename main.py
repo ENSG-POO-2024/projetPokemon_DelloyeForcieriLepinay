@@ -152,7 +152,6 @@ class MainWindow(QWidget):
         
         
 if __name__ == '__main__':
-    QFontDatabase.addApplicationFont("./data/PokemonGb-RAeo.ttf")
     #Ouverture de la fenêtre principale
     app = QApplication(sys.argv)
     ui = MainWindow()
