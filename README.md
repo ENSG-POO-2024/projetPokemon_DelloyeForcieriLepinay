@@ -15,7 +15,8 @@
 
   Les combats se font au tour par tour. Le pokémon le plus rapide attaque en premier. Il se finit lorsque les PVs du pokémon adverse sont à zéro, ou bien si le joueur n'a plus aucun pokémon apte au combat. 
 
-#### Interaction — Wikipédia avec le monde.
+#### Interactions :
+
 #### Initialement :
   - Choisir son pokémon de départ avec les fléches directionnelles et la barre espace.
 
@@ -55,23 +56,13 @@ Le joueur peut :
 * Le répertoire est arrangé ainsi
   1. main.py : Fichier principal qui execute tout le code. 
   2. CarteEtSprite.py : Interface qui gère tout ce qui a attrait à la carte, 
-  3. `Type 1` : le type du pokemon
-  4. `Type 2` : le second type du pokemon (s'il en possède un deuxième)
-  5. `Total` : le nombre total de points d'attributs (HP + Attack + Defense + Sp. Attack + Sp. Def + Speed)
-  6. `HP` : le nombre de point de vie de départ
-  7. `Attack` : le nombre de point d'attaque (coefficient pour les dégats infligés)
-  8. `Defense` : le nombre de point de défense (coefficient pour les dégats reçus)
-  9. `Sp. Atk` : le nombre de point d'attaque spéciale (coefficient pour les dégats infligés)
-  10. `Sp. Def` : le nombre de point de défense contre une attaque spéciale (coefficient pour les dégats reçus)
-  11. `Speed` : la vitesse du pokemon (détermine qui joue en premier)
-  12. `Generation` : la génération du pokemon (ici la première)
-  13. `Legendary` : rareté du pokemon, les légendaires sont normalement uniques
-
-* Un fichier csv contenant une liste de pokemons avec des coordonnées géographiques.
-
-## Comment créer votre dépôt github ?
-
-1. Se créer un identifiant github
-2. Demander à un enseignant de vous ajouter dans l'organisation **ENSG-POO-2024**
-3. *Forker* (copier) le projet **projetPokemon** et choisissez un nom très personnalisé !
-4. Pour voir comment établir une connexion ssh entre votre ordinateur et github, voir documents/sshConnexion.md
+  3. Deplacement.py : Gère tous les déplacements du joueur sur la carte.
+  4. CombatUI.py : Gère l'interface de combat.
+  5. Menus.py : Gère le menu de Gestion d'Equipe
+  6. PC.py : Gère l'interface du PC
+  7. GestionCombat : Gère les mécaniques du PC et de l'équipe
+  8. Mecaniques : Gère la création de Pokémons, les attaques...etc.
+  9. Conversion_Image_Collison.py : Un outil qui permet de facilement convertir une carte en matrice de collision.
+  10. Gestion_Son.py : Objet pour gérer les changements de musiques. 
+  11. Animation/Temp/Images/Map/Audio : Des dossiers contenant les sprites/cartes/fichiers audios...etc nécessaire à l'affichage graphique. 
+  12. data/documents : Dossiers contenant la matrice de collision et les données initiales (Pokédex notamment)
