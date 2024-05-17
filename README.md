@@ -1,21 +1,60 @@
-# Pokémon: projet informatique
+# PyQTMon
 
-* Marie-Dominique Van Damme: marie-dominique.van-damme@ensg.eu
-* Melvin Hersent: melvin.hersent@map.cnrs.fr
+* Noé DELLOYE noe.delloye@ensg.eu
+* Sarah FORCIERI sarah.forcieri@ensg.eu
+* Fabien LÉPINAY fabien.lepinay@ensg.eu
 
-## Matériel de départ
+## Le Code :
 
-### Dans le répertoire "document", vous avez:
+### Explication du jeu :
 
-* la présentation du projet informatique (ProjetInfo_Ing1_2024.pdf)
-* des exemples de règles de combat entre les pokémons (MondePokemon.pdf)
-* le support de cours des interfaces graphiques
+  Le but du jeu est de capturer le plus de Pokémons dans le monde qui est proposé au joueur. La majorité des pokémons sont répartis dans différentes zones de recontres (Voir ./images/zonages.png) et peuvent y être rencontrés soient dans les hautes herbes, soient dans le sable du désert, soit dans les grottes. Ils peuvent être également pêchés à proximité des pontons de pêche. D'autres pokémons (les légendaires) sont uniques et ont des interactions sur la carte.
+  Les pokémons sont capturés automatiquement lorsqu'ils sont vaincus.
 
-### Dans le répertoire "data", vous avez:
+  Le joueur possède une équipe de 6 Pokémons maximum et a également un PC où il peut stocker et agencer tous les pokémons supplémentaires. Il peut également agencer les Pokémons de son équipe dans le menu Equipe. Il peut enfin soigner ses pokémons au centre pokémon. 
 
-* Un fichier csv contenant les 151 pokemons de la première génération, ainsi que leurs attributs :
-  1. `#` : indique le numéro du pokemon (peut être utilisé comme id)
-  2. `name` : le nom (ici en anglais) du pokemon
+  Les combats se font au tour par tour. Le pokémon le plus rapide attaque en premier. Il se finit lorsque les PVs du pokémon adverse sont à zéro, ou bien si le joueur n'a plus aucun pokémon apte au combat. 
+
+#### Interaction — Wikipédia avec le monde.
+#### Initialement :
+  - Choisir son pokémon de départ avec les fléches directionnelles et la barre espace.
+
+##### Sur la carte :
+
+Le joueur peut :
+- Se déplacer en appuyant sur les touches directionnelles.
+- Changer de zone en se déplaçant vers une porte.
+- Pêcher en appuyant sur espace sur un ponton en face d'une case d'eau.
+- Interagir avec un pokémon légendaire, en appuyant sur Espace en face d'un pokémon légendaire.
+- Entrer dans le menu de gestion d'équipe en appuyant sur Entrée (Celui du pavé numérique)
+- Soigner ses pokémons en appuyant sur Espace en face de l'infirmière du centre Pokémon.
+- Ouvrir son PC en appuyant sur espace en face du PC dans le centre pokémon.
+
+##### En combat
+Le joueur peut :
+- Naviguer dans les menus avec les fléches directionnelles.
+- Choisir son action, avec Espace
+  Dans le menu choix :
+    * Attaquer (Ouvre le menu combat)
+    * Changement (Ouvre le menu de gestion d'équipe)
+    * Potion (Soigne le pokémon de 150PVs mais le pokémon adverse attaque)
+    * Fuite (Finit le combat sans capturer de Pokémon.
+  Dans le menu Attaque :
+    - Choisir son attaque (Le tour se résout -> Le pokémon le plus rapide attaque)
+  Dans le menu Gestion Equipe :
+    - Cliquer sur le Pokémon à passer en première position (Change le pokémon que le pokémon adverse attaque)
+ 
+##### Dans le PC :
+  - Agencer son équipe ou son PC avec les boutons ajouter et déposer.
+
+##### Dans le menu Equipe :
+  - Agencer son équipe en cliquant sur le pokémon à mettre en première position.
+
+### Explication des répertoires:
+
+* Le répertoire est arrangé ainsi
+  1. main.py : Fichier principal qui execute tout le code. 
+  2. CarteEtSprite.py : Interface qui gère tout ce qui a attrait à la carte, 
   3. `Type 1` : le type du pokemon
   4. `Type 2` : le second type du pokemon (s'il en possède un deuxième)
   5. `Total` : le nombre total de points d'attributs (HP + Attack + Defense + Sp. Attack + Sp. Def + Speed)
