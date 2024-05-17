@@ -76,6 +76,10 @@ class MainWindow(QWidget):
                 self.Menu_PC.hide()
                 self.map.show()
                 self.Menu = "Carte"
+                
+        elif self.Menu == "Intro":
+            if event.key() == Qt.Key_Space:
+                self.intro.hide()
     
     #Lorsqu'on relâche une touche, il faut arrêter l'animation de marche.
     def keyReleaseEvent(self, event):
@@ -118,10 +122,6 @@ class MainWindow(QWidget):
         #Définition de l'intro
         self.intro = Intro(self)
         self.intro.show()
-        QtTest.QTest.qWait(2000)
-        self.intro.hide()
-        self.Menu = "Carte"
-        self.map.show()
         
         #On met les sprites devant la carte
         self.SpritePerso.Label.raise_()
