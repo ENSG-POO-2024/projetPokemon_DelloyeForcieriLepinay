@@ -470,14 +470,14 @@ class InterfaceCombat(Interface):
             #On le capture s'il y a de la place dans l'équipe, on le rajoute
             if len(self.Equipe)<6:
                 self.Equipe.append(copy.copy(self.Pokemon_Adverse))
-                self.BoiteDialogue.setText(f"Bravo ! Vous avez capturé un {self.Pokemon_Adverse.nom} sauvage ! \nIl a été envoyé dans votre équipe.")
+                self.BoiteDialogue.setText(f"Bravo ! Vous avez capturé un {self.Pokemon_Adverse.nom}! \nIl a été envoyé dans votre équipe.")
             #S'il n'y en a pas, on le stocke dans le PC.
             else:
                 #On soigne tout pokémon envoyé au PC
                 self.Pokemon_Adverse.Soin()
                 #Puis on l'envoie au PC
                 self.PC.append(copy.copy(self.Pokemon_Adverse))
-                self.BoiteDialogue.setText(f"Bravo ! Vous avez capturé un {self.Pokemon_Adverse.nom} sauvage ! \nIl a été envoyé dans votre PC.")
+                self.BoiteDialogue.setText(f"Bravo ! Vous avez capturé un {self.Pokemon_Adverse.nom}! \nIl a été envoyé dans votre PC.")
             #Fin du combat
             QtTest.QTest.qWait(3000)
             self.hide()
