@@ -33,7 +33,7 @@ Le joueur peut :
 - Soigner ses pokémons en appuyant sur Espace en face de l'infirmière du centre Pokémon.
 - Ouvrir son PC en appuyant sur espace en face du PC dans le centre pokémon.
 
-##### En combat
+##### En combat :
 Le joueur peut :
 - Naviguer dans les menus avec les fléches directionnelles.
 - Choisir son action, avec Espace
