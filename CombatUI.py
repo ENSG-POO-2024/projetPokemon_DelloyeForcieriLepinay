@@ -515,7 +515,7 @@ class InterfaceCombat(Interface):
                 #On cherche le delta avec le centre pokémon, on téléporte là-bas, et on soigne l'équipe
                 X_PC, Y_PC = (87,90)
                 delta_x, delta_y = X_PC - self.Sprite.x, Y_PC - self.Sprite.y
-                self.MainWindow.map.Warp(delta_y, delta_x)
+                self.MainWindow.map.Warp(delta_y, delta_x, "Center")
                 self.MainWindow.Menu = "Dummy"
                 self.hide()
                 self.MainWindow.map.show()
