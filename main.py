@@ -107,8 +107,8 @@ class MainWindow(QWidget):
         
         #Création de la carte, du sprite du personnage principal et du sprite qui représentera tous les légendaires
         self.SpritePerso = Sprite(self,"./Animation/Marche/Devant_repos.png", 243, 240, 45, 57, "Perso_Principal")
-        self.map = Carte(self,"./Map/carte2.png")
         self.SpriteLegend = Legendaire(self)
+        self.map = Carte(self,"./Map/carte2.png")
         
         #On met les sprites devant la carte
         self.SpritePerso.Label.raise_()

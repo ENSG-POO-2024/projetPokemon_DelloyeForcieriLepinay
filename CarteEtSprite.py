@@ -139,6 +139,37 @@ class Carte(Interface):
             Tr.hide()
             Tr.stop()
             
+        #Commencer un combat contre un légendaire
+        Legend_Proche = False
+        if self.matrice_dalle[y,x-1] >= 144 and Sprite.Orientation == "Gauche" and not self.SpriteLegendaire.dico_rencontre[self.SpriteLegendaire.ID]:
+            Legend_Proche = True
+        if self.matrice_dalle[y+1,x] >= 144 and Sprite.Orientation == "Devant" and not self.SpriteLegendaire.dico_rencontre[self.SpriteLegendaire.ID]:
+            Legend_Proche = True
+        if self.matrice_dalle[y,x+1] >= 144 and Sprite.Orientation == "Droite" and not self.SpriteLegendaire.dico_rencontre[self.SpriteLegendaire.ID]:
+            Legend_Proche = True
+        if self.matrice_dalle[y-1,x] >= 144 and Sprite.Orientation == "Derriere" and not self.SpriteLegendaire.dico_rencontre[self.SpriteLegendaire.ID]:
+            Legend_Proche = True
+        if Legend_Proche:
+            Direction = Sprite.Orientation
+            Pokemon_Legendaire = Pokemon()
+            Pokemon_Legendaire.FromID(self.SpriteLegendaire.ID) #Création du pokémon légendaire contre qui le joueur va se battre
+            self.Sprite.Changement_Sprite(f"./Animation/Marche/{Direction}_repos.png")
+            self.MainWindow.Menu = "Combat"
+            Tr = Transition(self.MainWindow)
+            self.Jukebox.ChangeDeMusique("./Son/Legendaire.wav")
+            Tr.start()
+            Tr.show()
+            QtTest.QTest.qWait(1900)
+            self.carte.hide()
+            self.Sprite.hide()
+            self.SpriteLegendaire.hide()
+            self.MainWindow.UICombat.Init_Combat(self.Equipe,Pokemon_Legendaire)
+            QtTest.QTest.qWait(900)
+            Tr.hide()
+            Tr.stop()
+            self.SpriteLegendaire.dico_rencontre[self.SpriteLegendaire.ID] = True #Empêcher de re-combattre ce pokémon légendaire
+            
+            
     def hide(self):
         self.carte.hide()
         self.Sprite.hide()
@@ -224,7 +255,7 @@ class Legendaire():
         self.Label.setGeometry(QtCore.QRect(4800, 4800 , larg, haut))
         self.Label.setScaledContents(False)
         
-        self.dico_rencontre = {151:True, 150:False, 146:False, 145:False, 144:False}
+        self.dico_rencontre = {151:False, 150:False, 146:False, 145:False, 144:False}
         
     def hide(self):
         self.Label.setPixmap(QtGui.QPixmap("Dummy.JPG"))
