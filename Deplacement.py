@@ -64,11 +64,11 @@ class Deplacement():
     
     def Porte(self, y, x):
         #Dictionnaire qui asssocie à une entrée (une porte) sa sortie
-        Dico_portes = {(4,7):(89,9),(90,9):(5,7),(94,45):(72,85),(71,85):(93,45),(62,50):(13,69),(14,69):(63,50),(9,19):(94,87),(95,87):(10,19)}    
-        (Y_sortie,X_sortie) = Dico_portes[(y,x)]
+        Dico_portes = {(4,7):((89,9),"Cave"),(90,9):((5,7),"Route1"),(94,45):((72,85),"Desert"),(71,85):((93,45),"Cave"),(62,50):((13,69),"Cave"),(14,69):((63,50),"Route1"),(9,19):((94,87),"Center"),(95,87):((10,19),"Route1")}    
+        (Y_sortie,X_sortie),musique = Dico_portes[(y,x)][0], Dico_portes[(y,x)][1]
         deltaY = Y_sortie - y
         deltaX = X_sortie - x
-        self.Carte.Warp(deltaY, deltaX)
+        self.Carte.Warp(deltaY, deltaX, musique)
     
         
     def end_move(self,Direction):
