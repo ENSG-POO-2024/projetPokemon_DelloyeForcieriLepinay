@@ -316,6 +316,7 @@ class Legendaire():
             
     def show(self, Sprite):
         """Définit le glissement du pokémon légendaire sur la carte, pour qu'il glisse à la même vitesse que la carte"""
+        
         self.anim = QtCore.QPropertyAnimation(self.Label, b'geometry')
         self.anim.setDuration(50)
         rect = self.Label.geometry()
