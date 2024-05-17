@@ -20,7 +20,7 @@ Fichier à lancer : main.py
 ### Interactions :
 
 #### Initialement :
-  - Obtenir ses premiers pokémons auprès du prof Chen (Barre Espace)
+  - Obtenir ses premiers pokémons auprès du prof Chen (Barre Espace pour sortir de cette interface)
 
 ##### Sur la carte :
 
@@ -35,8 +35,8 @@ Le joueur peut :
 
 ##### En combat :
 Le joueur peut :
-- Naviguer dans les menus avec les fléches directionnelles.
-- Choisir son action, avec Espace
+* Naviguer dans les menus avec les fléches directionnelles.
+* Choisir son action, avec Espace
 
 Dans le menu choix :
 - Attaquer (Ouvre le menu combat)
