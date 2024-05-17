@@ -27,16 +27,17 @@ Fichier à lancer : main.py
 Le joueur peut :
 - Se déplacer en appuyant sur les touches directionnelles.
 - Changer de zone en se déplaçant vers une porte.
-- Pêcher en appuyant sur espace sur un ponton en face d'une case d'eau.
+- Pêcher en appuyant sur Espace sur un ponton en face d'une case d'eau.
 - Interagir avec un pokémon légendaire, en appuyant sur Espace en face d'un pokémon légendaire.
 - Entrer dans le menu de gestion d'équipe en appuyant sur Entrée (Celui du pavé numérique)
 - Soigner ses pokémons en appuyant sur Espace en face de l'infirmière du centre Pokémon.
-- Ouvrir son PC en appuyant sur espace en face du PC dans le centre pokémon.
+- Ouvrir son PC en appuyant sur Espace en face du PC dans le centre pokémon.
 
 ##### En combat :
 Le joueur peut :
 - Naviguer dans les menus avec les fléches directionnelles.
 - Choisir son action, avec Espace
+
 Dans le menu choix :
     * Attaquer (Ouvre le menu combat)
     * Changement (Ouvre le menu de gestion d'équipe)
