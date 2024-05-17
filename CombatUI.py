@@ -181,7 +181,7 @@ class InterfaceCombat(Interface):
         self.BoiteDialogue = QtWidgets.QLabel(MainWindow)
         self.BoiteDialogue.setGeometry(QtCore.QRect(20, 330, 480, 60))
         self.BoiteDialogue.setObjectName("BoiteDialogue")
-        font.setPointSize(10)
+        font.setPointSize(8)
         self.BoiteDialogue.setFont(font)
         self.BoiteDialogue.setStyleSheet("color: white")
         
