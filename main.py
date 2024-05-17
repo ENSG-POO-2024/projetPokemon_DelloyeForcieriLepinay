@@ -21,6 +21,7 @@ from intro import Intro
 
 
 class MainWindow(QWidget):
+    """Cette classe définit la fenêtre principale, ainsi que tous les événements utilisateurs (Clic, appui de touches...etc)"""
     def __init__(self):
         super().__init__()
         #Pour gérer les 
@@ -28,10 +29,14 @@ class MainWindow(QWidget):
         self.KeyTime_Delta = timedelta(seconds=0.15)
         self.setFocusPolicy(Qt.StrongFocus)
         
+    
     def keyPressEvent(self, event):
-        #Lorsqu'une touche est pressée, on déclenche l'animation de marche et on déplace la carte.
-        #Note : C'est la carte qui bouge et non le joueur (Effet tapis roulant)
+        """Surcharge de la méthode keyPressEvent.
+        Lorsqu'une touche est pressée, on déclenche l'animation de marche et on déplace la carte."""
+        
+        #Evenements qui se produisent lorsqu'on se situe sur le menu carte et qu'on appuie sur une touche
         if self.Menu == "Carte":
+            #Si on appuie sur une direction, on surveille que la touche précédente ne soit pas trop proche et on se déplace.
             if event.key() == Qt.Key_Up and datetime.now() - self.KeyTime > self.KeyTime_Delta:
                 self.KeyTime, self.Menu = self.Deplacement.move("Derriere")
                 self.SpritePerso.Orientation = "Derriere"
@@ -44,17 +49,20 @@ class MainWindow(QWidget):
             if event.key() == Qt.Key_Left and datetime.now() - self.KeyTime > self.KeyTime_Delta:
                 self.KeyTime, self.Menu = self.Deplacement.move("Gauche")
                 self.SpritePerso.Orientation = "Gauche"
+                
+            #Si on appuie sur entrée, on rentre dans le menu équipê
             if event.key() == Qt.Key_Enter:
                 self.Menu = "Menu_Chgmt_Pokémon"
                 self.Menu_Gestion.Menu_Init(self.map, "Carte", self.Equipe)
-                #Entrer dans le menu pour switcher de pokemon
+                
+            #Si on appuie sur espace, on regarde si une interaction est possible et on la réalise.
             if event.key() == Qt.Key_Space:
                 self.map.Interaction(self.SpritePerso, self.Equipe)
-                
-            if event.key() == Qt.Key_M:
-                self.UICombat.show()
-                
+        
+        #Evenements qui se produisent lorsqu'on appuie sur une touche en combat
         elif self.Menu == "Combat": 
+            #Si on appuie sur une touche de direction, sauf si on est dans le menu pour faire un changement de Pokémon, on déplace
+            #Les fléches de sélection/
             if self.UICombat.MenuActuel != "Switch":
                 if event.key() == Qt.Key_Up:
                     self.UICombat.deplacement_fleche_menu("Haut")
@@ -64,19 +72,22 @@ class MainWindow(QWidget):
                     self.UICombat.deplacement_fleche_menu("Droite")
                 if event.key() == Qt.Key_Left:
                     self.UICombat.deplacement_fleche_menu("Gauche")
+            #Si on appuie sur espace, on valide une action
             if event.key() == Qt.Key_Space:
                 self.UICombat.valide(self.Equipe)
             
+            #Si on appuie sur X, on annule une action
             if event.key() == Qt.Key_X:
                 self.UICombat.retour()
-                
+        
+        #Si on est dans le PC et qu'on appuie sur X, on sort du PC et on revient sur la carte
         elif self.Menu == "PC":
             if event.key() == Qt.Key_X:
-                print(self.Menu)
                 self.Menu_PC.hide()
                 self.map.show()
                 self.Menu = "Carte"
-                
+        
+        #Si on est dans l'introduction, on passe l'introduction
         elif self.Menu == "Intro":
             if event.key() == Qt.Key_Space:
                 self.intro.hide()

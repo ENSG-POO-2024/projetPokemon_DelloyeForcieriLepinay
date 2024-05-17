@@ -22,10 +22,8 @@ class Menu_Gestion(Interface):
         self.listWidget.setIconSize(QSize(32,32))
         self.label = QtWidgets.QLabel(MainWindow)
         self.label.setGeometry(QtCore.QRect(30, 10, 441, 31))
-        font = QtGui.QFont()
-        font.setFamily("Pokémon FireRed & LeafGreen Fon")
+        font = self.font
         font.setPointSize(10)
-        font.setCapitalization(1)
         self.label.setFont(font)
         self.label.setTextFormat(QtCore.Qt.AutoText)
         self.label.setScaledContents(False)
@@ -70,10 +68,8 @@ class Menu_Gestion(Interface):
         Menu_Precedent.hide()
         for Pokemon in Equipe:
             item = QtWidgets.QListWidgetItem()
-            font = QtGui.QFont()
-            font.setFamily("Pokémon FireRed & LeafGreen Fon")
+            font = self.font
             font.setPointSize(10)
-            font.setCapitalization(1)
             item.setFont(font)
             icon = QtGui.QIcon()
             Path_Mini = Pokemon.Sprite("mini")

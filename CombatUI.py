@@ -5,6 +5,7 @@ from Interface import Interface
 from PyQt5.QtMultimedia import QSound
 # from fontTools.ttLib import TTFont
 import copy
+from PyQt5.QtGui import QFontDatabase
 
 # font = TTFont("./data/pokemon-firered-leafgreen-font-recreation.ttf")
 
@@ -62,19 +63,17 @@ class InterfaceCombat(Interface):
         self.PV_Allie.setObjectName("PV_Allie")
         self.Nom_PokeAllie = QtWidgets.QLabel(self.Zone_Combat)
         self.Nom_PokeAllie.setGeometry(QtCore.QRect(205, 217, 181, 21))
-        font = QtGui.QFont()
-        font.setFamily("Pokémon FireRed & LeafGreen Fon") # police venant du jeu Pokémon FireRed & LeafGreen
-        font.setPointSize(16)
+        font = self.font
+        font.setPointSize(12)
         font.setBold(False)
         font.setWeight(50)
-        font.setCapitalization(1)
         font.setLetterSpacing(1,-2)
         font.setWordSpacing(3)
         self.Nom_PokeAllie.setFont(font)
         self.Nom_PokeAllie.setObjectName("Nom_PokeAllie")
         self.Nom_PokeEnnemi = QtWidgets.QLabel(self.Zone_Combat)
         self.Nom_PokeEnnemi.setGeometry(QtCore.QRect(30, 23, 181, 21))
-        font.setPointSize(16)
+        font.setPointSize(12)
         self.Nom_PokeEnnemi.setFont(font)
         self.Nom_PokeEnnemi.setObjectName("Nom_PokeEnnemi")
         self.PVBarre_Allie = QtWidgets.QProgressBar(self.Zone_Combat)
@@ -93,8 +92,7 @@ class InterfaceCombat(Interface):
         self.Sprite_Face.raise_()
         self.PV_Ennemi.raise_()
         self.PV_Allie.raise_()
-        self.Nom_PokeAllie.raise_()
-        self.Nom_PokeEnnemi.raise_()
+        
         self.PV_Ennemi = QtWidgets.QLabel(self.Zone_Combat)
         self.PV_Ennemi.setGeometry(QtCore.QRect(10, 10, 300, 90))
         self.PV_Ennemi.setText("")
@@ -107,24 +105,16 @@ class InterfaceCombat(Interface):
         self.PV_Allie.setPixmap(QtGui.QPixmap("./images/BarreAlliee.png"))
         self.PV_Allie.setScaledContents(True)
         self.PV_Allie.setObjectName("PV_Allie")
-        self.Nom_PokeAllie = QtWidgets.QLabel(self.Zone_Combat)
-        self.Nom_PokeAllie.setGeometry(QtCore.QRect(205, 217, 181, 21))
-        font.setPointSize(10)
-        self.Nom_PokeAllie.setFont(font)
-        self.Nom_PokeAllie.setObjectName("Nom_PokeAllie")
-        self.Nom_PokeEnnemi = QtWidgets.QLabel(self.Zone_Combat)
-        self.Nom_PokeEnnemi.setGeometry(QtCore.QRect(30, 23, 181, 21))
-        font.setPointSize(10)
-        self.Nom_PokeEnnemi.setFont(font)
-        self.Nom_PokeEnnemi.setObjectName("Nom_PokeEnnemi")
-        
+        self.Nom_PokeAllie.raise_()
+        self.Nom_PokeEnnemi.raise_()
+                
         #On définit un premier menu qui servira à choisir les actions ou les attaques.
         self.Choix_Attaque = QtWidgets.QFrame(MainWindow)
         self.Choix_Attaque.setGeometry(QtCore.QRect(10, 390, 480, 100))
         self.Choix_Attaque.setFrameShape(QtWidgets.QFrame.Box)
         self.Choix_Attaque.setFrameShadow(QtWidgets.QFrame.Raised)
         self.Choix_Attaque.setObjectName("Choix_Attaque")
-        font.setPointSize(10)
+        font.setPointSize(8)
         self.Choix_Attaque.setFont(font)
         self.Choix_Attaque.raise_()
         
@@ -188,7 +178,7 @@ class InterfaceCombat(Interface):
         self.BoiteDialogue = QtWidgets.QLabel(MainWindow)
         self.BoiteDialogue.setGeometry(QtCore.QRect(20, 330, 480, 60))
         self.BoiteDialogue.setObjectName("BoiteDialogue")
-        font.setPointSize(10)
+        font.setPointSize(8)
         self.BoiteDialogue.setFont(font)
         self.BoiteDialogue.setStyleSheet("color: white")
         
@@ -282,9 +272,6 @@ class InterfaceCombat(Interface):
                     self.Fleche_4.hide()
                     self.Fleche_2.show()
                     self.position_fleche = ("Haut","Droite")
-        
-    def deplacement_fleche_switch(self, Direction):
-        pass
     
     def valide(self,Equipe):
         """Cette fonction se lance en combat lorsque la touche espace est utilisée"""

@@ -98,16 +98,10 @@ class Carte(Interface):
             self.Soin_PC.setPixmap(QtGui.QPixmap("./images/ecran_soin.png"))
             
             self.Soin_PC_texte = QtWidgets.QLabel(self.MainWindow)
-            self.Soin_PC_texte.setGeometry(QtCore.QRect(100, 390, 440, 80))
+            self.Soin_PC_texte.setGeometry(QtCore.QRect(40, 390, 440, 80))
             self.Soin_PC_texte.setText("Un instant, je soigne vos pokémons.")
-            font = QtGui.QFont()
-            font.setFamily("Pokémon FireRed & LeafGreen Fon") # police venant du jeu Pokémon FireRed & LeafGreen
-            font.setPointSize(10)
-            font.setBold(False)
-            font.setWeight(50)
-            font.setCapitalization(1)
-            font.setLetterSpacing(1,-2)
-            font.setWordSpacing(3)
+            font = self.font # police venant du jeu Pokémon FireRed & LeafGreen
+            font.setPointSize(9)
             self.Soin_PC_texte.setFont(font)
             self.Soin_PC_texte.setObjectName("Soin_PC_texte")
             

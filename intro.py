@@ -15,51 +15,51 @@ from Interface import Interface
 class Intro(Interface):
     def __init__(self, MainWindow):
         super().__init__(MainWindow)
-        self.Professeur = QtWidgets.QLabel(self.MainWindow)
+        
+        self.Professeur = QtWidgets.QLabel(MainWindow)
         self.Professeur.setGeometry(QtCore.QRect(0, 0, 500, 500))
         self.Professeur.setText("")
         self.Professeur.setPixmap(QtGui.QPixmap("images/Professeur2.png"))
         self.Professeur.setScaledContents(True)
         self.Professeur.setObjectName("Professeur")
-        self.Text_box = QtWidgets.QLabel(self.MainWindow)
+        
+        self.Text_box = QtWidgets.QLabel(MainWindow)
         self.Text_box.setGeometry(QtCore.QRect(20, 380, 460, 84))
-        self.Text_box.setAutoFillBackground(False)
-        self.Text_box.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.Text_box.setText("")
         self.Text_box.setPixmap(QtGui.QPixmap("images/Text_box.png"))
         self.Text_box.setScaledContents(False)
         self.Text_box.setObjectName("Text_box")
-        self.Salameche = QtWidgets.QLabel(self.MainWindow)
+        
+        self.Salameche = QtWidgets.QLabel(MainWindow)
         self.Salameche.setGeometry(QtCore.QRect(218, 300, 64, 64))
         self.Salameche.setText("")
         self.Salameche.setPixmap(QtGui.QPixmap("images/faceS.png"))
         self.Salameche.setObjectName("Salameche")
-        self.Bulbizarre = QtWidgets.QLabel(self.MainWindow)
+        self.Bulbizarre = QtWidgets.QLabel(MainWindow)
         self.Bulbizarre.setGeometry(QtCore.QRect(100, 300, 64, 64))
         self.Bulbizarre.setText("")
         self.Bulbizarre.setPixmap(QtGui.QPixmap("images/faceB.png"))
         self.Bulbizarre.setObjectName("Bulbizarre")
-        self.Carapuce = QtWidgets.QLabel(self.MainWindow)
+        
+        self.Carapuce = QtWidgets.QLabel(MainWindow)
         self.Carapuce.setGeometry(QtCore.QRect(336, 300, 64, 64))
         self.Carapuce.setText("")
         self.Carapuce.setPixmap(QtGui.QPixmap("images/faceC.png"))
         self.Carapuce.setObjectName("Carapuce")
         
-        self.Parole = QtWidgets.QLabel(self.MainWindow)
+        self.Parole = QtWidgets.QLabel(MainWindow)
         self.Parole.setGeometry(QtCore.QRect(30, 380, 460, 84))
-        self.Parole.setText("Bien le bonjour ! Voici tes trois premiers POKÉMON !")
-        font = QtGui.QFont()
-        font.setFamily("Pokémon FireRed & LeafGreen Fon") # police venant du jeu Pokémon FireRed & LeafGreen
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
-        font.setCapitalization(1)
-        font.setLetterSpacing(1,-2)
-        font.setWordSpacing(3)
+        self.Parole.setText(" Bien le bonjour !\n Voici tes trois premiers POKÉMON !")
+        font = self.font
+        font.setPointSize(8)
         self.Parole.setFont(font)
         self.Parole.setObjectName("Soin_PC_texte")
 
         QtCore.QMetaObject.connectSlotsByName(self.MainWindow)
+        self.retranslateUi(MainWindow)
+        
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
 
     
     def show(self):
@@ -78,3 +78,5 @@ class Intro(Interface):
         self.Bulbizarre.hide()
         self.Carapuce.hide()
         self.Parole.hide()
+        self.MainWindow.Menu = "Carte"
+        self.MainWindow.map.show()
