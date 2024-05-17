@@ -92,8 +92,32 @@ class Carte(Interface):
         if (y-1,x) == (89,87) and Sprite.Orientation == "Derriere": #Soin dans le Pokémon Center
             self.Healing.play()
             self.MainWindow.Menu = "Healing"
+            
+            self.Soin_PC = QtWidgets.QLabel(self.MainWindow)
+            self.Soin_PC.setGeometry(QtCore.QRect(20, 385, 460, 100))
+            self.Soin_PC.setPixmap(QtGui.QPixmap("./images/ecran_soin.png"))
+            
+            self.Soin_PC_texte = QtWidgets.QLabel(self.MainWindow)
+            self.Soin_PC_texte.setGeometry(QtCore.QRect(100, 390, 440, 80))
+            self.Soin_PC_texte.setText("Un instant, je soigne vos pokémons.")
+            font = QtGui.QFont()
+            font.setFamily("Pokémon FireRed & LeafGreen Fon") # police venant du jeu Pokémon FireRed & LeafGreen
+            font.setPointSize(10)
+            font.setBold(False)
+            font.setWeight(50)
+            font.setCapitalization(1)
+            font.setLetterSpacing(1,-2)
+            font.setWordSpacing(3)
+            self.Soin_PC_texte.setFont(font)
+            self.Soin_PC_texte.setObjectName("Soin_PC_texte")
+            
+            self.Soin_PC.show()
+            self.Soin_PC_texte.show()
             QtTest.QTest.qWait(4000)
+            self.Soin_PC.hide()
+            self.Soin_PC_texte.hide()
             self.MainWindow.Menu = "Carte"
+            
             Equipe.Soin_All()
             
         if (y-1,x) == (87,91) and Sprite.Orientation == "Derriere": #On parle au PC

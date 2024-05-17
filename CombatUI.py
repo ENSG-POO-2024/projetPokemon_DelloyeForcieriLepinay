@@ -31,7 +31,7 @@ class InterfaceCombat(Interface):
         self.Fond_Zone = QtWidgets.QLabel(self.Zone_Combat)
         self.Fond_Zone.setGeometry(QtCore.QRect(0, 0, 480, 320))
         self.Fond_Zone.setText("")
-        self.Fond_Zone.setPixmap(QtGui.QPixmap("./data/plaine.png"))
+        self.Fond_Zone.setPixmap(QtGui.QPixmap("./images/plaine.png"))
         self.Fond_Zone.setScaledContents(True)
         self.Fond_Zone.setObjectName("Fond_Zone")
         self.Fond_Zone.raise_()
@@ -51,19 +51,19 @@ class InterfaceCombat(Interface):
         self.PV_Ennemi = QtWidgets.QLabel(self.Zone_Combat)
         self.PV_Ennemi.setGeometry(QtCore.QRect(10, 10, 300, 90))
         self.PV_Ennemi.setText("")
-        self.PV_Ennemi.setPixmap(QtGui.QPixmap("../UI/BarreEnnemie.png"))
+        self.PV_Ennemi.setPixmap(QtGui.QPixmap("./images/BarreEnnemie.png"))
         self.PV_Ennemi.setScaledContents(True)
         self.PV_Ennemi.setObjectName("PV_Ennemi")
         self.PV_Allie = QtWidgets.QLabel(self.Zone_Combat)
         self.PV_Allie.setGeometry(QtCore.QRect(160, 200, 315, 120))
         self.PV_Allie.setText("")
-        self.PV_Allie.setPixmap(QtGui.QPixmap("../UI/BarreAlliee.png"))
+        self.PV_Allie.setPixmap(QtGui.QPixmap("./images/BarreAlliee.png"))
         self.PV_Allie.setScaledContents(True)
         self.PV_Allie.setObjectName("PV_Allie")
         self.Nom_PokeAllie = QtWidgets.QLabel(self.Zone_Combat)
         self.Nom_PokeAllie.setGeometry(QtCore.QRect(205, 217, 181, 21))
         font = QtGui.QFont()
-        font.setFamily("Pokémon FireRed & LeafGreen Fon")
+        font.setFamily("Pokémon FireRed & LeafGreen Fon") # police venant du jeu Pokémon FireRed & LeafGreen
         font.setPointSize(16)
         font.setBold(False)
         font.setWeight(50)
@@ -98,13 +98,13 @@ class InterfaceCombat(Interface):
         self.PV_Ennemi = QtWidgets.QLabel(self.Zone_Combat)
         self.PV_Ennemi.setGeometry(QtCore.QRect(10, 10, 300, 90))
         self.PV_Ennemi.setText("")
-        self.PV_Ennemi.setPixmap(QtGui.QPixmap("./UI/BarreEnnemie.png"))
+        self.PV_Ennemi.setPixmap(QtGui.QPixmap("./images/BarreEnnemie.png"))
         self.PV_Ennemi.setScaledContents(True)
         self.PV_Ennemi.setObjectName("PV_Ennemi")
         self.PV_Allie = QtWidgets.QLabel(self.Zone_Combat)
         self.PV_Allie.setGeometry(QtCore.QRect(160, 200, 315, 120))
         self.PV_Allie.setText("")
-        self.PV_Allie.setPixmap(QtGui.QPixmap("./UI/BarreAlliee.png"))
+        self.PV_Allie.setPixmap(QtGui.QPixmap("./images/BarreAlliee.png"))
         self.PV_Allie.setScaledContents(True)
         self.PV_Allie.setObjectName("PV_Allie")
         self.Nom_PokeAllie = QtWidgets.QLabel(self.Zone_Combat)
@@ -131,7 +131,7 @@ class InterfaceCombat(Interface):
         self.Fond_Zone_3 = QtWidgets.QLabel(self.Choix_Attaque)
         self.Fond_Zone_3.setGeometry(QtCore.QRect(0, 0, 480, 100))
         self.Fond_Zone_3.setText("")
-        self.Fond_Zone_3.setPixmap(QtGui.QPixmap("./data/ecran_combat_choix.png"))
+        self.Fond_Zone_3.setPixmap(QtGui.QPixmap("./images/ecran_combat_choix.png"))
         self.Fond_Zone_3.setScaledContents(True)
         self.Fond_Zone_3.setObjectName("Fond_Zone_3")
         
@@ -181,7 +181,7 @@ class InterfaceCombat(Interface):
         self.Fond_Zone_2 = QtWidgets.QLabel(MainWindow)
         self.Fond_Zone_2.setGeometry(QtCore.QRect(10, 330, 480, 60))
         self.Fond_Zone_2.setText("")
-        self.Fond_Zone_2.setPixmap(QtGui.QPixmap("./data/ecran_combat_texte.png"))
+        self.Fond_Zone_2.setPixmap(QtGui.QPixmap("./images/ecran_combat_texte.png"))
         self.Fond_Zone_2.setScaledContents(True)
         self.Fond_Zone_2.setObjectName("Fond_Zone_2")
         
@@ -386,6 +386,7 @@ class InterfaceCombat(Interface):
         self.Choix_4.setText("Fuite")
         self.BoiteDialogue.setText("")
         self.MenuActuel = "Choix"
+        self.BoiteDialogue.setText(f"Un {self.Pokemon_Adverse.nom} sauvage apparaît !")
         
         Pokemon1 = self.Equipe[0]
         
@@ -467,6 +468,7 @@ class InterfaceCombat(Interface):
         if self.Pokemon_Adverse.PV_actuel < 0:
             self.Pokemon_Adverse.PV_actuel = 0
             self.actualisation_PV("Ennemi")
+            self.Sprite_Face.hide()
             #On le capture s'il y a de la place dans l'équipe, on le rajoute
             if len(self.Equipe)<6:
                 self.Equipe.append(copy.copy(self.Pokemon_Adverse))
@@ -479,7 +481,7 @@ class InterfaceCombat(Interface):
                 self.PC.append(copy.copy(self.Pokemon_Adverse))
                 self.BoiteDialogue.setText(f"Bravo ! Vous avez capturé un {self.Pokemon_Adverse.nom} sauvage ! \nIl a été envoyé dans votre PC.")
             #Fin du combat
-            QtTest.QTest.qWait(2000)
+            QtTest.QTest.qWait(3000)
             self.hide()
             self.MainWindow.Menu = "Carte"
             self.MainWindow.map.show()
@@ -525,7 +527,7 @@ class InterfaceCombat(Interface):
                 #On cherche le delta avec le centre pokémon, on téléporte là-bas, et on soigne l'équipe
                 X_PC, Y_PC = (87,90)
                 delta_x, delta_y = X_PC - self.Sprite.x, Y_PC - self.Sprite.y
-                self.MainWindow.map.Warp(delta_y, delta_x,"Center")
+                self.MainWindow.map.Warp(delta_y, delta_x)
                 self.MainWindow.Menu = "Dummy"
                 self.hide()
                 self.MainWindow.map.show()
