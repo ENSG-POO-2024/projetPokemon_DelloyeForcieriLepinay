@@ -17,16 +17,18 @@ from Gestion_Son import Jukebox
 from Menus import Menu_Gestion
 from PC import Menu_PC
 from intro import Intro
-
+from PyQt5.QtGui import QFontDatabase
 
 
 class MainWindow(QWidget):
     """Cette classe définit la fenêtre principale, ainsi que tous les événements utilisateurs (Clic, appui de touches...etc)"""
     def __init__(self):
         super().__init__()
-        #Pour gérer les 
+        #Pour gérer les délais entre inputs
         self.KeyTime = datetime.now()
         self.KeyTime_Delta = timedelta(seconds=0.15)
+        
+        #Pour forcer le focus fortement (Lors d'une réduction de fenêtre par exemple)
         self.setFocusPolicy(Qt.StrongFocus)
         
     
@@ -150,6 +152,7 @@ class MainWindow(QWidget):
         
         
 if __name__ == '__main__':
+    QFontDatabase.addApplicationFont("./data/PokemonGb-RAeo.ttf")
     #Ouverture de la fenêtre principale
     app = QApplication(sys.argv)
     ui = MainWindow()
