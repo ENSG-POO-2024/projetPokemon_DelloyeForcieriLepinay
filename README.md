@@ -15,10 +15,10 @@
 
   Les combats se font au tour par tour. Le pokémon le plus rapide attaque en premier. Il se finit lorsque les PVs du pokémon adverse sont à zéro, ou bien si le joueur n'a plus aucun pokémon apte au combat. 
 
-#### Interactions :
+### Interactions :
 
 #### Initialement :
-  - Choisir son pokémon de départ avec les fléches directionnelles et la barre espace.
+  - Obtenir ses premiers pokémons auprès du prof Chen (Barre Espace)
 
 ##### Sur la carte :
 
@@ -60,9 +60,10 @@ Le joueur peut :
   4. CombatUI.py : Gère l'interface de combat.
   5. Menus.py : Gère le menu de Gestion d'Equipe
   6. PC.py : Gère l'interface du PC
-  7. GestionCombat : Gère les mécaniques du PC et de l'équipe
-  8. Mecaniques : Gère la création de Pokémons, les attaques...etc.
-  9. Conversion_Image_Collison.py : Un outil qui permet de facilement convertir une carte en matrice de collision.
-  10. Gestion_Son.py : Objet pour gérer les changements de musiques. 
-  11. Animation/Temp/Images/Map/Audio : Des dossiers contenant les sprites/cartes/fichiers audios...etc nécessaire à l'affichage graphique. 
-  12. data/documents : Dossiers contenant la matrice de collision et les données initiales (Pokédex notamment)
+  7. Intro.py : Sert à l'affichage du bloc d'interface dédié au prof chen. 
+  8. GestionCombat : Gère les mécaniques du PC et de l'équipe
+  9. Mecaniques : Gère la création de Pokémons, les attaques...etc.
+  10. Conversion_Image_Collison.py : Un outil qui permet de facilement convertir une carte en matrice de collision.
+  11. Gestion_Son.py : Objet pour gérer les changements de musiques. 
+  12. Animation/Temp/Images/Map/Audio : Des dossiers contenant les sprites/cartes/fichiers audios...etc nécessaire à l'affichage graphique. 
+  13. data/documents : Dossiers contenant la matrice de collision et les données initiales (Pokédex notamment)
