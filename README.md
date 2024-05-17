@@ -1,8 +1,8 @@
 # PyQTMon
 
-* Noé DELLOYE noe.delloye@ensg.eu
-* Sarah FORCIERI sarah.forcieri@ensg.eu
-* Fabien LÉPINAY fabien.lepinay@ensg.eu
+* Noé DELLOYE : noe.delloye@ensg.eu
+* Sarah FORCIERI : sarah.forcieri@ensg.eu
+* Fabien LÉPINAY : fabien.lepinay@ensg.eu
 
 ## Le Code :
 
