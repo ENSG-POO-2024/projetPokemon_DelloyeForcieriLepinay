@@ -51,9 +51,10 @@ class Intro(Interface):
         
         self.Parole = QtWidgets.QLabel(MainWindow)
         self.Parole.setGeometry(QtCore.QRect(30, 380, 460, 84))
-        self.Parole.setText(" Bien le bonjour !\n Voici tes trois premiers POKÉMON !")
+        self.Parole.setText(" Bien le bonjour !\n\n Voici tes trois premiers Pokémons !")
         font = self.font
         font.setPointSize(8)
+        font.setLetterSpacing(1,-2)
         self.Parole.setFont(font)
         self.Parole.setObjectName("Soin_PC_texte")
     

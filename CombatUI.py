@@ -10,23 +10,24 @@ from PyQt5.QtGui import QFontDatabase
 class InterfaceCombat(Interface):
     """Interface de combat pour gérer un combat contre un pokémon sauvage"""
     def __init__(self, MainWindow,Pokemon_Sauvage):
-        #Définit tous les composants de l'interface de combat (Assez indigeste) ...
+        # Définit tous les composants de l'interface de combat (Assez indigeste) ...
         super().__init__(MainWindow)
         
-        #On définit les informations relatives au combat
+        # On définit les informations relatives au combat
         self.Pokemon_Adverse = Pokemon_Sauvage
         
-        #Définition de quelques booléens pour savoir dans quel menu on se situe
+        # Définition de quelques booléens pour savoir dans quel menu on se situe
         self.position_fleche = "Haut","Gauche" 
         self.MenuActuel = "Choix"
         
-        #On crée une zone de combat (Sprite des pokémons + Barre de PVs + Nom des pokémons)
+        # Création d'une zone de combat (Sprite des pokémons + Barre de PVs + Nom des pokémons)
         self.Zone_Combat = QtWidgets.QFrame(MainWindow)
         self.Zone_Combat.setGeometry(QtCore.QRect(10, 10, 480, 320))
         self.Zone_Combat.setFrameShape(QtWidgets.QFrame.Box)
         self.Zone_Combat.setFrameShadow(QtWidgets.QFrame.Raised)
         self.Zone_Combat.setObjectName("Zone_Combat")
         
+        # Création du fond de la zone de combat 
         self.Fond_Zone = QtWidgets.QLabel(self.Zone_Combat)
         self.Fond_Zone.setGeometry(QtCore.QRect(0, 0, 480, 320))
         self.Fond_Zone.setText("")
@@ -35,6 +36,8 @@ class InterfaceCombat(Interface):
         self.Fond_Zone.setObjectName("Fond_Zone")
         self.Fond_Zone.raise_()
         
+        # On superpose sur le fond de la zone de combat les sprites de dos, face, 
+        # les barres de PV de notre pokémon et celle du pokémon adverse
         self.Sprite_Dos = QtWidgets.QLabel(self.Zone_Combat)
         self.Sprite_Dos.setGeometry(QtCore.QRect(40, 210, 128, 128))
         self.Sprite_Dos.setText("")
@@ -61,17 +64,19 @@ class InterfaceCombat(Interface):
         self.PV_Allie.setObjectName("PV_Allie")
         self.Nom_PokeAllie = QtWidgets.QLabel(self.Zone_Combat)
         self.Nom_PokeAllie.setGeometry(QtCore.QRect(205, 217, 181, 21))
-        font = self.font
-        font.setPointSize(12)
+        
+        # Définition de la police d'écriture
+        font = self.font # police inspiré du jeu Pokémon FireRed & LeafGreen
+        font.setPointSize(10) 
         font.setBold(False)
         font.setWeight(50)
-        font.setLetterSpacing(1,-2)
-        font.setWordSpacing(3)
+        font.setLetterSpacing(1,-2) 
+        
         self.Nom_PokeAllie.setFont(font)
         self.Nom_PokeAllie.setObjectName("Nom_PokeAllie")
         self.Nom_PokeEnnemi = QtWidgets.QLabel(self.Zone_Combat)
         self.Nom_PokeEnnemi.setGeometry(QtCore.QRect(30, 23, 181, 21))
-        font.setPointSize(12)
+        font.setPointSize(10)
         self.Nom_PokeEnnemi.setFont(font)
         self.Nom_PokeEnnemi.setObjectName("Nom_PokeEnnemi")
         self.PVBarre_Allie = QtWidgets.QProgressBar(self.Zone_Combat)
@@ -112,7 +117,7 @@ class InterfaceCombat(Interface):
         self.Choix_Attaque.setFrameShape(QtWidgets.QFrame.Box)
         self.Choix_Attaque.setFrameShadow(QtWidgets.QFrame.Raised)
         self.Choix_Attaque.setObjectName("Choix_Attaque")
-        font.setPointSize(8)
+        font.setPointSize(10)
         self.Choix_Attaque.setFont(font)
         self.Choix_Attaque.raise_()
         
@@ -124,44 +129,44 @@ class InterfaceCombat(Interface):
         self.Fond_Zone_3.setObjectName("Fond_Zone_3")
         
         self.Choix_1 = QtWidgets.QLabel(self.Choix_Attaque)
-        self.Choix_1.setGeometry(QtCore.QRect(0, 0, 240, 50))
-        self.Choix_1.setAlignment(QtCore.Qt.AlignCenter)
+        self.Choix_1.setGeometry(QtCore.QRect(50, 0, 240, 50))
+        self.Choix_1.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.Choix_1.setObjectName("Choix_1")
         font.setPointSize(10)
         self.Choix_1.setFont(font)
         
         self.Choix_2 = QtWidgets.QLabel(self.Choix_Attaque)
-        self.Choix_2.setGeometry(QtCore.QRect(240, 0, 240, 50))
-        self.Choix_2.setAlignment(QtCore.Qt.AlignCenter)
+        self.Choix_2.setGeometry(QtCore.QRect(300, 0, 240, 50))
+        self.Choix_2.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.Choix_2.setObjectName("Choix_2")
         font.setPointSize(10)
         self.Choix_2.setFont(font)
         
         self.Choix_3 = QtWidgets.QLabel(self.Choix_Attaque)
-        self.Choix_3.setGeometry(QtCore.QRect(0, 50, 240, 50))
-        self.Choix_3.setAlignment(QtCore.Qt.AlignCenter)
+        self.Choix_3.setGeometry(QtCore.QRect(50, 50, 240, 50))
+        self.Choix_3.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.Choix_3.setObjectName("Choix_3")
         font.setPointSize(10)
         self.Choix_3.setFont(font)
         
         self.Choix_4 = QtWidgets.QLabel(self.Choix_Attaque)
-        self.Choix_4.setGeometry(QtCore.QRect(240, 50, 240, 50))
-        self.Choix_4.setAlignment(QtCore.Qt.AlignCenter)
+        self.Choix_4.setGeometry(QtCore.QRect(300, 50, 240, 50))
+        self.Choix_4.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.Choix_4.setObjectName("Choix_4")
         font.setPointSize(10)
         self.Choix_4.setFont(font)
         
         self.Fleche_1 = QtWidgets.QLabel(self.Choix_Attaque)
-        self.Fleche_1.setGeometry(QtCore.QRect(37, 16, 16, 20))
+        self.Fleche_1.setGeometry(QtCore.QRect(17, 16, 16, 20))
         self.Fleche_1.setObjectName("Fleche_1")
         self.Fleche_2 = QtWidgets.QLabel(self.Choix_Attaque)
-        self.Fleche_2.setGeometry(QtCore.QRect(280, 16, 16, 20))
+        self.Fleche_2.setGeometry(QtCore.QRect(270, 16, 16, 20))
         self.Fleche_2.setObjectName("Fleche_2")
         self.Fleche_3 = QtWidgets.QLabel(self.Choix_Attaque)
-        self.Fleche_3.setGeometry(QtCore.QRect(37, 65, 16, 20))
+        self.Fleche_3.setGeometry(QtCore.QRect(17, 65, 16, 20))
         self.Fleche_3.setObjectName("Fleche_3")
         self.Fleche_4 = QtWidgets.QLabel(self.Choix_Attaque)
-        self.Fleche_4.setGeometry(QtCore.QRect(280, 65, 16, 20))
+        self.Fleche_4.setGeometry(QtCore.QRect(270, 65, 16, 20))
         self.Fleche_4.setObjectName("Fleche_4")
     
         
@@ -176,7 +181,7 @@ class InterfaceCombat(Interface):
         self.BoiteDialogue = QtWidgets.QLabel(MainWindow)
         self.BoiteDialogue.setGeometry(QtCore.QRect(20, 330, 480, 60))
         self.BoiteDialogue.setObjectName("BoiteDialogue")
-        font.setPointSize(8)
+        font.setPointSize(10)
         self.BoiteDialogue.setFont(font)
         self.BoiteDialogue.setStyleSheet("color: white")
         
@@ -374,7 +379,7 @@ class InterfaceCombat(Interface):
         self.Choix_4.setText("Fuite")
         self.BoiteDialogue.setText("")
         self.MenuActuel = "Choix"
-        self.BoiteDialogue.setText(f"Un {self.Pokemon_Adverse.nom} sauvage apparaît !")
+        self.BoiteDialogue.setText(f"Un {self.Pokemon_Adverse.nom} sauvage apparaît !")    
         
         Pokemon1 = self.Equipe[0]
         
@@ -413,6 +418,9 @@ class InterfaceCombat(Interface):
                 - Le pokémon le plus rapide attaque (On contrôle si KO)
                 - Le pokémon le moins rapide attaque (On contrôle si KO)
                 - En cas d'égalité de vitesse, le plus rapide est tiré aléatoirement"""
+                
+        # Pour empêcher le joueur d'effecteur des actions au milieu de la résolution du tour -> Menu Fictif
+        self.MainWindow.Menu = "Dummy"
         
         #Si l'utilisateur a décidé d'attaquer
         if Num_Attaque >= 0:
@@ -433,6 +441,8 @@ class InterfaceCombat(Interface):
         if Num_Attaque < 0 :
             self.Attaque_Ennemie()
             
+        if self.MainWindow.Menu == "Dummy":
+            self.MainWindow.Menu = "Combat"
         
         
         

@@ -98,32 +98,34 @@ class Carte(Interface):
         """Vérifie si le joueur est à côté d'une case avec laquelle il peut interagir, et réalise l'interaction, cette
         méthode se lance si le joueur utilise espace sur le menu Carte."""
         
-        #Récupération de la position
+        # Récupération de la position
         y = Sprite.y
         x = Sprite.x
         
-        #Définition des interactions
-        if (y-1,x) == (89,87) and Sprite.Orientation == "Derriere": #Si on parle au comptoir dans le Pokémon Center
+        # Définition des interactions
+        if (y-1,x) == (89,87) and Sprite.Orientation == "Derriere": 
+            # Si on parle au comptoir dans le Pokémon Center
             
-            #On joue une musique et bloque le personnage en le mettant dans un Menu fictif
+            # On joue une musique et bloque le personnage en le mettant dans un Menu fictif.
             self.Healing.play()
             self.MainWindow.Menu = "Healing"
             
-            #Affichage d'un dialogue le temps du soin
+            # Affichage d'un dialogue le temps du soin
             self.Soin_PC = QtWidgets.QLabel(self.MainWindow)
             self.Soin_PC.setGeometry(QtCore.QRect(20, 385, 460, 100))
             self.Soin_PC.setPixmap(QtGui.QPixmap("./images/ecran_soin.png"))
             self.Soin_PC_texte = QtWidgets.QLabel(self.MainWindow)
             self.Soin_PC_texte.setGeometry(QtCore.QRect(40, 390, 440, 80))
-            self.Soin_PC_texte.setText("Un instant, je soigne vos pokémons.")
-            font = self.font # police venant du jeu Pokémon FireRed & LeafGreen
-            font.setPointSize(9)
+            self.Soin_PC_texte.setText("Un instant, je soigne vos \npokémons.")
+            font = self.font # police inspiré du jeu Pokémon FireRed & LeafGreen
+            font.setPointSize(10)
+            font.setLetterSpacing(1,-3)
             self.Soin_PC_texte.setFont(font)
             self.Soin_PC_texte.setObjectName("Soin_PC_texte")
             self.Soin_PC.show()
             self.Soin_PC_texte.show()
             
-            #On attend, la fin de la musique et on libère le joueur.
+            # On attend la fin de la musique et on libère le joueur.
             QtTest.QTest.qWait(4000)
             self.Soin_PC.hide()
             self.Soin_PC_texte.hide()
