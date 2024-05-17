@@ -6,6 +6,8 @@
 
 ## Le Code :
 
+Fichier à lancer : main.py
+
 ### Explication du jeu :
 
   Le but du jeu est de capturer le plus de Pokémons dans le monde qui est proposé au joueur. La majorité des pokémons sont répartis dans différentes zones de recontres (Voir ./images/zonages.png) et peuvent y être rencontrés soient dans les hautes herbes, soient dans le sable du désert, soit dans les grottes. Ils peuvent être également pêchés à proximité des pontons de pêche. D'autres pokémons (les légendaires) sont uniques et ont des interactions sur la carte.
