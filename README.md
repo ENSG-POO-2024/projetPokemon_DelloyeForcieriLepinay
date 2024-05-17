@@ -50,6 +50,7 @@ Dans le menu Attaque :
 Dans le menu Gestion Equipe :
 - Cliquer sur le Pokémon à passer en première position (Change le pokémon que le pokémon adverse attaque)
 
+
 ##### Dans le PC : 
   - Agencer son équipe ou son PC avec les boutons ajouter et déposer.
 
