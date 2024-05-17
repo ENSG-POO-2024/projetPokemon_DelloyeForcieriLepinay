@@ -74,8 +74,7 @@ class Carte(Interface):
         self.anim.start()
     
         
-    def Warp(self, deltaY, deltaX, musique):
-        self.Jukebox.ChangeDeMusique(f"./Son/{musique}.wav")
+    def Warp(self, deltaY, deltaX):
         self.MainWindow.Menu = "Dummy"
         #Translate la carte d'un point de départ à un point d'arrivée
         rect = self.carte.geometry()

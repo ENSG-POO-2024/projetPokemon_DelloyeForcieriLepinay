@@ -45,7 +45,7 @@ class Pokemon():
         
     def Sprite(self, Direction):
         
-        im = Image.open("./data/Sprite_Opacity.png")
+        im = Image.open("./images/Sprite_Opacity.png")
         ID = self.ID-1
         left = 1 + 161*(ID//3)
         top = 1 + 65*(ID%3)
