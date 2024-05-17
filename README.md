@@ -46,14 +46,14 @@ Le joueur peut :
     - Choisir son attaque (Le tour se résout -> Le pokémon le plus rapide attaque)
   Dans le menu Gestion Equipe :
     - Cliquer sur le Pokémon à passer en première position (Change le pokémon que le pokémon adverse attaque)
- 
-##### Dans le PC :
+
+##### Dans le PC : 
   - Agencer son équipe ou son PC avec les boutons ajouter et déposer.
 
 ##### Dans le menu Equipe :
   - Agencer son équipe en cliquant sur le pokémon à mettre en première position.
 
-### Explication des répertoires:
+### Explication des répertoires :
 
 * Le répertoire est arrangé ainsi
   1. main.py : Fichier principal qui execute tout le code. 
