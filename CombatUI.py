@@ -120,7 +120,7 @@ class InterfaceCombat(Interface):
         self.Choix_Attaque.setGeometry(QtCore.QRect(10, 390, 480, 100))
         self.Choix_Attaque.setFrameShape(QtWidgets.QFrame.Box)
         self.Choix_Attaque.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.Choix_Attaque.setObjectName("Choix_Attaque")
+        self.Choix_Attaque.setObjectName("Choix_Attaque")        
         self.Choix_1 = QtWidgets.QLabel(self.Choix_Attaque)
         self.Choix_1.setGeometry(QtCore.QRect(0, 0, 240, 50))
         self.Choix_1.setAlignment(QtCore.Qt.AlignCenter)
@@ -152,7 +152,7 @@ class InterfaceCombat(Interface):
         
         #Puis une boîte de dialogue qui servira à donner des informations au joueur (Efficacité de l'attaque...etc)
         self.BoiteDialogue = QtWidgets.QTextEdit(MainWindow)
-        self.BoiteDialogue.setGeometry(QtCore.QRect(10, 340, 481, 41))
+        self.BoiteDialogue.setGeometry(QtCore.QRect(10, 340, 480, 41))
         self.BoiteDialogue.setObjectName("BoiteDialogue")
         
         self.retranslateUi(MainWindow)

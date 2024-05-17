@@ -38,77 +38,35 @@ class Carte(Interface):
         self.anim.setStartValue(rect)
         
         if Direction == "Derriere":
-            if self.matrice_dalle[Sprite.y-1, Sprite.x] != 0 and self.matrice_dalle[Sprite.y-1, Sprite.x] not in [51,52,101,102]:
+            if self.matrice_dalle[Sprite.y-1, Sprite.x] != 0 and self.matrice_dalle[Sprite.y-1, Sprite.x] not in [51,52,101,102,144,145,146,150,151]:
                 Sprite.x, Sprite.y = Sprite.x, Sprite.y-1
                 rect.translate(0,48)
             else:
-                self.BumpSound.play()
-            if abs(Sprite.y-24) <= 6 and abs(Sprite.x-33) <= 6:
-                Legendaire.show(24-Sprite.y, 33-Sprite.x, 151)
-            elif abs(Sprite.y-8) <= 6 and abs(Sprite.x-70) <= 6:
-                Legendaire.show(8-Sprite.y, 70-Sprite.x, 150)
-            elif abs(Sprite.y-57) <= 6 and abs(Sprite.x-86) <= 6:
-                Legendaire.show(57-Sprite.y, 86-Sprite.x, 146)
-            elif abs(Sprite.y-12) <= 6 and abs(Sprite.x-89) <= 6:
-                Legendaire.show(12-Sprite.y, 89-Sprite.x, 145)
-            elif abs(Sprite.y-64) <= 6 and abs(Sprite.x-12) <= 6:
-                Legendaire.show(64-Sprite.y, 12-Sprite.x, 144)
-            
+                self.BumpSound.play()        
             
         elif Direction == "Devant":
-            if self.matrice_dalle[Sprite.y+1, Sprite.x] != 0 and self.matrice_dalle[Sprite.y+1, Sprite.x] not in [51,52,101,102]:
+            if self.matrice_dalle[Sprite.y+1, Sprite.x] != 0 and self.matrice_dalle[Sprite.y+1, Sprite.x] not in [51,52,101,102,144,145,146,150,151]:
                 Sprite.x, Sprite.y = Sprite.x, Sprite.y+1
                 rect.translate(0,-48)
             else:
                 self.BumpSound.play()
-            if abs(Sprite.y-24) <= 6 and abs(Sprite.x-33) <= 6:
-                Legendaire.show(24-Sprite.y, 33-Sprite.x, 151)
-            elif abs(Sprite.y-8) <= 6 and abs(Sprite.x-70) <= 6:
-                Legendaire.show(8-Sprite.y, 70-Sprite.x, 150)
-            elif abs(Sprite.y-57) <= 6 and abs(Sprite.x-86) <= 6:
-                Legendaire.show(57-Sprite.y, 86-Sprite.x, 146)
-            elif abs(Sprite.y-12) <= 6 and abs(Sprite.x-89) <= 6:
-                Legendaire.show(12-Sprite.y, 89-Sprite.x, 145)
-            elif abs(Sprite.y-64) <= 6 and abs(Sprite.x-12) <= 6:
-                Legendaire.show(64-Sprite.y, 12-Sprite.x, 144)
-            
-            
             
         elif Direction == "Gauche":
-            if self.matrice_dalle[Sprite.y, Sprite.x-1] != 0 and self.matrice_dalle[Sprite.y, Sprite.x-1] not in [51,52,101,102]:
+            if self.matrice_dalle[Sprite.y, Sprite.x-1] != 0 and self.matrice_dalle[Sprite.y, Sprite.x-1] not in [51,52,101,102,144,145,146,150,151]:
                 Sprite.x, Sprite.y = Sprite.x-1, Sprite.y
                 rect.translate(48,0)
             else:
                 self.BumpSound.play()
-            if abs(Sprite.y-24) <= 6 and abs(Sprite.x-33) <= 6:
-                Legendaire.show(24-Sprite.y, 33-Sprite.x, 151)
-            elif abs(Sprite.y-8) <= 6 and abs(Sprite.x-70) <= 6:
-                Legendaire.show(8-Sprite.y, 70-Sprite.x, 150)
-            elif abs(Sprite.y-57) <= 6 and abs(Sprite.x-86) <= 6:
-                Legendaire.show(57-Sprite.y, 86-Sprite.x, 146)
-            elif abs(Sprite.y-12) <= 6 and abs(Sprite.x-89) <= 6:
-                Legendaire.show(12-Sprite.y, 89-Sprite.x, 145)
-            elif abs(Sprite.y-64) <= 6 and abs(Sprite.x-12) <= 6:
-                Legendaire.show(64-Sprite.y, 12-Sprite.x, 144)
-            
             
                 
         elif Direction == "Droite":
-            if self.matrice_dalle[Sprite.y, Sprite.x+1] != 0 and self.matrice_dalle[Sprite.y, Sprite.x+1] not in [51,52,101,102]:
+            if self.matrice_dalle[Sprite.y, Sprite.x+1] != 0 and self.matrice_dalle[Sprite.y, Sprite.x+1] not in [51,52,101,102,144,145,146,150,151]:
                 Sprite.x, Sprite.y = Sprite.x+1, Sprite.y
                 rect.translate(-48,0)
             else:
                 self.BumpSound.play()
-            if abs(Sprite.y-24) <= 6 and abs(Sprite.x-33) <= 6:
-                Legendaire.show(24-Sprite.y, 33-Sprite.x, 151)
-            elif abs(Sprite.y-8) <= 6 and abs(Sprite.x-70) <= 6:
-                Legendaire.show(8-Sprite.y, 70-Sprite.x, 150)
-            elif abs(Sprite.y-57) <= 6 and abs(Sprite.x-86) <= 6:
-                Legendaire.show(57-Sprite.y, 86-Sprite.x, 146)
-            elif abs(Sprite.y-12) <= 6 and abs(Sprite.x-89) <= 6:
-                Legendaire.show(12-Sprite.y, 89-Sprite.x, 145)
-            elif abs(Sprite.y-64) <= 6 and abs(Sprite.x-12) <= 6:
-                Legendaire.show(64-Sprite.y, 12-Sprite.x, 144)
+                
+        self.MainWindow.SpriteLegend.show(Sprite)
             
             
                 
@@ -258,49 +216,47 @@ class Sprite:
         self.Label.show()
 
 
-class Legendaire(Pokemon):
+class Legendaire():
+    """Définit l'apparition des sprites des légendaires et leur ID associé pour les rencontrer"""
     def __init__(self,MainWindow, ID, X, Y, larg=48, haut=48):
-        super().__init__()
-        self.FromID(ID)
-        
         #Définition de l'encart contenant le sprite
         self.Label = QtWidgets.QLabel(MainWindow)
         self.Label.setGeometry(QtCore.QRect(X, Y , larg, haut))
-        self.Label.setScaledContents(True)
-        self.Label.setPixmap(QtGui.QPixmap(self.Sprite("mini")))
-        self.Label.setObjectName(self.nom)
+        self.Label.setScaledContents(False)
         
-        #Définition des coordonnées du sprite (Dans la matrice)
-        if ID == 144:
-            self.y = 64
-            self.x = 12
-        elif ID == 145:
-            self.y = 12
-            self.x = 89
-        elif ID == 146:
-            self.y = 57
-            self.x = 86
-        elif ID == 150:
-            self.y = 8
-            self.x = 70
-        elif ID == 151:
-            self.y = 24
-            self.x = 33
-        
-        #Définition de l'animation éventuelle.
-        self.IsAnimated = False
-        self.movie = None
-    
-    #def move(self, dY, dX):
-        #self.Label.setGeometry(QtCore.QRect(243+dX*16, 240+dY*16, 32, 32))
+        self.dico_rencontre = {151:False, 150:False, 146:False, 145:False, 144:False}
         
     def hide(self):
-        self.Label.hide()
+        self.Label.setPixmap(QtGui.QPixmap("Dummy.JPG"))
             
-    def show(self, dY, dX, ID):
-        self.FromID(ID)
-        self.Label.setPixmap(QtGui.QPixmap(self.Sprite("mini")))
-        self.Label.setObjectName(self.nom)
-        self.Label.setGeometry(QtCore.QRect(243+dX*48, 240+dY*48, 48, 48))
-        self.Label.setScaledContents(True)
-        self.Label.show()
+    def show(self, Sprite):
+        #Mew
+        if abs(Sprite.y-24) <= 6 and abs(Sprite.x-33) <= 6 and not self.dico_rencontre[151]:
+            self.ID = 151
+            dX, dY = 33-Sprite.x, 24-Sprite.y
+            self.Label.setPixmap(QtGui.QPixmap("./Legendaire/Mew.png"))
+            self.Label.setGeometry(QtCore.QRect(243+dX*48, 240+dY*48, 48, 48))
+        #Mewtwo
+        elif abs(Sprite.y-8) <= 6 and abs(Sprite.x-70) <= 6 and not self.dico_rencontre[150]:
+            self.ID = 150
+            dX, dY = 70-Sprite.x, 8-Sprite.y
+            self.Label.setPixmap(QtGui.QPixmap("./Legendaire/Mewtwo.png"))
+            self.Label.setGeometry(QtCore.QRect(243+dX*48, 240+dY*48, 48, 48))
+        #Sulfura
+        elif abs(Sprite.y-57) <= 6 and abs(Sprite.x-86) <= 6 and not self.dico_rencontre[146]:
+            self.ID = 146
+            dX, dY = 86-Sprite.x, 57-Sprite.y
+            self.Label.setPixmap(QtGui.QPixmap("./Legendaire/Sulfura.png"))
+            self.Label.setGeometry(QtCore.QRect(243+dX*48, 240+dY*48, 48, 48))
+        #Electhor
+        elif abs(Sprite.y-12) <= 6 and abs(Sprite.x-89) <= 6 and not self.dico_rencontre[145]:
+            self.ID = 145
+            dX, dY = 89-Sprite.x, 12-Sprite.y
+            self.Label.setPixmap(QtGui.QPixmap("./Legendaire/Electhor.png"))
+            self.Label.setGeometry(QtCore.QRect(243+dX*48, 240+dY*48, 48, 48))
+        #Artikodin
+        elif abs(Sprite.y-64) <= 6 and abs(Sprite.x-12) <= 6 and not self.dico_rencontre[144]:
+            self.ID = 144
+            dX, dY = 12-Sprite.x, 64-Sprite.y
+            self.Label.setPixmap(QtGui.QPixmap("./Legendaire/Artikodin.png"))
+            self.Label.setGeometry(QtCore.QRect(243+dX*48, 240+dY*48, 48, 48))

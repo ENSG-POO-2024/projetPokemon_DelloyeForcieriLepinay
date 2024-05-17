@@ -48,6 +48,9 @@ class MainWindow(QWidget):
             if event.key() == Qt.Key_Space:
                 self.map.Interaction(self.SpritePerso, self.Equipe)
                 
+            if event.key() == Qt.Key_M:
+                self.UICombat.show()
+                
         elif self.Menu == "Combat": 
             if self.UICombat.MenuActuel != "Switch":
                 if event.key() == Qt.Key_Up:
