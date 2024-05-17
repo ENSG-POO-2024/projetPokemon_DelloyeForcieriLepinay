@@ -418,10 +418,6 @@ class InterfaceCombat(Interface):
                 - Le pokémon le plus rapide attaque (On contrôle si KO)
                 - Le pokémon le moins rapide attaque (On contrôle si KO)
                 - En cas d'égalité de vitesse, le plus rapide est tiré aléatoirement"""
-                
-        # Pour empêcher le joueur d'effecteur des actions au milieu de la résolution du tour -> Menu Fictif
-        self.MainWindow.Menu = "Dummy"
-        
         #Si l'utilisateur a décidé d'attaquer
         if Num_Attaque >= 0:
             Pokemon_Allie = self.Equipe[0]
@@ -440,9 +436,6 @@ class InterfaceCombat(Interface):
         
         if Num_Attaque < 0 :
             self.Attaque_Ennemie()
-            
-        if self.MainWindow.Menu == "Dummy":
-            self.MainWindow.Menu = "Combat"
         
         
         
