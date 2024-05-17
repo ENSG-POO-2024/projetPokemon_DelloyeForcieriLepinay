@@ -386,6 +386,7 @@ class InterfaceCombat(Interface):
         self.Choix_4.setText("Fuite")
         self.BoiteDialogue.setText("")
         self.MenuActuel = "Choix"
+        self.BoiteDialogue.setText(f"Un {self.Pokemon_Adverse.nom} sauvage apparaît !")
         
         Pokemon1 = self.Equipe[0]
         
@@ -467,6 +468,7 @@ class InterfaceCombat(Interface):
         if self.Pokemon_Adverse.PV_actuel < 0:
             self.Pokemon_Adverse.PV_actuel = 0
             self.actualisation_PV("Ennemi")
+            self.Sprite_Face.hide()
             #On le capture s'il y a de la place dans l'équipe, on le rajoute
             if len(self.Equipe)<6:
                 self.Equipe.append(copy.copy(self.Pokemon_Adverse))
@@ -479,7 +481,7 @@ class InterfaceCombat(Interface):
                 self.PC.append(copy.copy(self.Pokemon_Adverse))
                 self.BoiteDialogue.setText(f"Bravo ! Vous avez capturé un {self.Pokemon_Adverse.nom} sauvage ! \nIl a été envoyé dans votre PC.")
             #Fin du combat
-            QtTest.QTest.qWait(2000)
+            QtTest.QTest.qWait(3000)
             self.hide()
             self.MainWindow.Menu = "Carte"
             self.MainWindow.map.show()
