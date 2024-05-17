@@ -3,7 +3,10 @@ from PyQt5 import QtTest
 from Mecaniques import *
 from Interface import Interface
 from PyQt5.QtMultimedia import QSound
+# from fontTools.ttLib import TTFont
 import copy
+
+# font = TTFont("./data/pokemon-firered-leafgreen-font-recreation.ttf")
 
 
 #Définit tous les composants de l'interface de combat (Assez indigeste) ...
@@ -24,6 +27,15 @@ class InterfaceCombat(Interface):
         self.Zone_Combat.setFrameShape(QtWidgets.QFrame.Box)
         self.Zone_Combat.setFrameShadow(QtWidgets.QFrame.Raised)
         self.Zone_Combat.setObjectName("Zone_Combat")
+        
+        self.Fond_Zone = QtWidgets.QLabel(self.Zone_Combat)
+        self.Fond_Zone.setGeometry(QtCore.QRect(0, 0, 480, 320))
+        self.Fond_Zone.setText("")
+        self.Fond_Zone.setPixmap(QtGui.QPixmap("./data/plaine.png"))
+        self.Fond_Zone.setScaledContents(True)
+        self.Fond_Zone.setObjectName("Fond_Zone")
+        self.Fond_Zone.raise_()
+        
         self.Sprite_Dos = QtWidgets.QLabel(self.Zone_Combat)
         self.Sprite_Dos.setGeometry(QtCore.QRect(40, 210, 128, 128))
         self.Sprite_Dos.setText("")
@@ -51,19 +63,18 @@ class InterfaceCombat(Interface):
         self.Nom_PokeAllie = QtWidgets.QLabel(self.Zone_Combat)
         self.Nom_PokeAllie.setGeometry(QtCore.QRect(205, 217, 181, 21))
         font = QtGui.QFont()
-        font.setFamily("Arial")
+        font.setFamily("Pokémon FireRed & LeafGreen Fon")
         font.setPointSize(16)
         font.setBold(False)
         font.setWeight(50)
+        font.setCapitalization(1)
+        font.setLetterSpacing(1,-2)
+        font.setWordSpacing(3)
         self.Nom_PokeAllie.setFont(font)
         self.Nom_PokeAllie.setObjectName("Nom_PokeAllie")
         self.Nom_PokeEnnemi = QtWidgets.QLabel(self.Zone_Combat)
         self.Nom_PokeEnnemi.setGeometry(QtCore.QRect(30, 23, 181, 21))
-        font = QtGui.QFont()
-        font.setFamily("Arial")
         font.setPointSize(16)
-        font.setBold(False)
-        font.setWeight(50)
         self.Nom_PokeEnnemi.setFont(font)
         self.Nom_PokeEnnemi.setObjectName("Nom_PokeEnnemi")
         self.PVBarre_Allie = QtWidgets.QProgressBar(self.Zone_Combat)
@@ -98,20 +109,12 @@ class InterfaceCombat(Interface):
         self.PV_Allie.setObjectName("PV_Allie")
         self.Nom_PokeAllie = QtWidgets.QLabel(self.Zone_Combat)
         self.Nom_PokeAllie.setGeometry(QtCore.QRect(205, 217, 181, 21))
-        font = QtGui.QFont()
-        font.setFamily("Arial")
         font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
         self.Nom_PokeAllie.setFont(font)
         self.Nom_PokeAllie.setObjectName("Nom_PokeAllie")
         self.Nom_PokeEnnemi = QtWidgets.QLabel(self.Zone_Combat)
         self.Nom_PokeEnnemi.setGeometry(QtCore.QRect(30, 23, 181, 21))
-        font = QtGui.QFont()
-        font.setFamily("Arial")
         font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
         self.Nom_PokeEnnemi.setFont(font)
         self.Nom_PokeEnnemi.setObjectName("Nom_PokeEnnemi")
         
@@ -120,47 +123,81 @@ class InterfaceCombat(Interface):
         self.Choix_Attaque.setGeometry(QtCore.QRect(10, 390, 480, 100))
         self.Choix_Attaque.setFrameShape(QtWidgets.QFrame.Box)
         self.Choix_Attaque.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.Choix_Attaque.setObjectName("Choix_Attaque")        
+        self.Choix_Attaque.setObjectName("Choix_Attaque")
+        font.setPointSize(10)
+        self.Choix_Attaque.setFont(font)
+        self.Choix_Attaque.raise_()
+        
+        self.Fond_Zone_3 = QtWidgets.QLabel(self.Choix_Attaque)
+        self.Fond_Zone_3.setGeometry(QtCore.QRect(0, 0, 480, 100))
+        self.Fond_Zone_3.setText("")
+        self.Fond_Zone_3.setPixmap(QtGui.QPixmap("./data/ecran_combat_choix.png"))
+        self.Fond_Zone_3.setScaledContents(True)
+        self.Fond_Zone_3.setObjectName("Fond_Zone_3")
+        
         self.Choix_1 = QtWidgets.QLabel(self.Choix_Attaque)
         self.Choix_1.setGeometry(QtCore.QRect(0, 0, 240, 50))
         self.Choix_1.setAlignment(QtCore.Qt.AlignCenter)
         self.Choix_1.setObjectName("Choix_1")
+        font.setPointSize(10)
+        self.Choix_1.setFont(font)
+        
         self.Choix_2 = QtWidgets.QLabel(self.Choix_Attaque)
         self.Choix_2.setGeometry(QtCore.QRect(240, 0, 240, 50))
         self.Choix_2.setAlignment(QtCore.Qt.AlignCenter)
         self.Choix_2.setObjectName("Choix_2")
+        font.setPointSize(10)
+        self.Choix_2.setFont(font)
+        
         self.Choix_3 = QtWidgets.QLabel(self.Choix_Attaque)
         self.Choix_3.setGeometry(QtCore.QRect(0, 50, 240, 50))
         self.Choix_3.setAlignment(QtCore.Qt.AlignCenter)
         self.Choix_3.setObjectName("Choix_3")
+        font.setPointSize(10)
+        self.Choix_3.setFont(font)
+        
         self.Choix_4 = QtWidgets.QLabel(self.Choix_Attaque)
         self.Choix_4.setGeometry(QtCore.QRect(240, 50, 240, 50))
         self.Choix_4.setAlignment(QtCore.Qt.AlignCenter)
         self.Choix_4.setObjectName("Choix_4")
+        font.setPointSize(10)
+        self.Choix_4.setFont(font)
+        
         self.Fleche_1 = QtWidgets.QLabel(self.Choix_Attaque)
-        self.Fleche_1.setGeometry(QtCore.QRect(77, 16, 16, 20))
+        self.Fleche_1.setGeometry(QtCore.QRect(37, 16, 16, 20))
         self.Fleche_1.setObjectName("Fleche_1")
         self.Fleche_2 = QtWidgets.QLabel(self.Choix_Attaque)
-        self.Fleche_2.setGeometry(QtCore.QRect(320, 16, 16, 20))
+        self.Fleche_2.setGeometry(QtCore.QRect(280, 16, 16, 20))
         self.Fleche_2.setObjectName("Fleche_2")
         self.Fleche_3 = QtWidgets.QLabel(self.Choix_Attaque)
-        self.Fleche_3.setGeometry(QtCore.QRect(77, 65, 16, 20))
+        self.Fleche_3.setGeometry(QtCore.QRect(37, 65, 16, 20))
         self.Fleche_3.setObjectName("Fleche_3")
         self.Fleche_4 = QtWidgets.QLabel(self.Choix_Attaque)
-        self.Fleche_4.setGeometry(QtCore.QRect(320, 65, 16, 20))
+        self.Fleche_4.setGeometry(QtCore.QRect(280, 65, 16, 20))
         self.Fleche_4.setObjectName("Fleche_4")
+    
         
         #Puis une boîte de dialogue qui servira à donner des informations au joueur (Efficacité de l'attaque...etc)
-        self.BoiteDialogue = QtWidgets.QTextEdit(MainWindow)
-        self.BoiteDialogue.setGeometry(QtCore.QRect(10, 340, 480, 41))
+        self.Fond_Zone_2 = QtWidgets.QLabel(MainWindow)
+        self.Fond_Zone_2.setGeometry(QtCore.QRect(10, 330, 480, 60))
+        self.Fond_Zone_2.setText("")
+        self.Fond_Zone_2.setPixmap(QtGui.QPixmap("./data/ecran_combat_texte.png"))
+        self.Fond_Zone_2.setScaledContents(True)
+        self.Fond_Zone_2.setObjectName("Fond_Zone_2")
+        
+        self.BoiteDialogue = QtWidgets.QLabel(MainWindow)
+        self.BoiteDialogue.setGeometry(QtCore.QRect(20, 330, 480, 60))
         self.BoiteDialogue.setObjectName("BoiteDialogue")
+        font.setPointSize(10)
+        self.BoiteDialogue.setFont(font)
+        self.BoiteDialogue.setStyleSheet("color: white")
         
         self.retranslateUi(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        self.Nom_PokeAllie.setText(_translate("UICombat", "Caratroc"))
-        self.Nom_PokeEnnemi.setText(_translate("UICombat", "Caratroc"))
+        self.Nom_PokeAllie.setText(_translate("UICombat", ""))
+        self.Nom_PokeEnnemi.setText(_translate("UICombat", ""))
         self.Choix_1.setText(_translate("UICombat", "Attaque"))
         self.Choix_2.setText(_translate("UICombat", "Changement"))
         self.Choix_3.setText(_translate("UICombat", "Potion"))
@@ -184,6 +221,7 @@ class InterfaceCombat(Interface):
         self.PVBarre_Ennemi.show()
         
         self.BoiteDialogue.show()
+        self.Fond_Zone_2.show()
         
     def hide(self):
         self.Zone_Combat.hide()
@@ -201,6 +239,7 @@ class InterfaceCombat(Interface):
         self.PVBarre_Allie.hide()
         self.PVBarre_Ennemi.hide()
         self.BoiteDialogue.hide()
+        self.Fond_Zone_2.hide()
         
     def deplacement_fleche_menu(self, Direction):
         if self.MenuActuel != "Switch":
@@ -297,7 +336,7 @@ class InterfaceCombat(Interface):
                 if self.Equipe[0].PV_actuel > self.Equipe[0].Stats[0]:
                     self.Equipe[0].PV_actuel = self.Equipe[0].Stats[0]
                 self.actualisation_PV("Allie")
-                self.BoiteDialogue.setPlainText("Le dresseur utilise une hyper potion.")
+                self.BoiteDialogue.setText("Le dresseur utilise une hyper potion.")
                 QtTest.QTest.qWait(2000)
                 self.Tour_de_jeu(-1)
                 
@@ -321,7 +360,7 @@ class InterfaceCombat(Interface):
         #Si on est dans le menu attaque, on revient au menu choix. 
         if self.MenuActuel == "Attaque":
             self.Choix_1.setText("Attaque")
-            self.Choix_2.setText("Switch")
+            self.Choix_2.setText("Changement")
             self.Choix_3.setText("Potion")
             self.Choix_4.setText("Fuite")
             self.MenuActuel = "Choix"
@@ -345,7 +384,7 @@ class InterfaceCombat(Interface):
         self.Choix_2.setText("Changement")
         self.Choix_3.setText("Potion")
         self.Choix_4.setText("Fuite")
-        self.BoiteDialogue.setPlainText("")
+        self.BoiteDialogue.setText("")
         self.MenuActuel = "Choix"
         
         Pokemon1 = self.Equipe[0]
@@ -416,7 +455,7 @@ class InterfaceCombat(Interface):
         Pokemon_Allie = self.Equipe[0]
         Attaque = Pokemon_Allie.Movepool[Num_Attaque]
         Degats, Efficacite, Critique = Attaque.Degats(Pokemon_Allie,self.Pokemon_Adverse)
-        self.BoiteDialogue.setPlainText(f"{Pokemon_Allie.nom} utilise {Attaque.Nom}.\n"+ Efficacite + " " + Critique)
+        self.BoiteDialogue.setText(f"{Pokemon_Allie.nom} utilise {Attaque.Nom}.\n"+ Efficacite + " " + Critique)
         QtTest.QTest.qWait(2000)
         print(f"{Pokemon_Allie.nom} utilise {Attaque.Nom}")
         print(Degats, Efficacite)
@@ -431,14 +470,14 @@ class InterfaceCombat(Interface):
             #On le capture s'il y a de la place dans l'équipe, on le rajoute
             if len(self.Equipe)<6:
                 self.Equipe.append(copy.copy(self.Pokemon_Adverse))
-                self.BoiteDialogue.setPlainText(f"Bravo ! Vous avez capturé un {self.Pokemon_Adverse.nom} sauvage ! Il a été envoyé dans votre équipe.")
+                self.BoiteDialogue.setText(f"Bravo ! Vous avez capturé un {self.Pokemon_Adverse.nom} sauvage ! \nIl a été envoyé dans votre équipe.")
             #S'il n'y en a pas, on le stocke dans le PC.
             else:
                 #On soigne tout pokémon envoyé au PC
                 self.Pokemon_Adverse.Soin()
                 #Puis on l'envoie au PC
                 self.PC.append(copy.copy(self.Pokemon_Adverse))
-                self.BoiteDialogue.setPlainText(f"Bravo ! Vous avez capturé un {self.Pokemon_Adverse.nom} sauvage ! Il a été envoyé dans votre PC.")
+                self.BoiteDialogue.setText(f"Bravo ! Vous avez capturé un {self.Pokemon_Adverse.nom} sauvage ! \nIl a été envoyé dans votre PC.")
             #Fin du combat
             QtTest.QTest.qWait(2000)
             self.hide()
@@ -465,9 +504,9 @@ class InterfaceCombat(Interface):
         #On calcule les dégats de l'attaque du pokemon ennemi sur le pokemon allié
         Attaque = Attaques_Ennemies[Attq_Select]
         Degats, Efficacite, Critique = Attaque.Degats(self.Pokemon_Adverse,Pokemon_Allie)
-        self.BoiteDialogue.setPlainText(f"{self.Pokemon_Adverse.nom} utilise {Attaques_Ennemies[Attq_Select].Nom}\n"+ Efficacite + " " + Critique)
+        self.BoiteDialogue.setText(f"{self.Pokemon_Adverse.nom} utilise {Attaques_Ennemies[Attq_Select].Nom}.\n"+ Efficacite + " " + Critique)
         QtTest.QTest.qWait(2000)
-        print(f"{self.Pokemon_Adverse.nom} utilise {Attaques_Ennemies[Attq_Select].Nom}")
+        print(f"{self.Pokemon_Adverse.nom} utilise {Attaques_Ennemies[Attq_Select].Nom}.")
         print(Degats, Efficacite)
         
         #On actualise les PVs de l'adversaire 
@@ -480,7 +519,7 @@ class InterfaceCombat(Interface):
             #Le pokemon est KO, on doit tester s'il existe encore un membre de l'équipe encore vivant :
             if self.Equipe.All_KO():
                 #GameOver
-                self.BoiteDialogue.setPlainText("Tous vos pokémons sont hors d'état de combattre ! Vous fuyez vers le centre Pokémon le plus proche")
+                self.BoiteDialogue.setText("Tous vos pokémons sont hors d'état de combattre ! \nVous fuyez vers le centre Pokémon le plus proche")
                 QtTest.QTest.qWait(2000)
                 
                 #On cherche le delta avec le centre pokémon, on téléporte là-bas, et on soigne l'équipe

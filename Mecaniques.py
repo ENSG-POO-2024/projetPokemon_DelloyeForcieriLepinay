@@ -246,11 +246,11 @@ class Attaque():
             Efficace = None
             
             if Multiplicateur == 0:
-                Efficace = "Ça n'a pas d'effet"
+                Efficace = "Ça n'a pas d'effet."
             elif Multiplicateur > 1:
-                Efficace = "C'est super efficace"
+                Efficace = "C'est super efficace !"
             elif Multiplicateur < 1:
-                Efficace = "Ce n'est pas très efficace."
+                Efficace = "Ce n'est pas très efficace..."
             else:
                 Efficace = ""
                 
@@ -259,7 +259,7 @@ class Attaque():
             Critique = ""
             #Gestion des coups critiques
             if rd.randint(1,16) == 16:
-                Critique = "Coup critique"
+                Critique = "Coup critique !"
                 CM = CM*1.5
                 
             
