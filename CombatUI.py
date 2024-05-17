@@ -3,16 +3,14 @@ from PyQt5 import QtTest
 from Mecaniques import *
 from Interface import Interface
 from PyQt5.QtMultimedia import QSound
-# from fontTools.ttLib import TTFont
 import copy
 from PyQt5.QtGui import QFontDatabase
 
-# font = TTFont("./data/pokemon-firered-leafgreen-font-recreation.ttf")
 
-
-#Définit tous les composants de l'interface de combat (Assez indigeste) ...
 class InterfaceCombat(Interface):
+    """Interface de combat pour gérer un combat contre un pokémon sauvage"""
     def __init__(self, MainWindow,Pokemon_Sauvage):
+        #Définit tous les composants de l'interface de combat (Assez indigeste) ...
         super().__init__(MainWindow)
         
         #On définit les informations relatives au combat
@@ -196,7 +194,8 @@ class InterfaceCombat(Interface):
         self.Fleche_2.setText(_translate("UICombat", "▶"))
         self.Fleche_3.setText(_translate("UICombat", "▶"))
         self.Fleche_4.setText(_translate("UICombat", "▶"))
-        
+    
+    #Surcharge des méthodes hide et show de la méthode abstraite interface pour facilement (dés)afficher l'interface.
     def show(self):
         self.Zone_Combat.show()
         self.Sprite_Dos.show()
@@ -230,8 +229,10 @@ class InterfaceCombat(Interface):
         self.PVBarre_Ennemi.hide()
         self.BoiteDialogue.hide()
         self.Fond_Zone_2.hide()
-        
+    
+    
     def deplacement_fleche_menu(self, Direction):
+        """Permet de déplacer la fléche pour sélectionner un élément du menu"""
         if self.MenuActuel != "Switch":
             if self.position_fleche == ("Haut","Gauche"):
                 if Direction == "Droite":
@@ -275,6 +276,7 @@ class InterfaceCombat(Interface):
     
     def valide(self,Equipe):
         """Cette fonction se lance en combat lorsque la touche espace est utilisée"""
+        
         #Si on est dans le menu des choix (Attaque/Switch/Fuite)
         if self.MenuActuel == "Choix":
             #Bas droite = Fuite -> On sort du combat (On estime que cette action est garantie.)
@@ -326,7 +328,6 @@ class InterfaceCombat(Interface):
                 self.BoiteDialogue.setText("Le dresseur utilise une hyper potion.")
                 QtTest.QTest.qWait(2000)
                 self.Tour_de_jeu(-1)
-                
                 
                 
         #Si on est dans le menu attaque, on lance un Tour de jeu avec comme argument le numéro de l'attaque choisie. 

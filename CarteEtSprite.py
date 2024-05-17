@@ -23,25 +23,27 @@ class Carte(Interface):
         #Initialisation de la carte d'un point de vue matriciel
         self.matrice_dalle = np.genfromtxt("./data/Matrice2.csv", delimiter=";")
         
-        #Son
+        #Définition bruitage qui ont lieu sur la carte
         self.BumpSound = QSound("./Son/Bump.wav")
         self.Healing = QSound("./Son/Healing.wav")
         self.PCSound = QSound("./Son/PC.wav")
         
-        
-        
-        
     def Glissement(self,Direction,Sprite,Legendaire):
+        #On crée une animation pour que la carte glisse sous le joueur (Et que ça soit plus fluide qu'une simple téléportation)
+        #La direction est donnée par la méthode move de déplacement. 
+        
         self.anim = QtCore.QPropertyAnimation(self.carte, b'geometry')
         self.anim.setDuration(50)
         rect = self.carte.geometry()
         self.anim.setStartValue(rect)
         
+        #En fonction de la direction. Et si la case l'autorise, on translate la carte, et on actualise la position du joueur.
         if Direction == "Derriere":
             if self.matrice_dalle[Sprite.y-1, Sprite.x] != 0 and self.matrice_dalle[Sprite.y-1, Sprite.x] not in [51,52,101,102,144,145,146,150,151]:
                 Sprite.x, Sprite.y = Sprite.x, Sprite.y-1
                 rect.translate(0,48)
             else:
+                #Si ce n'est pas possible, on ne fait rien et on joue un BUMP
                 self.BumpSound.play()        
             
         elif Direction == "Devant":
@@ -58,46 +60,59 @@ class Carte(Interface):
             else:
                 self.BumpSound.play()
             
-                
         elif Direction == "Droite":
             if self.matrice_dalle[Sprite.y, Sprite.x+1] != 0 and self.matrice_dalle[Sprite.y, Sprite.x+1] not in [51,52,101,102,144,145,146,150,151]:
                 Sprite.x, Sprite.y = Sprite.x+1, Sprite.y
                 rect.translate(-48,0)
             else:
                 self.BumpSound.play()
-                
+        
+        #On regarde s'il n'y a pas un légendaire dans les parages après déplacement, et on l'affiche si c'est le cas.
         self.MainWindow.SpriteLegend.show(Sprite)
             
-            
-                
+        #On joue l'animation de glissement
         self.anim.setEndValue(rect)
         self.anim.start()
     
         
     def Warp(self, deltaY, deltaX, musique):
+        """Cette méthode permet de téléporter un joueur sur la carte, ainsi qu'attribuer une nouvelle musique de zone après téléportation"""
         self.Jukebox.ChangeDeMusique(f"./Son/{musique}.wav")
+        self.Jukebox.MusiqueDeZone = f"./Son/{musique}.wav"
+        
+        #On définit un menu virtuel pour empêcher le joueur de faire qqchose pendant la téléportation
         self.MainWindow.Menu = "Dummy"
-        #Translate la carte d'un point de départ à un point d'arrivée
+        
+        #Définition de la nouvelle position et glissement de la carte à la nouvelle position.
         rect = self.carte.geometry()
         rect.translate(-deltaX*48, -deltaY*48)
         self.Sprite.y += deltaY
         self.Sprite.x += deltaX
         self.carte.setGeometry(rect)
+        
+        #On attend un peu et on repasse dans le menu carte, réautorisant le joueur à se déplacer.
         QtTest.QTest.qWait(200)
         self.MainWindow.Menu = "Carte"
     
     def Interaction(self, Sprite, Equipe):
-        #Vérifie si le joueur est à côté d'une case avec laquelle il peut interagir
+        """Vérifie si le joueur est à côté d'une case avec laquelle il peut interagir, et réalise l'interaction, cette
+        méthode se lance si le joueur utilise espace sur le menu Carte."""
+        
+        #Récupération de la position
         y = Sprite.y
         x = Sprite.x
-        if (y-1,x) == (89,87) and Sprite.Orientation == "Derriere": #Soin dans le Pokémon Center
+        
+        #Définition des interactions
+        if (y-1,x) == (89,87) and Sprite.Orientation == "Derriere": #Si on parle au comptoir dans le Pokémon Center
+            
+            #On joue une musique et bloque le personnage en le mettant dans un Menu fictif
             self.Healing.play()
             self.MainWindow.Menu = "Healing"
             
+            #Affichage d'un dialogue le temps du soin
             self.Soin_PC = QtWidgets.QLabel(self.MainWindow)
             self.Soin_PC.setGeometry(QtCore.QRect(20, 385, 460, 100))
             self.Soin_PC.setPixmap(QtGui.QPixmap("./images/ecran_soin.png"))
-            
             self.Soin_PC_texte = QtWidgets.QLabel(self.MainWindow)
             self.Soin_PC_texte.setGeometry(QtCore.QRect(40, 390, 440, 80))
             self.Soin_PC_texte.setText("Un instant, je soigne vos pokémons.")
@@ -105,17 +120,20 @@ class Carte(Interface):
             font.setPointSize(9)
             self.Soin_PC_texte.setFont(font)
             self.Soin_PC_texte.setObjectName("Soin_PC_texte")
-            
             self.Soin_PC.show()
             self.Soin_PC_texte.show()
+            
+            #On attend, la fin de la musique et on libère le joueur.
             QtTest.QTest.qWait(4000)
             self.Soin_PC.hide()
             self.Soin_PC_texte.hide()
             self.MainWindow.Menu = "Carte"
             
+            #Et on soigne l'équipe
             Equipe.Soin_All()
             
-        if (y-1,x) == (87,91) and Sprite.Orientation == "Derriere": #On parle au PC
+        if (y-1,x) == (87,91) and Sprite.Orientation == "Derriere": #Si on parle au PC
+            #On passe dans le menu PC (Avec un petit bruitage au passage), et on l'affiche.
             self.MainWindow.Menu = "PC"
             self.PCSound.play()
             QtTest.QTest.qWait(1000)
@@ -123,25 +141,30 @@ class Carte(Interface):
             self.MainWindow.Menu_PC.Init_PC()
         
         #Pêche
+        #On vérifie dans chaque direction si on n'est pas en face d'une case de pêche.
         Peche = False
         if (self.matrice_dalle[Sprite.y, Sprite.x-1] == 52 or self.matrice_dalle[Sprite.y, Sprite.x-1] ==51) and Sprite.Orientation == "Gauche":
             PokeRencontre = ZoneRencontre(self.matrice_dalle[Sprite.y, Sprite.x-1]).Random_Poke()
             Direction = Sprite.Orientation
             Peche = True
-        if (self.matrice_dalle[Sprite.y+1, Sprite.x] == 52 or self.matrice_dalle[Sprite.y+1, Sprite.x] == 51) and Sprite.Orientation == "Devant":
+        elif (self.matrice_dalle[Sprite.y+1, Sprite.x] == 52 or self.matrice_dalle[Sprite.y+1, Sprite.x] == 51) and Sprite.Orientation == "Devant":
             PokeRencontre = ZoneRencontre(self.matrice_dalle[Sprite.y+1, Sprite.x]).Random_Poke()
             Direction = Sprite.Orientation
             Peche = True
-        if (self.matrice_dalle[Sprite.y, Sprite.x+1] == 52 or self.matrice_dalle[Sprite.y, Sprite.x+1] == 51) and Sprite.Orientation == "Droite":
+        elif (self.matrice_dalle[Sprite.y, Sprite.x+1] == 52 or self.matrice_dalle[Sprite.y, Sprite.x+1] == 51) and Sprite.Orientation == "Droite":
             PokeRencontre = ZoneRencontre(self.matrice_dalle[Sprite.y, Sprite.x+1]).Random_Poke()
             Direction = Sprite.Orientation
             Peche = True
-        if (self.matrice_dalle[Sprite.y-1, Sprite.x] == 52 or self.matrice_dalle[Sprite.y-1, Sprite.x] == 51) and Sprite.Orientation == "Derriere":
+        elif (self.matrice_dalle[Sprite.y-1, Sprite.x] == 52 or self.matrice_dalle[Sprite.y-1, Sprite.x] == 51) and Sprite.Orientation == "Derriere":
             PokeRencontre = ZoneRencontre(self.matrice_dalle[Sprite.y-1, Sprite.x]).Random_Poke()
             Direction = Sprite.Orientation
-            Peche = True    
+            Peche = True
+        #Si on peut pêcher, ça lance la phase de pêche
         if Peche:
+            #Animation de pêche
             self.Sprite.Animation_Peche(Direction)
+            
+            #On bloque le joueur, avec un menu fictif et on lance la phase de combat. 
             self.MainWindow.Menu = "Dummy"
             QtTest.QTest.qWait(1000)
             self.MainWindow.Menu = "Combat"
@@ -158,16 +181,19 @@ class Carte(Interface):
             Tr.hide()
             Tr.stop()
             
-        #Commencer un combat contre un légendaire
+        #Légendaire
+        #On teste dans toutes les directions si on n'est pas en train de parler à un pokémon légendaire.
         Legend_Proche = False
         if self.matrice_dalle[y,x-1] >= 144 and Sprite.Orientation == "Gauche" and not self.SpriteLegendaire.dico_rencontre[self.SpriteLegendaire.ID]:
             Legend_Proche = True
-        if self.matrice_dalle[y+1,x] >= 144 and Sprite.Orientation == "Devant" and not self.SpriteLegendaire.dico_rencontre[self.SpriteLegendaire.ID]:
+        elif self.matrice_dalle[y+1,x] >= 144 and Sprite.Orientation == "Devant" and not self.SpriteLegendaire.dico_rencontre[self.SpriteLegendaire.ID]:
             Legend_Proche = True
-        if self.matrice_dalle[y,x+1] >= 144 and Sprite.Orientation == "Droite" and not self.SpriteLegendaire.dico_rencontre[self.SpriteLegendaire.ID]:
+        elif self.matrice_dalle[y,x+1] >= 144 and Sprite.Orientation == "Droite" and not self.SpriteLegendaire.dico_rencontre[self.SpriteLegendaire.ID]:
             Legend_Proche = True
-        if self.matrice_dalle[y-1,x] >= 144 and Sprite.Orientation == "Derriere" and not self.SpriteLegendaire.dico_rencontre[self.SpriteLegendaire.ID]:
+        elif self.matrice_dalle[y-1,x] >= 144 and Sprite.Orientation == "Derriere" and not self.SpriteLegendaire.dico_rencontre[self.SpriteLegendaire.ID]:
             Legend_Proche = True
+            
+        #Si c'est le cas, on lance un combat contre lui.
         if Legend_Proche:
             Direction = Sprite.Orientation
             Pokemon_Legendaire = Pokemon()
@@ -188,7 +214,7 @@ class Carte(Interface):
             Tr.stop()
             self.SpriteLegendaire.dico_rencontre[self.SpriteLegendaire.ID] = True #Empêcher de re-combattre ce pokémon légendaire
             
-            
+    #Surcharge des méthodes hide et show de la classe abstraite Interface, pour facilement (dés)afficher la carte.
     def hide(self):
         self.carte.hide()
         self.Sprite.hide()
@@ -199,6 +225,7 @@ class Carte(Interface):
         
         
 class Sprite:
+    """Définit le sprite du joueur, sa position, et s'il est en cours d'animation ou non"""
     def __init__(self,MainWindow,SpritePath, X, Y, larg, haut, nom):
         #Définition de l'encart contenant le sprite
         self.Label = QtWidgets.QLabel(MainWindow)
@@ -227,12 +254,16 @@ class Sprite:
         
         
     def Animation(self, Gif):
+        """Permet de lancer les animations de marche"""
         self.movie = QMovie(Gif)
         self.Label.setMovie(self.movie)
         self.movie.start()
         self.IsAnimated = True
         
     def Animation_Peche(self,Direction):
+        """Les sprites de pêches ayant une taille différentes des sprites de marche, on est obligé de créer une méthode à part
+        pour les animer."""
+        
         self.movie = QMovie(f"./Animation/Peche/{Direction}.gif")
         rect = self.Label.geometry()
         rect.setHeight(96)
@@ -247,6 +278,7 @@ class Sprite:
         self.IsAnimated = True
         
     def Fin_Animation_Peche(self,Direction):
+        """Termine une animation de pêche"""
         self.movie.stop()
         rect = self.Label.geometry()
         rect.setHeight(57)
@@ -258,7 +290,9 @@ class Sprite:
             rect.translate(25,40)
         self.Label.setGeometry(rect)
         self.IsAnimated = False
-        
+    
+    
+    #Pour simplement (dés)afficher le sprite de la carte
     def hide(self):
         self.Label.hide()
             
@@ -277,9 +311,11 @@ class Legendaire():
         self.dico_rencontre = {151:False, 150:False, 146:False, 145:False, 144:False}
         
     def hide(self):
+        #Le label reste toujours présent, on affiche juste rien dedans.
         self.Label.setPixmap(QtGui.QPixmap("Dummy.JPG"))
             
     def show(self, Sprite):
+        """Définit le glissement du pokémon légendaire sur la carte, pour qu'il glisse à la même vitesse que la carte"""
         self.anim = QtCore.QPropertyAnimation(self.Label, b'geometry')
         self.anim.setDuration(50)
         rect = self.Label.geometry()

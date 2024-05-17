@@ -12,6 +12,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from Interface import Interface
 
 class Menu_PC(Interface):
+    """Gère l'interface du PC"""
+    
+    #Création des différents objets de l'interface.
     def __init__(self, MainWindow):
         super().__init__(MainWindow)
         self.MenuEquipe = QtWidgets.QListWidget(MainWindow)
@@ -43,6 +46,7 @@ class Menu_PC(Interface):
         self.Deposer.setFont(font)
         
     def Init_PC(self):
+        #Initialise le PC avec l'équipe du joueur et les pokémons de son PC.
         self.MenuEquipe.clear()
         self.MenuPC.clear()
         for Pokemon in self.Equipe:
@@ -89,7 +93,8 @@ class Menu_PC(Interface):
             self.PC.append(self.Equipe[Index])
             self.Equipe.remove(self.Equipe[Index])
             self.Init_PC()
-
+    
+    #Surcharge des méthodes hide et show de la méthode abstraite interface pour facilement (dés)afficher l'interface.
     def hide(self):
         self.MenuEquipe.hide()
         self.MenuPC.hide()
