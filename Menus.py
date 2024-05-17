@@ -14,7 +14,11 @@ from Interface import Interface
 
 
 class Menu_Gestion(Interface):
+    """Interface permettant de gérer son équipe, se lance avec entrée sur la carte. Ou en combat lorsqu'on demande un
+    changement de pokémon."""
+    
     def __init__(self, MainWindow):
+        #Initialisation de l'interface
         super().__init__(MainWindow)
         self.listWidget = QtWidgets.QListWidget(MainWindow)
         self.listWidget.setGeometry(QtCore.QRect(30, 50, 441, 431))
@@ -50,7 +54,8 @@ class Menu_Gestion(Interface):
         self.listWidget.setSortingEnabled(__sortingEnabled)
         self.label.setText(_translate("PyQTmon", "Gestion d'équipe"))
         self.pushButton.setText(_translate("PyQTmon", "Retour"))
-        
+    
+    #Surcharge des méthodes hide et show de la méthode abstraite interface pour facilement (dés)afficher l'interface.
     def show(self):
         self.listWidget.show()
         self.label.show()
@@ -60,8 +65,12 @@ class Menu_Gestion(Interface):
         self.listWidget.hide()
         self.label.hide()
         self.pushButton.hide()
-        
+    
+    
     def Menu_Init(self,Menu_Precedent,Intitule_Menu_Precedent,Equipe):
+        """Cette méthode réinitialise les valeurs de l'interface en fonction de l'équipe du joueur.
+        Elle se lance soit à l'ouverture d'une interface par le joueur, soit pour rafraichir le menu après un changement de
+        pokémon."""
         self.Menu_Precedent = Menu_Precedent
         self.Intitule_Menu_Precedent = Intitule_Menu_Precedent
         self.listWidget.clear()
@@ -79,21 +88,32 @@ class Menu_Gestion(Interface):
             item.setText(_translate("PyQTmon", f"{Pokemon.nom} ({int(Pokemon.PV_actuel)}/{int(Pokemon.Stats[0])}) PV"))
             self.listWidget.addItem(item)
         self.show()
+        
+        #Si c'est un switch obligatoire, on cache le bouton retour, jusqu'à ce que le joueur change de pokémon. 
         if self.Intitule_Menu_Precedent == "KO_Switch":
             self.pushButton.hide()
         
     def ChgmtPoke(self, item):
+        """Définit ce qu'il se passe quand on essaye de changer de pokémon en cliquant dessus"""
+        
+        #On récupère la position du pokémon cliqué.
         Index = self.listWidget.currentRow()
+        #S'il n'est pas KO, on le permute avec le pokémon en première position.
         if self.Equipe[Index].PV_actuel != 0:
             self.Equipe.permutation(self.Equipe[0], self.Equipe[Index])
             self.listWidget.clear()
             self.Menu_Init(self.MainWindow.map, self.Intitule_Menu_Precedent, self.Equipe)
             self.AChangerDePoke = True
+            
+            #S'il s'agissait d'un switch obligatoire et que le joueur a choisi un nouveau pokémon, on réaffiche le bouton de retour.
             if self.Intitule_Menu_Precedent == "KO_Switch":
                 self.pushButton.show()
                 
                 
     def retour(self):
+        """Définit ce qu'il se passe lorsque le joueur clique sur le bouton retour"""
+        
+        #Si on était précédemment sur la carte, on réaffiche juste la carte.
         if self.Intitule_Menu_Precedent == "Carte":
             self.MainWindow.Menu = "Carte"
             Carte = self.MainWindow.map
@@ -101,6 +121,8 @@ class Menu_Gestion(Interface):
             self.Sprite.show()
             self.hide()
             self.__init__(self.MainWindow)
+            
+        #Si on était en combat, on réaffiche l'interface de combat ET on résout le tour de jeu (Le pokémon adverse attaque)
         elif self.Intitule_Menu_Precedent == "Combat":
             self.MainWindow.Menu = "Combat"
             Combat = self.MainWindow.UICombat
@@ -110,6 +132,8 @@ class Menu_Gestion(Interface):
             if self.AChangerDePoke == True:
                 Combat.Tour_de_jeu(-1)
                 self.AChangerDePoke = False
+        
+        #Si on était en combat mais en Switch Obligatoire (cause KO), on réaffiche l'interface de combat ET c'est tout.
         elif self.Intitule_Menu_Precedent == "KO_Switch":
             self.MainWindow.Menu = "Combat"
             Combat = self.MainWindow.UICombat 

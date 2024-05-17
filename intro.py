@@ -13,6 +13,8 @@ from Interface import Interface
 
 
 class Intro(Interface):
+    """Interface d'intro où on montre le professeur Chen qui nous présente nos pokémons de départ.
+    Basiquement c'est une image."""
     def __init__(self, MainWindow):
         super().__init__(MainWindow)
         
@@ -54,14 +56,8 @@ class Intro(Interface):
         font.setPointSize(8)
         self.Parole.setFont(font)
         self.Parole.setObjectName("Soin_PC_texte")
-
-        QtCore.QMetaObject.connectSlotsByName(self.MainWindow)
-        self.retranslateUi(MainWindow)
-        
-    def retranslateUi(self, MainWindow):
-        _translate = QtCore.QCoreApplication.translate
-
     
+    #Surcharge des méthodes hide et show de la méthode abstraite interface pour facilement (dés)afficher l'interface.
     def show(self):
         self.Professeur.show()
         self.Text_box.show()
@@ -70,8 +66,8 @@ class Intro(Interface):
         self.Carapuce.show()
         self.Parole.show()
         
-
     def hide(self):
+        #On cache tout et on affiche la carte
         self.Professeur.hide()
         self.Text_box.hide()
         self.Salameche.hide()

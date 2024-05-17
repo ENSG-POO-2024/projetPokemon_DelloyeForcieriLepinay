@@ -6,15 +6,20 @@ Type = ["Normal", "Combat", "Vol", "Poison", "Sol", "Roche", "Insecte", "Spectre
 
 
 class Pokemon():
+    """Définit ce qu'est un Pokémon."""
     def __init__(self,ID=0,Nom="MissingNo",Type1="", Type2="", Base_Stats=[33,136,0,1,1,29], Movepool=[]):
-        #Le Movepool est une liste d'objets de classe Attaque
+        
+        #Un pokémon à un ID dans le pokédex, un nom, un ou deux types, des statistiques de base ainsi qu'un movepool.
         self.ID = ID
         self.nom = Nom
         self.Type1 = Type1
         self.Type2 = Type2
         self.Stats = [2*Base_Stats[0]+31+252/4+5+100] + [2*Base_Stats[i]+31+252/4+5 for i in range(1,6,1)]
+        #Le Movepool est une liste d'objets de classe Attaque
         self.Movepool = Movepool
         self.PV_actuel = self.Stats[0]
+        
+        #Le pokémon peut également être ou non un pokémon légendaire.
         self.legendaire = False
     
     def IsKO(self):
@@ -22,7 +27,7 @@ class Pokemon():
         return self.PV_actuel<=0
     
     def FromID(self, new_ID):
-        #Règle toutes les informations d'un pokémon à partir de son ID
+        #Règle toutes les informations d'un pokémon à partir de son ID à l'aide du Pokédex
         dex = Pokedex()
         info = dex.pokedex[new_ID-1]
         self.ID = int(info[0])
@@ -44,6 +49,8 @@ class Pokemon():
         self.legendaire = (info[12] == "True")
         
     def Sprite(self, Direction):
+        """Permet de trouver le sprite de dos, de face ou sa miniature, du pokemon.
+        Et le stocke dans un dossier temporaire."""
         
         im = Image.open("./images/Sprite_Opacity.png")
         ID = self.ID-1
@@ -65,6 +72,7 @@ class Pokemon():
             return Path
             
     def Soin(self):
+        """Soigne le pokémon (Remet ses PVs actuels au max"""
         self.PV_actuel = self.Stats[0]
 
 class Pokedex():
@@ -103,6 +111,10 @@ class Pokedex():
 
 
 class ZoneRencontre():
+    """Définit une zone de rencontre par :
+        - Un ID de zone
+        - Une liste d'ID de pokémons qu'on peut rencontrer aléatoirement dans cette zone
+    Les pokémons non-évolués sont plus communs que les pokémons évolués, donc ils sont beaucoup plus présents dans cette liste"""
     def __init__(self, ID_Zone):
         self.ID = ID_Zone
         if ID_Zone==4:
@@ -190,13 +202,14 @@ class ZoneRencontre():
             
         
     def Random_Poke(self):
-        #Retourne un objet de type pokémon aléatoirement
+        #Retourne un pokémon de la zone aléatoirement
         Wild_Poke = Pokemon()
         Wild_Poke.FromID(rd.choice(self.Liste_Poke))
         return Wild_Poke
             
 
 class Table_Type():
+    """Crée la table des types"""
     def __init__(self):
         self.Table = np.genfromtxt("./data/TableType.csv", delimiter=";")
     def Resistance(self,Pokemon):
@@ -212,6 +225,7 @@ class Table_Type():
         return Resistance
     
 class Attaque():
+    """Définit ce qu'est une attaque, par son Nom, sa Catégorie, sa Puissance, son type, sa précision"""
     def __init__(self, Nom, PhyOuSpe, Puissance, Type, Precision, Effet_Secondaire=None):
         self.Nom = Nom
         self.PhyOuSpe = PhyOuSpe
@@ -221,20 +235,25 @@ class Attaque():
         self.Table = Table_Type()
     
     def Degats(self,Pokemon1, Pokemon2):
+        """Permet de calculer les dégats d'un pokémon 1 utilisant l'attaque sur un pokémon 2"""
+        
         Pui = self.Puissance
+        
+        #On jette un dé pour savoir si l'attaque rate.
         if rd.randint(0,100) > self.Precision:
             print("L'attaque a échoué.")
             return 0
         
         else:
-            #L'attaque est-elle physique ou spéciale ?
+            #L'attaque est-elle physique ou spéciale ? On prend l'Attk/Def physique/spécial des pokémons.
             if self.PhyOuSpe == "Physique":
                 Atq1 = Pokemon1.Stats[1]
                 Def2 = Pokemon2.Stats[2]
             else:
                 Atq1 = Pokemon1.Stats[3]
                 Def2 = Pokemon2.Stats[4]
-        
+            
+            #CM = Coefficient Multiplicateur.
             CM = 1
             #Gestion du Same Type Attack Bonus (STAB)
             if self.Type == Pokemon1.Type1 or self.Type == Pokemon2.Type2:
@@ -265,6 +284,7 @@ class Attaque():
             
             Degats = (42*(Atq1/Def2)*Pui/50 + 2)
             
+            #On retourne la veleur des dégats, l'efficacité, si c'est un coup critique pour affichage graphique.
             return int(Degats*CM), Efficace, Critique
         
       
