@@ -35,8 +35,17 @@ class Menu_PC(Interface):
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        self.Ajouter.setText(_translate("PyQTmon", "<- Ajouter"))
-        self.Deposer.setText(_translate("PyQTmon", "Déposer ->"))
+        self.Ajouter.setText(_translate("PyQTmon", "Ajouter"))
+        self.Deposer.setText(_translate("PyQTmon", "Déposer"))
+        font = QtGui.QFont()
+        font.setFamily("Pokémon FireRed & LeafGreen Fon")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        font.setCapitalization(1)
+        font.setLetterSpacing(1,-2)
+        self.Ajouter.setFont(font)
+        self.Deposer.setFont(font)
         
     def Init_PC(self):
         self.MenuEquipe.clear()
@@ -44,7 +53,12 @@ class Menu_PC(Interface):
         for Pokemon in self.Equipe:
             item = QtWidgets.QListWidgetItem()
             font = QtGui.QFont()
-            font.setPointSize(14)
+            font.setFamily("Pokémon FireRed & LeafGreen Fon")
+            font.setPointSize(10)
+            font.setBold(False)
+            font.setWeight(50)
+            font.setCapitalization(1)
+            font.setLetterSpacing(1,-2)
             item.setFont(font)
             icon = QtGui.QIcon()
             Path_Mini = Pokemon.Sprite("mini")
@@ -56,7 +70,12 @@ class Menu_PC(Interface):
         for Pokemon in self.PC:
             item = QtWidgets.QListWidgetItem()
             font = QtGui.QFont()
-            font.setPointSize(14)
+            font.setFamily("Pokémon FireRed & LeafGreen Fon")
+            font.setPointSize(10)
+            font.setBold(False)
+            font.setWeight(50)
+            font.setCapitalization(1)
+            font.setLetterSpacing(1,-2)
             item.setFont(font)
             icon = QtGui.QIcon()
             Path_Mini = Pokemon.Sprite("mini")
