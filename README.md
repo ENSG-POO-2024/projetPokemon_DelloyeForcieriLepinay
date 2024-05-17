@@ -20,7 +20,7 @@ Fichier à lancer : main.py
 ### Interactions :
 
 #### Initialement :
-  - Obtenir ses premiers pokémons auprès du prof Chen (barre espace pour sortir de cette interface)
+  - Obtenir ses premiers pokémons auprès du prof Chen (barre espace pour sortir de l'interface)
 
 ##### Sur la carte :
 
