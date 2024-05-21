@@ -8,9 +8,12 @@
 
 Fichier à lancer : main.py
 
-Idéalement sur Ubuntu, quelques lags sur Windows, police non-gérée (Gestion de chemin relatif) par Mac-OS
-Requirements : Idéalement PyQt5 5.15.6, QtMultimedia,
+### Prérequis :
+
+Idéalement sur Ubuntu, quelques lags sur Windows, evitez Mac. (Problème de chemin pour la police d'écriture)
+Requirements : Idéalement PyQt5 >= 5.15.6, QtMultimedia
 PIL, random, numpy, datetime
+(Un Spyder récent possède tout ça, problème avec QtMultimedia sur des Spyders un peu plus âgés.) 
 
 ### Explication du jeu :
 
