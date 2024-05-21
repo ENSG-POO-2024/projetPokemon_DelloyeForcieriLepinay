@@ -429,7 +429,7 @@ class InterfaceCombat(Interface):
                 if self.Attaque_Allie(Num_Attaque):
                     self.Attaque_Ennemie()
                 
-            elif Vitesse_Ennemi > Vitesse_Allie:
+            elif Vitesse_Ennemi >= Vitesse_Allie:
                 #Le if est là pour ne pas réaliser l'attaque alliée si le pokémon a été mis KO
                 if self.Attaque_Ennemie():
                     self.Attaque_Allie(Num_Attaque)

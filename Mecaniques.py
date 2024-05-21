@@ -256,7 +256,7 @@ class Attaque():
             #CM = Coefficient Multiplicateur.
             CM = 1
             #Gestion du Same Type Attack Bonus (STAB)
-            if self.Type == Pokemon1.Type1 or self.Type == Pokemon2.Type2:
+            if self.Type == Pokemon1.Type1 or self.Type == Pokemon1.Type2:
                 CM = CM*1.5
                 
             #Gestion des faiblesses
