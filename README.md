@@ -8,6 +8,10 @@
 
 Fichier à lancer : main.py
 
+Idéalement sur Ubuntu, quelques lags sur Windows, police non-gérée (Gestion de chemin relatif) par Mac-OS
+Requirements : Idéalement PyQt5 5.15.6, QtMultimedia,
+PIL, random, numpy, datetime
+
 ### Explication du jeu :
 
   Le but du jeu est de capturer le plus de Pokémons dans le monde qui est proposé au joueur. La majorité des pokémons sont répartis dans différentes zones de recontres (Voir ./images/zonages.png) et peuvent y être rencontrés soient dans les hautes herbes, soient dans le sable du désert, soit dans les grottes. Ils peuvent être également pêchés à proximité des pontons de pêche. D'autres pokémons (les légendaires) sont uniques et ont des interactions sur la carte.
